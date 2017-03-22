@@ -3,8 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="textContent">#333</color>
-    <color name="activityColor">#fff</color>
-    <color name="fragmentColor">#eee</color>
-    <color name="toolbarColor">#00f</color>
+    <color name="textContent">#888</color>
+    <color name="activity">#fff</color>
+    <color name="fragment">#eee</color>
+    <color name="toolbar">#00f</color>
+    <color name="author">#444</color>
 </resources>
