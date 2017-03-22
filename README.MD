@@ -1,8 +1,8 @@
-# ¸ßshan·Âzhai¡¶ONEÒ»¸ö¡·
+# é«˜shanä»¿zhaiã€ŠONEä¸€ä¸ªã€‹
 
-- Ä¿Ç°Íê³É¶È£º
-![Ä¿Ç°Íê³É¶È](https://github.com/liuzho/ONE/demo.gif)
-- Ê¹ÓÃµ½µÄ¿â£º
+- ç›®å‰å®Œæˆåº¦ï¼š
+![ç›®å‰å®Œæˆåº¦]https://github.com/liuzho/ONE/blob/master/demo.gif)
+- ä½¿ç”¨åˆ°çš„åº“ï¼š
 1. Retrofit
 2. RxJava/RxAndroid
 3. Picasso
