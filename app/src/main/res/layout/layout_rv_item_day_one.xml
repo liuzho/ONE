@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="#555"
+        android:textSize="20sp"
+        tools:text="2017 / 03 / 16" />
+
+    <TextView
+        android:id="@+id/tv_climate_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#aaa"
+        android:textSize="12sp"
+        tools:text="对流层，地球" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        tools:background="#eee"
+        tools:layout_height="180dp">
+
+        <ImageView
+            android:id="@+id/iv_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            tools:background="#eee" />
+
+        <TextView
+            android:id="@+id/tv_volume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textColor="#FFF"
+            android:textSize="14sp"
+            tools:text="VOL.1626" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_title_picInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="5dp"
+        android:textColor="#aaa"
+        android:textSize="12sp"
+        tools:text="摄影 | JerryZ" />
+
+    <TextView
+        android:id="@+id/tv_forward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/rv_text_margin_horizon"
+        android:layout_marginRight="@dimen/rv_text_margin_horizon"
+        android:textColor="@color/textContent"
+        android:textSize="16sp"
+        tools:text="这城市拥挤着、怒目而视着数百万人，如果失去身边的几人，便仿佛来到一片荒原上。" />
+
+    <TextView
+        android:id="@+id/tv_words_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="@dimen/rv_text_margin_horizon"
+        android:layout_marginRight="@dimen/rv_text_margin_horizon"
+        android:layout_marginTop="8dp"
+        android:textColor="#aaa"
+        android:textSize="12sp"
+        tools:text="贾行家《尘土》" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+
+        <LinearLayout
+            android:id="@+id/ll_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/edit" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="小计"
+                android:textColor="#888"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_lick_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_like"
+            android:textColor="#888"
+            android:textSize="12sp"
+            tools:text="266" />
+
+        <ImageView
+            android:id="@+id/iv_like"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/iv_share"
+            android:src="@drawable/like" />
+
+        <ImageView
+            android:id="@+id/iv_share"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/share" />
+    </RelativeLayout>
+</LinearLayout>

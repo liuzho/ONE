@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#fff"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textColor="#999"
+        android:textSize="16sp"
+        tools:text="- 连载 -" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/rv_text_margin_horizon"
+        android:layout_marginRight="@dimen/rv_text_margin_horizon"
+        android:gravity="center|left"
+        android:textColor="#000"
+        android:textSize="22sp"
+        tools:text="宇宙超度指南 · 克隆伦理" />
+
+    <TextView
+        android:id="@+id/tv_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="@dimen/rv_text_margin_horizon"
+        android:layout_marginTop="5dp"
+        android:textColor="#222"
+        android:textSize="18sp"
+        tools:text="文 / 李诞" />
+
+    <ImageView
+        android:id="@+id/iv_img"
+        tools:layout_height="180dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:adjustViewBounds="true"
+        tools:background="#eee" />
+
+    <TextView
+        android:id="@+id/tv_forward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/rv_text_margin_horizon"
+        android:layout_marginLeft="@dimen/rv_text_margin_horizon"
+        android:textColor="@color/textContent"
+        android:textSize="16sp"
+        tools:text="活着的意义只有活人关心。----空舟禅师" />
+
+    <include layout="@layout/layout_rv_item_bottom" />
+</LinearLayout>
