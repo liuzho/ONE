@@ -15,7 +15,7 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:textColor="#999"
-        android:textSize="16sp"
+        android:textSize="@dimen/item_type_text"
         tools:text="- 影视 -" />
 
     <TextView
@@ -25,8 +25,9 @@
         android:layout_marginLeft="@dimen/rv_text_margin_horizon"
         android:layout_marginRight="@dimen/rv_text_margin_horizon"
         android:gravity="center|left"
+        android:lineSpacingExtra="2dp"
         android:textColor="#000"
-        android:textSize="22sp"
+        android:textSize="@dimen/item_title"
         tools:text="找不到更伟大的爱情片了，还有谁会花18年谈个恋爱？" />
 
     <TextView
@@ -36,8 +37,8 @@
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="@dimen/rv_text_margin_horizon"
         android:layout_marginTop="5dp"
-        android:textColor="#222"
-        android:textSize="18sp"
+        android:textColor="@color/author"
+        android:textSize="@dimen/item_author"
         tools:text="文 / Philia" />
 
     <ImageView
@@ -48,7 +49,7 @@
         android:layout_marginRight="45dp"
         android:layout_height="wrap_content"
         tools:layout_height="180dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="8dp"
         tools:background="#eee" />
 
     <TextView
@@ -56,8 +57,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/rv_text_margin_horizon"
+        android:lineSpacingExtra="5dp"
         android:textColor="@color/textContent"
-        android:textSize="16sp"
+        android:textSize="@dimen/content_text"
         tools:text="九年一次的爱情故事" />
 
     <TextView
@@ -65,6 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
+        android:textSize="@dimen/content_text"
         android:layout_marginBottom="5dp"
         android:layout_marginRight="@dimen/rv_text_margin_horizon"
         android:gravity="center"

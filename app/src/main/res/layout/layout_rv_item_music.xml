@@ -15,18 +15,19 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:textColor="#aaa"
-        android:textSize="12sp"
+        android:textSize="@dimen/item_type_text"
         tools:text="- 音乐 -" />
 
     <TextView
         android:id="@+id/tv_title"
+        android:lineSpacingExtra="2dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/rv_text_margin_horizon"
         android:layout_marginRight="@dimen/rv_text_margin_horizon"
         android:gravity="center|left"
         android:textColor="#000"
-        android:textSize="20sp"
+        android:textSize="@dimen/item_title"
         tools:text="越微信，越孤独" />
 
     <TextView
@@ -36,8 +37,8 @@
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="@dimen/rv_text_margin_horizon"
         android:layout_marginTop="5dp"
-        android:textColor="#222"
-        android:textSize="18sp"
+        android:textColor="@color/author"
+        android:textSize="@dimen/item_author"
         tools:text="文 / 枕枕" />
 
     <RelativeLayout
@@ -85,12 +86,13 @@
 
     <TextView
         android:id="@+id/tv_forward"
+        android:lineSpacingExtra="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/rv_text_margin_horizon"
         android:layout_marginRight="@dimen/rv_text_margin_horizon"
         android:textColor="@color/textContent"
-        android:textSize="16sp"
+        android:textSize="@dimen/content_text"
         tools:text="我从未如此认真的观察过这座城市，昨夜的模样，它带着疲惫与迷幻，出现在我面前时，耳边响起的正是《我发现你》。" />
 
     <include layout="@layout/layout_rv_item_bottom" />

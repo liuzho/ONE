@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
     android:background="#fff"
+    android:gravity="center"
     android:orientation="vertical">
 
     <TextView
@@ -64,8 +64,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/rv_text_margin_horizon"
         android:layout_marginRight="@dimen/rv_text_margin_horizon"
+        android:lineSpacingExtra="5dp"
         android:textColor="@color/textContent"
-        android:textSize="16sp"
+        android:textSize="@dimen/content_text"
         tools:text="这城市拥挤着、怒目而视着数百万人，如果失去身边的几人，便仿佛来到一片荒原上。" />
 
     <TextView

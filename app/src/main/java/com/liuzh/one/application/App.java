@@ -32,6 +32,8 @@ public class App extends Application {
     public static void showToast(String msg) {
         if (toast == null) {
             toast = Toast.makeText(mContext, msg, Toast.LENGTH_SHORT);
+        } else {
+            toast.setText(msg);
         }
         toast.show();
     }

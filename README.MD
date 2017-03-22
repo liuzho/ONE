@@ -1,6 +1,8 @@
 # 高仿《ONE》
 - 目前完成度：
-	wait
+
+	![](https://github.com/liuzho/ONE/blob/master/demo.gif)
+
 - 使用到的库：
 
 1. Retrofit

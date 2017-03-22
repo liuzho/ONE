@@ -21,7 +21,7 @@
         <!--主Activity-->
         <activity android:name="com.liuzh.one.activity.MainActivity" />
         <!--阅读详情activity-->
-        <activity android:name=".activity.ReadActivity"/>
+        <activity android:name=".activity.DetailActivity"/>
     </application>
 
 </manifest>

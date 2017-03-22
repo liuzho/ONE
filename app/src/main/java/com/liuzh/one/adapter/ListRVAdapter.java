@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liuzh.one.R;
-import com.liuzh.one.activity.ReadActivity;
+import com.liuzh.one.activity.DetailActivity;
 import com.liuzh.one.application.App;
 import com.liuzh.one.bean.list.ContentList;
 import com.liuzh.one.bean.list.Data;
@@ -27,11 +27,21 @@ import com.squareup.picasso.Picasso;
 
 public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    /**
+     * 0 one day
+     * 1 read 软糖漫画
+     * 2 连载
+     * 3 问答
+     * 4 音乐
+     * 5 影视
+     */
     private static final String TAG = "ListRVAdapter";
-    private static final int ITEM_TYPE_DAY_ONE = 0;
-    private static final int ITEM_TYPE_READ = 1;
-    private static final int ITEM_TYPE_MUSIC = 4;
-    private static final int ITEM_TYPE_MOVIE = 5;
+    public static final int ITEM_TYPE_DAY_ONE = 0;
+    public static final int ITEM_TYPE_READ_CARTOON = 1;
+    public static final int ITEM_TYPE_SERIAL = 2;
+    public static final int ITEM_TYPE_QUESTION = 3;
+    public static final int ITEM_TYPE_MUSIC = 4;
+    public static final int ITEM_TYPE_MOVIE = 5;
     private Data mData;//data
     private Context mContext;
     private int mWinWidth;
@@ -59,6 +69,12 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case ITEM_TYPE_MOVIE:
                 holder = new MovieHolder(inflater.inflate(
                         R.layout.layout_rv_item_movie, parent, false));
+                break;
+            case ITEM_TYPE_READ_CARTOON:
+            case ITEM_TYPE_SERIAL:
+            case ITEM_TYPE_QUESTION:
+                holder = new ReadHolder(inflater.inflate(
+                        R.layout.layout_rv_item_read, parent, false));
                 break;
             default:
                 holder = new ReadHolder(inflater.inflate(
@@ -271,15 +287,33 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int id = Integer.valueOf(mData.content_list.get(getLayoutPosition()).item_id);
-                    ReadActivity.start(mContext, id);
+                    int id = Integer.valueOf(mData.content_list
+                            .get(getLayoutPosition()).item_id);
+                    int type = Integer.valueOf(mData.content_list
+                            .get(getLayoutPosition()).content_type);
+                    DetailActivity.start(mContext, id, type);
                 }
             });
         }
     }
 
     private void initHolder(RecyclerView.ViewHolder holder, ContentList content) {
-        ((ReadHolder) holder).tv_type.setText("- read type -");
+        String type = "";
+        switch (Integer.valueOf(content.content_type)) {
+            case ITEM_TYPE_READ_CARTOON:
+                type = "阅读";
+                break;
+            case ITEM_TYPE_SERIAL:
+                type = "连载";
+                break;
+            case ITEM_TYPE_QUESTION:
+                type = "问答";
+                break;
+        }
+        if (content.tag_list.size() != 0) {
+            type = content.tag_list.get(0).title;
+        }
+        ((ReadHolder) holder).tv_type.setText("- " + type + " -");
         ((ReadHolder) holder).tv_title.setText(content.title);
         ((ReadHolder) holder).tv_author.setText("文／" + content.author.user_name);
         ((ReadHolder) holder).tv_forward.setText(content.forward);

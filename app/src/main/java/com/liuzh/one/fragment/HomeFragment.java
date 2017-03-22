@@ -8,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,13 +32,14 @@ public class HomeFragment extends Fragment {
     private ArrayList<Fragment> mFragments;//all fragment
     private HomePagerAdapter mPagerAdapter;//adapter
     private ArrayList<String> mIDs;//ids
-    private Toolbar toolbar;
+    private Toolbar mActivityToolbar;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initFragments();
+        mActivityToolbar = ((MainActivity) getActivity()).getToolbar();
     }
 
     /**
@@ -79,9 +79,10 @@ public class HomeFragment extends Fragment {
      * init view data
      */
     private void initData() {
-        toolbar = ((MainActivity) getActivity()).getToolbar();
         mPagerAdapter = new HomePagerAdapter(getChildFragmentManager(), mFragments);
         mViewPager.setAdapter(mPagerAdapter);
+        /*设置pager切换动画后，在4.1.2有奇怪的问题
+        * 滑动当前页，实际滑动的是下一页*/
         mViewPager.setPageTransformer(true, new DepthPageTransformer());
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -97,25 +98,24 @@ public class HomeFragment extends Fragment {
                             Integer.valueOf(mIDs.get(position + 1))));
                     mPagerAdapter.notifyDataSetChanged();
                 }
-                RecyclerView recyclerView = ((ListFragment) mFragments
-                        .get(position)).getRecyclerView();
+                RecyclerView rv = ((ListFragment) mFragments.get(position)).getRecyclerView();
+                //控制toolbar的显示隐藏
                 LinearLayoutManager layoutManager =
-                        (LinearLayoutManager) recyclerView.getLayoutManager();
+                        (LinearLayoutManager) rv.getLayoutManager();
                 int pos = layoutManager.findFirstVisibleItemPosition();
-                if (pos == 0 && recyclerView.getChildAt(0).getY() == 0) {
-                    ObjectAnimator.ofFloat(toolbar, "translationY",
+                if (pos == 0 && rv.getChildAt(0).getY() == 0) {
+                    ObjectAnimator.ofFloat(mActivityToolbar, "translationY",
                             -DensityUtil.dip2px(50)).setDuration(300).start();
-                    ObjectAnimator.ofFloat(toolbar, "alpha", 0).setDuration(300).start();
+                    ObjectAnimator.ofFloat(mActivityToolbar, "alpha", 0).setDuration(300).start();
                 } else {
-                    ObjectAnimator.ofFloat(toolbar, "translationY", 0)
+                    ObjectAnimator.ofFloat(mActivityToolbar, "translationY", 0)
                             .setDuration(300).start();
-                    ObjectAnimator.ofFloat(toolbar, "alpha", 1).setDuration(300).start();
+                    ObjectAnimator.ofFloat(mActivityToolbar, "alpha", 1).setDuration(300).start();
                 }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                Log.i(TAG, "onPageScrollStateChanged: " + state);
             }
         });
     }
@@ -127,24 +127,17 @@ public class HomeFragment extends Fragment {
     private class DepthPageTransformer implements ViewPager.PageTransformer {
 
         public void transformPage(View view, float position) {
-            int pageWidth = view.getWidth();
-            if (position < -1) { // [-Infinity,-1)
-                // This page is way off-screen to the left.
+            if (position <= -1) { // [-Infinity,-1)
                 view.setAlpha(0);
             } else if (position <= 0) { // [-1,0]
-                // Use the default slide transition when moving to the left page
                 view.setAlpha(1);
                 view.setTranslationX(0);
             } else if (position <= 1) { // (0,1]
-                // Fade the page out.
                 view.setAlpha(1 - position);
-                // Counteract the default slide transition
-                view.setTranslationX(pageWidth * -position);
+                view.setTranslationX(view.getMeasuredWidth() * -position);
             } else { // (1,+Infinity]
-                // This page is way off-screen to the right.
                 view.setAlpha(0);
             }
         }
     }
-
 }

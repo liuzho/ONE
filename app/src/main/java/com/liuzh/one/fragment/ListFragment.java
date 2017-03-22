@@ -97,7 +97,6 @@ public class ListFragment extends Fragment {
     private void initData() {
         toolbar = ((MainActivity) getActivity()).getToolbar();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -107,6 +106,7 @@ public class ListFragment extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                //控制toolbar的显示隐藏
                 LinearLayoutManager layoutManager =
                         (LinearLayoutManager) mRecyclerView.getLayoutManager();
                 int pos = layoutManager.findFirstVisibleItemPosition();
@@ -125,6 +125,9 @@ public class ListFragment extends Fragment {
                 getActivity(), DividerItemDecoration.VERTICAL));
     }
 
+    public RecyclerView getRecyclerView() {
+        return mRecyclerView;
+    }
 
     /**
      * 获取oneList数据
@@ -146,7 +149,4 @@ public class ListFragment extends Fragment {
                 });
     }
 
-    public RecyclerView getRecyclerView() {
-        return mRecyclerView;
-    }
 }
