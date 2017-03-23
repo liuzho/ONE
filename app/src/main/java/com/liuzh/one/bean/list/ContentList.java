@@ -3,6 +3,7 @@ package com.liuzh.one.bean.list;
 
 import com.liuzh.one.bean.Author;
 import com.liuzh.one.bean.ShareList;
+import com.liuzh.one.bean.TagList;
 
 import java.util.List;
 

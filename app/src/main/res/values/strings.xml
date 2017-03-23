@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">ONE</string>
+    <array name="day">
+        <item>ONE</item>
+        <item>昨天</item>
+        <item>前天</item>
+        <item>三天前</item>
+        <item>四天前</item>
+        <item>五天前</item>
+        <item>六天前</item>
+        <item>七天前</item>
+        <item>八天前</item>
+        <item>九天前</item>
+    </array>
 </resources>

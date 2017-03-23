@@ -109,4 +109,17 @@ public class RetrofitUtil {
     public static Call<Read> getReadCall(int id) {
         return getRetrofit(URL_BASE).create(ReadDetailService.class).getCall(id);
     }
+
+
+    //----------------------------------------------------详情Retrofit服务
+    public interface DetailService {
+        @GET("{type}/{item_id}?channel=wdj&source=channel_reading" +
+                "&source_id=9264&version=4.0.2" +
+                "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
+        Call<Object> getCall(@Path("type") String type, @Path("id") int id);
+    }
+
+    public static Call<Object> getDetailCall(String type, int id) {
+        return getRetrofit(URL_BASE).create(DetailService.class).getCall(type, id);
+    }
 }

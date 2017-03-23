@@ -61,5 +61,8 @@
         </LinearLayout>
     </LinearLayout>
 
-    <include layout="@layout/layout_toolbar" />
+    <com.liuzh.one.view.AppToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
 </RelativeLayout>

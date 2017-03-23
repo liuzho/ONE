@@ -37,7 +37,6 @@ public class ListFragment extends Fragment {
     private int mID;//fragment对应的one list的id
     private View mRootView;//布局根view
     private RecyclerView mRecyclerView;//recycler view
-    //    private ListRVAdapter mRVAdapter;
     private String mType;//此fragment显示的是哪种类型列表数据
     private Toolbar toolbar;
 
@@ -125,6 +124,12 @@ public class ListFragment extends Fragment {
                 getActivity(), DividerItemDecoration.VERTICAL));
     }
 
+    /**
+     * 返回RecyclerView
+     * HomeFragment中用于设置view pager左右滑动时的监听，设置toolbar的显示隐藏
+     *
+     * @return RecyclerView
+     */
     public RecyclerView getRecyclerView() {
         return mRecyclerView;
     }
@@ -143,8 +148,8 @@ public class ListFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<OneDay> call, Throwable t) {
-                        App.showToast("获取oneList失败");
-                        Log.i(TAG, "onFailure: " + t.getMessage());
+                        App.showToast("获取oneList失败" + t.getMessage() + t.getLocalizedMessage());
+                        Log.i(TAG, "onFailure: " + t.getMessage() + t.getLocalizedMessage());
                     }
                 });
     }

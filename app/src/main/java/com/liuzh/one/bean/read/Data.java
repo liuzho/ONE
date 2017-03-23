@@ -3,6 +3,7 @@ package com.liuzh.one.bean.read;
 
 import com.liuzh.one.bean.Author;
 import com.liuzh.one.bean.ShareList;
+import com.liuzh.one.bean.TagList;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class Data {
     public List<Author> author_list = null;
     public String next_id;
     public String previous_id;
-    public List<Object> tag_list = null;
+    public List<TagList> tag_list = null;
     public ShareList share_list;
     public Integer praisenum;
     public Integer sharenum;

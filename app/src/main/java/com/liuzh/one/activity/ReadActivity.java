@@ -5,25 +5,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.liuzh.one.R;
-import com.liuzh.one.adapter.ListRVAdapter;
 import com.liuzh.one.application.App;
-import com.liuzh.one.bean.Author;
 import com.liuzh.one.bean.read.Data;
 import com.liuzh.one.bean.read.Read;
-import com.liuzh.one.utils.CircleTransform;
 import com.liuzh.one.utils.RetrofitUtil;
-import com.squareup.picasso.Picasso;
+import com.liuzh.one.view.AppToolbar;
+import com.liuzh.one.view.AuthorsView;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,38 +30,33 @@ import retrofit2.Response;
  * Created by 刘晓彬 on 2017/3/22.
  */
 
-public class DetailActivity extends AppCompatActivity {
+public class ReadActivity extends AppCompatActivity {
 
-    private static final String TAG = "DetailActivity";
+    private static final String TAG = "ReadActivity";
     private static final String KEY_ID = "key_id";
-    private static final String KEY_TYPE = "key_type";
 
     private WebView mWebView;//web view
     private TextView tv_title;//title
     private TextView tv_author;//author
-    private LinearLayout ll_authors;//all author
-
+    private AuthorsView av_authors;
+    private TextView tv_info;//
+    private TextView tv_copyright;//
+    private TextView tv_like_comment;
+    private AppToolbar mToolbar;
     private int mID;
-    private int mType;
 
-    public static void start(Context context, int id, int type) {
-        Intent intent = new Intent(context, DetailActivity.class);
+    public static void start(Context context, int id) {
+        Intent intent = new Intent(context, ReadActivity.class);
         Log.i(TAG, "start: " + id);
         intent.putExtra(KEY_ID, id);
-        intent.putExtra(KEY_TYPE, type);
         context.startActivity(intent);
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_read);
         mID = getIntent().getIntExtra(KEY_ID, -1);
-        mType = getIntent().getIntExtra(KEY_TYPE, -1);
-        if (mType!= ListRVAdapter.ITEM_TYPE_READ_CARTOON){
-            App.showToast("不是阅读类型，暂时没实现");
-            return;
-        }
         initView();
         fetchRead();
     }
@@ -78,31 +68,57 @@ public class DetailActivity extends AppCompatActivity {
         mWebView = (WebView) findViewById(R.id.webView);
         tv_title = (TextView) findViewById(R.id.tv_title);
         tv_author = (TextView) findViewById(R.id.tv_author);
-        ll_authors = (LinearLayout) findViewById(R.id.ll_authors);
+        av_authors = (AuthorsView) findViewById(R.id.av_authors);
+        tv_info = (TextView) findViewById(R.id.tv_info);
+        tv_copyright = (TextView) findViewById(R.id.tv_copyright);
+        tv_like_comment = (TextView) findViewById(R.id.tv_like_comment);
+        //init toolbar
+        mToolbar = (AppToolbar) findViewById(R.id.toolbar);
+        mToolbar.setLeftDrawable(getResources().getDrawable(R.drawable.back));
+        mToolbar.setLeftClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        mToolbar.setRightLDrawable(getResources().getDrawable(R.drawable.listen));
+        mToolbar.setRightLClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                App.showToast("听阅读");
+            }
+        });
+        mToolbar.setRightRDrawable(getResources().getDrawable(R.drawable.share));
+        mToolbar.setRightRClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                App.showToast("分享");
+            }
+        });
+        setSupportActionBar(mToolbar);
     }
 
     /**
      * 初始数据
      */
     private void initData(Data data) {
+        if (data.tag_list.size() != 0) {
+            mToolbar.setToolbarTitle(data.tag_list.get(0).title);
+        } else {
+            mToolbar.setToolbarTitle("一个阅读");
+        }
         String content = fmt(data.hp_content);
         mWebView.loadDataWithBaseURL("about:blank", content, "text/html", "utf-8", null);
         tv_title.setText(data.hp_title);
         tv_author.setText("文／" + data.hp_author);
-        List<Author> authors = data.author_list;
-        LayoutInflater inflater = LayoutInflater.from(this);
-        //遍历添加作者信息
-        for (int i = 0; i < authors.size(); i++) {
-            Author author = authors.get(i);
-            View authorView = inflater.inflate(R.layout.layout_author, ll_authors);
-            ((TextView) authorView.findViewById(R.id.tv_author_name)).setText(author.user_name);
-            Log.i(TAG, "initData: " + author.web_url);
-            Picasso.with(this)
-                    .load(author.web_url)
-                    .transform(new CircleTransform())
-                    .into((ImageView) authorView.findViewById(R.id.iv_head));
-            ((TextView) authorView.findViewById(R.id.tv_profile)).setText(author.desc);
+        tv_info.setText(data.hp_author_introduce + "  " + data.editor_email);
+        tv_like_comment.setText(data.praisenum + " 喜欢 · " + data.commentnum + " 评论");
+        if (TextUtils.isEmpty(data.copyright)) {
+            tv_copyright.setVisibility(View.GONE);
+        } else {
+            tv_copyright.setText(data.copyright + "");
         }
+        av_authors.setAuthor(data.author_list);
     }
 
     /**

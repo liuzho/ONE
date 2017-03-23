@@ -1,5 +1,5 @@
 
-package com.liuzh.one.bean.list;
+package com.liuzh.one.bean;
 
 public class TagList {
 

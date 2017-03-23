@@ -1,19 +1,14 @@
 package com.liuzh.one.view;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.widget.ImageView;
-
-import com.liuzh.one.utils.BitmapUtil;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -23,7 +18,7 @@ import java.util.TimerTask;
  * Created by 刘晓彬 on 2017/3/15.
  */
 
-public class CDView extends ImageView {
+public class CDView extends android.support.v7.widget.AppCompatImageView {
     private static final String TAG = "CDView";
     private Paint mPaint;//画笔
     private int mCDRadius;//CD宽度
@@ -194,7 +189,7 @@ public class CDView extends ImageView {
         mTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                mPosRotate = (mPosRotate + 0.2f) % 360f;
+                mPosRotate = (mPosRotate + 0.4f) % 360f;
                 post(new Runnable() {
                     @Override
                     public void run() {
@@ -218,7 +213,6 @@ public class CDView extends ImageView {
         mTimer = null;
         invalidate();
     }
-
 
 
     /**

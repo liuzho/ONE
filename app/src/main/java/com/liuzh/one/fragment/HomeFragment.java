@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import com.liuzh.one.R;
 import com.liuzh.one.activity.MainActivity;
 import com.liuzh.one.adapter.HomePagerAdapter;
 import com.liuzh.one.utils.DensityUtil;
+import com.liuzh.one.view.AppToolbar;
 
 import java.util.ArrayList;
 
@@ -32,14 +32,14 @@ public class HomeFragment extends Fragment {
     private ArrayList<Fragment> mFragments;//all fragment
     private HomePagerAdapter mPagerAdapter;//adapter
     private ArrayList<String> mIDs;//ids
-    private Toolbar mActivityToolbar;
+    private AppToolbar mActivityToolbar;//activity 的 toolbar，用于出现隐藏的动画
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initFragments();
-        mActivityToolbar = ((MainActivity) getActivity()).getToolbar();
+        mActivityToolbar = (AppToolbar) ((MainActivity) getActivity()).getToolbar();
     }
 
     /**
@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
         //从依附的activity的intent中取一天的list id
         mIDs = getActivity().getIntent()
                 .getStringArrayListExtra(MainActivity.INTENT_KEY_LIST_ID);
-        //创建所有的fragment
+        //创建2个fragment，其余fragment通过view pager滑动监听来动态创建
         mFragments = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
             mFragments.add(new ListFragment(Integer.valueOf(mIDs.get(i))));
@@ -92,6 +92,8 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
+                mActivityToolbar.setToolbarTitle(getResources().getStringArray(R.array.day)[position]);
+                //如果当前页是最后一页则新建下一页的fragment
                 if (position == mFragments.size() - 1
                         && position != mIDs.size() - 1) {
                     mFragments.add(new ListFragment(
@@ -100,6 +102,7 @@ public class HomeFragment extends Fragment {
                 }
                 RecyclerView rv = ((ListFragment) mFragments.get(position)).getRecyclerView();
                 //控制toolbar的显示隐藏
+                // view pager左右滑动的时候根据不同pager的位置也要控制toolbar的显示与隐藏
                 LinearLayoutManager layoutManager =
                         (LinearLayoutManager) rv.getLayoutManager();
                 int pos = layoutManager.findFirstVisibleItemPosition();
@@ -123,6 +126,7 @@ public class HomeFragment extends Fragment {
 
     /**
      * viewpager切换动画
+     * 4.1上有神奇的bug
      */
     private class DepthPageTransformer implements ViewPager.PageTransformer {
 
