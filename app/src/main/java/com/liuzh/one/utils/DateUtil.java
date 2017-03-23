@@ -3,6 +3,7 @@ package com.liuzh.one.utils;
 import java.util.Date;
 
 /**
+ * 日期的工具类
  * Created by 刘晓彬 on 2017/3/19.
  */
 
@@ -22,6 +23,10 @@ public class DateUtil {
         return sdf.format(new Date());
     }
 
+    /**
+     * 获取小时数
+     * @return 小时数
+     */
     public static String getFormatH() {
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("hh");
         return sdf.format(new Date());

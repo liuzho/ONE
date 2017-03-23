@@ -6,6 +6,6 @@
     <color name="textContent">#888</color>
     <color name="activity">#fff</color>
     <color name="fragment">#eee</color>
-    <color name="toolbar">#00f</color>
+    <color name="toolbar">#fff</color>
     <color name="author">#444</color>
 </resources>

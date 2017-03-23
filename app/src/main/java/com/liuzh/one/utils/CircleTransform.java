@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import com.squareup.picasso.Transformation;
 
 /**
+ * Picasso裁切圆形图
  * Created by 刘晓彬 on 2017/3/21.
  */
 

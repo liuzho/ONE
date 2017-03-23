@@ -12,7 +12,6 @@ public class SPUtil {
 
     public static final String SP_KEY_ONE_LIST_ID = "one_list_id";//one list id的key
     public static final String SP_KEY_OPEN_DATE = "open_date";//打开时间的key
-    public static final String SP_KEY_WINDOW_WIDTH = "window_width";//屏幕宽度
 
     /**
      * 获取SharedPreferences
@@ -54,11 +53,11 @@ public class SPUtil {
      * @param key   键
      * @param value 值
      */
-//    public static void putInt(String key, int value) {
-//        SharedPreferences.Editor editor = getSP().edit();
-//        editor.putInt(key, value);
-//        editor.apply();
-//    }
+    public static void putInt(String key, int value) {
+        SharedPreferences.Editor editor = getSP().edit();
+        editor.putInt(key, value);
+        editor.apply();
+    }
 
     /**
      * 从Sp获取字符串
@@ -89,7 +88,7 @@ public class SPUtil {
      * @param defValue 默认值
      * @return 获取的int数据
      */
-//    public static int getInt(String key, int defValue) {
-//        return getSP().getInt(key, defValue);
-//    }
+    public static int getInt(String key, int defValue) {
+        return getSP().getInt(key, defValue);
+    }
 }

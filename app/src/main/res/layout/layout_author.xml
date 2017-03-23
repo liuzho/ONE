@@ -11,27 +11,47 @@
         android:layout_height="40dp"
         android:layout_centerVertical="true" />
 
-    <TextView
-        android:id="@+id/tv_author_name"
+
+    <LinearLayout
+        android:id="@+id/ll_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="6dp"
         android:layout_toRightOf="@id/iv_head"
-        android:textColor="#000"
-        android:textSize="14sp"
-        tools:text="freezing" />
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_author_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:textSize="14sp"
+            tools:text="freezing" />
+
+        <TextView
+            android:id="@+id/tv_wb_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textColor="#111"
+            android:textSize="8sp"
+            tools:text="at荞麦chen" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_profile"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_author_name"
+        android:layout_below="@+id/ll_author"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="2dp"
         android:layout_toRightOf="@id/iv_head"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textColor="#888"
-        android:textSize="12sp"
+        android:textSize="10sp"
         tools:text="独立民谣作者" />
 
     <TextView

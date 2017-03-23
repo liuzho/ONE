@@ -19,7 +19,7 @@
         tools:text="- 影视 -" />
 
     <TextView
-        android:id="@+id/tv_title"
+        android:id="@+id/tv_toolbar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/rv_text_margin_horizon"

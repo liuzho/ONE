@@ -40,7 +40,8 @@ public class SplashActivity extends AppCompatActivity {
     public void fetchOneListId() {
         String nowDate = DateUtil.getFormatYMD();
         String lastOpenDate = SPUtil.getString(SPUtil.SP_KEY_OPEN_DATE, "");
-        //根据SP存储的年月日信息，如果当天打开过应用即当天获取过oneListId，则不再获取直接进入MainActivity
+        //根据SP存储的年月日信息，如果当天打开过应用即当天获取过oneListId，
+        // 则不再获取直接从SP中读取IDs然后进入MainActivity
         if (lastOpenDate.equals(nowDate)) {
             String listIdStr = SPUtil.getString(SPUtil.SP_KEY_ONE_LIST_ID, "");
             ArrayList<String> listId = new ArrayList<>();
@@ -69,7 +70,7 @@ public class SplashActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<OneListId> call, Throwable t) {
                         App.showToast("获取oneListId失败\n" + t.getMessage());
-                        Log.i(TAG, "onFailure: 获取oneListId失败" + t.getMessage());
+                        Log.i(TAG, "onFailure: 获取oneListId失败" + t.getMessage() + t.getLocalizedMessage());
                     }
                 });
     }

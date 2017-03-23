@@ -21,7 +21,11 @@
         <!--主Activity-->
         <activity android:name="com.liuzh.one.activity.MainActivity" />
         <!--阅读详情activity-->
-        <activity android:name=".activity.DetailActivity"/>
+        <activity android:name=".activity.ReadActivity" />
+        <!--音乐详情activity-->
+        <activity android:name=".activity.MusicActivity" />
+        <!--电影详情activity-->
+        <activity android:name=".activity.MovieActivity" />
     </application>
 
 </manifest>

@@ -7,6 +7,7 @@ import android.view.Display;
 import com.liuzh.one.application.App;
 
 /**
+ * 分辨率相关工具类
  * Created by 刘晓彬 on 2017/3/21.
  */
 
@@ -28,10 +29,29 @@ public class DensityUtil {
         return (int) (pxValue / scale + 0.5f);
     }
 
-    public static int getWidth(Activity activity) {
+    /**
+     * 获取屏幕的宽
+     *
+     * @param activity activity
+     * @return 宽度 px
+     */
+    public static int getWinWidth(Activity activity) {
         Display d = activity.getWindowManager().getDefaultDisplay();
         DisplayMetrics dm = new DisplayMetrics();
         d.getMetrics(dm);
         return dm.widthPixels;
+    }
+
+    /**
+     * 获取屏幕的高
+     *
+     * @param activity activity
+     * @return 高度 px
+     */
+    public static int getWinHeight(Activity activity) {
+        Display d = activity.getWindowManager().getDefaultDisplay();
+        DisplayMetrics dm = new DisplayMetrics();
+        d.getMetrics(dm);
+        return dm.heightPixels;
     }
 }

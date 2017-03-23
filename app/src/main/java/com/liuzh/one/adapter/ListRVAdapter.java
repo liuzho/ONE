@@ -10,11 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liuzh.one.R;
-import com.liuzh.one.activity.DetailActivity;
+import com.liuzh.one.activity.ReadActivity;
 import com.liuzh.one.application.App;
 import com.liuzh.one.bean.list.ContentList;
 import com.liuzh.one.bean.list.Data;
 import com.liuzh.one.utils.CircleTransform;
+import com.liuzh.one.utils.Constant;
 import com.liuzh.one.utils.DateUtil;
 import com.liuzh.one.utils.DensityUtil;
 import com.liuzh.one.view.CDView;
@@ -27,21 +28,7 @@ import com.squareup.picasso.Picasso;
 
 public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    /**
-     * 0 one day
-     * 1 read 软糖漫画
-     * 2 连载
-     * 3 问答
-     * 4 音乐
-     * 5 影视
-     */
-    private static final String TAG = "ListRVAdapter";
-    public static final int ITEM_TYPE_DAY_ONE = 0;
-    public static final int ITEM_TYPE_READ_CARTOON = 1;
-    public static final int ITEM_TYPE_SERIAL = 2;
-    public static final int ITEM_TYPE_QUESTION = 3;
-    public static final int ITEM_TYPE_MUSIC = 4;
-    public static final int ITEM_TYPE_MOVIE = 5;
+
     private Data mData;//data
     private Context mContext;
     private int mWinWidth;
@@ -49,7 +36,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public ListRVAdapter(Context context, Data data) {
         this.mContext = context;
         this.mData = data;
-        mWinWidth = DensityUtil.getWidth((Activity) context);
+        mWinWidth = DensityUtil.getWinWidth((Activity) context);
     }
 
 
@@ -58,21 +45,21 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         RecyclerView.ViewHolder holder;
         LayoutInflater inflater = LayoutInflater.from(App.getContext());
         switch (viewType) {
-            case ITEM_TYPE_DAY_ONE:
+            case Constant.ITEM_TYPE_DAY_ONE:
                 holder = new OneDayHolder(inflater.inflate(
                         R.layout.layout_rv_item_day_one, parent, false));
                 break;
-            case ITEM_TYPE_MUSIC:
+            case Constant.ITEM_TYPE_MUSIC:
                 holder = new MusicHolder(inflater.inflate(
                         R.layout.layout_rv_item_music, parent, false));
                 break;
-            case ITEM_TYPE_MOVIE:
+            case Constant.ITEM_TYPE_MOVIE:
                 holder = new MovieHolder(inflater.inflate(
                         R.layout.layout_rv_item_movie, parent, false));
                 break;
-            case ITEM_TYPE_READ_CARTOON:
-            case ITEM_TYPE_SERIAL:
-            case ITEM_TYPE_QUESTION:
+            case Constant.ITEM_TYPE_READ_CARTOON:
+            case Constant.ITEM_TYPE_SERIAL:
+            case Constant.ITEM_TYPE_QUESTION:
                 holder = new ReadHolder(inflater.inflate(
                         R.layout.layout_rv_item_read, parent, false));
                 break;
@@ -182,7 +169,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         MusicHolder(View itemView) {
             super(itemView);
             tv_type = (TextView) itemView.findViewById(R.id.tv_type);
-            tv_title = (TextView) itemView.findViewById(R.id.tv_title);
+            tv_title = (TextView) itemView.findViewById(R.id.tv_toolbar_title);
             tv_author = (TextView) itemView.findViewById(R.id.tv_author);
             cdv_music = (CDView) itemView.findViewById(R.id.cdv_music);
             tv_info = (TextView) itemView.findViewById(R.id.tv_info);
@@ -232,7 +219,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         MovieHolder(View itemView) {
             super(itemView);
             tv_type = (TextView) itemView.findViewById(R.id.tv_type);
-            tv_title = (TextView) itemView.findViewById(R.id.tv_title);
+            tv_title = (TextView) itemView.findViewById(R.id.tv_toolbar_title);
             tv_author = (TextView) itemView.findViewById(R.id.tv_author);
             iv_img = (ImageView) itemView.findViewById(R.id.iv_img);
             tv_forward = (TextView) itemView.findViewById(R.id.tv_forward);
@@ -278,7 +265,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ReadHolder(View itemView) {
             super(itemView);
             tv_type = (TextView) itemView.findViewById(R.id.tv_type);
-            tv_title = (TextView) itemView.findViewById(R.id.tv_title);
+            tv_title = (TextView) itemView.findViewById(R.id.tv_toolbar_title);
             tv_author = (TextView) itemView.findViewById(R.id.tv_author);
             tv_forward = (TextView) itemView.findViewById(R.id.tv_forward);
             tv_post_time = (TextView) itemView.findViewById(R.id.tv_post_time);
@@ -291,7 +278,15 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             .get(getLayoutPosition()).item_id);
                     int type = Integer.valueOf(mData.content_list
                             .get(getLayoutPosition()).content_type);
-                    DetailActivity.start(mContext, id, type);
+                    switch (type) {
+                        case Constant.ITEM_TYPE_READ_CARTOON:
+                            ReadActivity.start(mContext, id);
+                            break;
+                        case Constant.ITEM_TYPE_SERIAL:
+                            break;
+                        case Constant.ITEM_TYPE_QUESTION:
+                            break;
+                    }
                 }
             });
         }
@@ -300,13 +295,13 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private void initHolder(RecyclerView.ViewHolder holder, ContentList content) {
         String type = "";
         switch (Integer.valueOf(content.content_type)) {
-            case ITEM_TYPE_READ_CARTOON:
+            case Constant.ITEM_TYPE_READ_CARTOON:
                 type = "阅读";
                 break;
-            case ITEM_TYPE_SERIAL:
+            case Constant.ITEM_TYPE_SERIAL:
                 type = "连载";
                 break;
-            case ITEM_TYPE_QUESTION:
+            case Constant.ITEM_TYPE_QUESTION:
                 type = "问答";
                 break;
         }
