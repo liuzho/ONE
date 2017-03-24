@@ -15,12 +15,10 @@ import com.liuzh.one.R;
 import com.liuzh.one.application.App;
 import com.liuzh.one.bean.read.Data;
 import com.liuzh.one.bean.read.Read;
+import com.liuzh.one.utils.HtmlUtil;
 import com.liuzh.one.utils.RetrofitUtil;
 import com.liuzh.one.view.AppToolbar;
 import com.liuzh.one.view.AuthorsView;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -107,8 +105,8 @@ public class ReadActivity extends AppCompatActivity {
         } else {
             mToolbar.setToolbarTitle("一个阅读");
         }
-        String content = fmt(data.hp_content);
-        mWebView.loadDataWithBaseURL("about:blank", content, "text/html", "utf-8", null);
+        mWebView.loadDataWithBaseURL("about:blank",
+                HtmlUtil.fmt(data.hp_content), "text/html", "utf-8", null);
         tv_title.setText(data.hp_title);
         tv_author.setText("文／" + data.hp_author);
         tv_info.setText(data.hp_author_introduce + "  " + data.editor_email);
@@ -137,28 +135,6 @@ public class ReadActivity extends AppCompatActivity {
                 Log.i(TAG, "onFailure: " + t.getMessage());
             }
         });
-    }
-
-    private String fmt(String str) {
-        //用正则将img的style置为空
-        Pattern pattern = Pattern.compile("style=\"([^\"]+)\"");
-        Matcher matcher = pattern.matcher(str);
-        str = matcher.replaceAll("");
-
-        String result = "<html>" +
-                "<head>" +
-                "<meta charset=\"utf-8\">" +
-                "<title>Sign in | Score System</title>" +
-                "<style type=\"text/css\">\n" +
-                "img{margin-top:15px;margin-bottom:15px;}" +
-                "body{display:flex;flex-direction:column;justify-content:center;}" +
-                "</style>" +
-                "</head>" +
-                "<body>" +
-                str +
-                "</body>" +
-                "</html>";
-        return result;
     }
 
 }

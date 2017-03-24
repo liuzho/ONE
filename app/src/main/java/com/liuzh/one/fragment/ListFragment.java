@@ -143,7 +143,8 @@ public class ListFragment extends Fragment {
                     @Override
                     public void onResponse(Call<OneDay> call, Response<OneDay> response) {
                         mRootView.findViewById(R.id.tv_loading).setVisibility(View.GONE);
-                        mRecyclerView.setAdapter(new ListRVAdapter(getActivity(), response.body().data));
+                        mRecyclerView.setAdapter(new ListRVAdapter(
+                                getActivity(), response.body().data));
                     }
 
                     @Override

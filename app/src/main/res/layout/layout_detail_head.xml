@@ -36,6 +36,7 @@
             tools:text="文/gantea" />
 
         <ImageView
+            android:id="@+id/iv_movie_info"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
