@@ -3,6 +3,7 @@ package com.liuzh.one.utils;
 import com.liuzh.one.bean.list.ContentList;
 import com.liuzh.one.bean.list.OneDay;
 import com.liuzh.one.bean.list.OneListId;
+import com.liuzh.one.bean.movie.Movie;
 import com.liuzh.one.bean.read.Read;
 
 import retrofit2.Call;
@@ -108,6 +109,18 @@ public class RetrofitUtil {
 
     public static Call<Read> getReadCall(int id) {
         return getRetrofit(URL_BASE).create(ReadDetailService.class).getCall(id);
+    }
+
+
+    public interface MovieDetailService {
+        @GET("movie/detail/{item_id}?channel=wdj" +
+                "&source=channel_movie&source_id=9240&version=4.0.2" +
+                "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
+        Call<Movie> getCall(@Path("item_id") int id);
+    }
+
+    public static Call<Movie> getMovieCall(int id) {
+        return getRetrofit(URL_BASE).create(MovieDetailService.class).getCall(id);
     }
 
 

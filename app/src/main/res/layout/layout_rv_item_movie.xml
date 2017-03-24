@@ -57,6 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/rv_text_margin_horizon"
+        android:layout_marginRight="@dimen/rv_text_margin_horizon"
         android:lineSpacingExtra="5dp"
         android:textColor="@color/textContent"
         android:textSize="@dimen/content_text"

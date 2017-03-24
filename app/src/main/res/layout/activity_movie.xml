@@ -1,45 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/activity">
 
     <com.liuzh.one.view.AppToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true" />
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_bar"
+        android:layout_below="@+id/toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:orientation="vertical">
 
-            <View
+            <android.support.v4.view.ViewPager
+                android:id="@+id/bannerView"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="#eee" />
+                android:layout_height="250dp"
+                android:background="#aaa" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:textColor="#999"
-                android:textSize="14sp"
-                tools:text="·《跨越栅栏》·" />
+                android:orientation="vertical"
+                android:padding="10dp">
 
-            <include layout="@layout/layout_detail_head" />
+                <TextView
+                    android:id="@+id/tv_movie_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#999"
+                    android:textSize="14sp"
+                    tools:text="·《跨越栅栏》·" />
 
-            <include layout="@layout/layout_detail_content" />
+                <include layout="@layout/layout_detail_head" />
 
-            <com.liuzh.one.view.CommentsView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <include layout="@layout/layout_detail_content" />
+
+                <com.liuzh.one.view.CommentsView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+
+    <include
+        android:id="@+id/bottom_bar"
+        layout="@layout/layout_detail_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true" />
+
+    <TextView
+        android:id="@+id/tv_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:gravity="center"
+        android:text="loading..."
+        android:textColor="#000"
+        android:textSize="25sp"
+        android:visibility="gone" />
+</RelativeLayout>
