@@ -1,6 +1,6 @@
 # 高仿《ONE》
 
-- 目前完成度：2017-3-24：增加电影详情页以及部分细节调整/实现
+- 目前完成度：
 
 	![](https://github.com/liuzho/ONE/blob/master/demo.gif)
 
@@ -14,3 +14,11 @@
 3. compile 'com.squareup.retrofit2:retrofit:2.2.0'//Retrofit
 4. compile 'com.squareup.retrofit2:converter-gson:2.0.2'//Gson
 5. compile 'com.squareup.picasso:picasso:2.5.2'//Picasso
+
+- 更新：
+
+2017-3-25：增加音乐详情页（所有详情页均无显示评论列表，后续加）
+
+2017-3-24：增加电影详情页以及部分细节调整/实现
+
+...再早没写，忘了

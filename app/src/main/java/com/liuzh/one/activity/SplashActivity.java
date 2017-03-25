@@ -3,7 +3,6 @@ package com.liuzh.one.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.liuzh.one.R;
 import com.liuzh.one.application.App;
@@ -69,8 +68,8 @@ public class SplashActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<OneListId> call, Throwable t) {
-                        App.showToast("获取oneListId失败\n" + t.getMessage());
-                        Log.i(TAG, "onFailure: 获取oneListId失败" + t.getMessage() + t.getLocalizedMessage());
+                        App.showToast("失败，再次尝试");
+                        fetchOneListId();
                     }
                 });
     }

@@ -189,7 +189,7 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
         mTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                mPosRotate = (mPosRotate + 0.4f) % 360f;
+                mPosRotate = (mPosRotate + 0.2f) % 360f;
                 post(new Runnable() {
                     @Override
                     public void run() {
@@ -200,7 +200,7 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
                     }
                 });
             }
-        }, 0, 50);
+        }, 0, 30);
     }
 
     /**

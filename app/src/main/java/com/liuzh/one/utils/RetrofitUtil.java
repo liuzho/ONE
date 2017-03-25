@@ -4,6 +4,7 @@ import com.liuzh.one.bean.list.ContentList;
 import com.liuzh.one.bean.list.OneDay;
 import com.liuzh.one.bean.list.OneListId;
 import com.liuzh.one.bean.movie.Movie;
+import com.liuzh.one.bean.music.Music;
 import com.liuzh.one.bean.read.Read;
 
 import retrofit2.Call;
@@ -41,6 +42,7 @@ public class RetrofitUtil {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
+//--------------------------------------------------------------------------------------
 
     /**
      * oneListId的接口
@@ -59,6 +61,7 @@ public class RetrofitUtil {
     public static Call<OneListId> getOneListIdCall() {
         return getRetrofit(URL_BASE).create(OneListIdService.class).getCall();
     }
+//--------------------------------------------------------------------------------------
 
 
     /**
@@ -79,6 +82,7 @@ public class RetrofitUtil {
     public static Call<OneDay> getOneListCall(int id) {
         return getRetrofit(URL_BASE).create(OneListService.class).getCall(id);
     }
+//--------------------------------------------------------------------------------------
 
 
     /**
@@ -99,6 +103,7 @@ public class RetrofitUtil {
     public static Call<ContentList> getListCall(String type) {
         return getRetrofit(URL_BASE).create(ListService.class).getCall(type);
     }
+//--------------------------------------------------------------------------------------
 
     public interface ReadDetailService {
         @GET("essay/{item_id}?channel=wdj&source=channel_reading" +
@@ -111,7 +116,11 @@ public class RetrofitUtil {
         return getRetrofit(URL_BASE).create(ReadDetailService.class).getCall(id);
     }
 
+//--------------------------------------------------------------------------------------
 
+    /**
+     * 电影service
+     */
     public interface MovieDetailService {
         @GET("movie/detail/{item_id}?channel=wdj" +
                 "&source=channel_movie&source_id=9240&version=4.0.2" +
@@ -123,16 +132,17 @@ public class RetrofitUtil {
         return getRetrofit(URL_BASE).create(MovieDetailService.class).getCall(id);
     }
 
+//--------------------------------------------------------------------------------------
 
-    //----------------------------------------------------详情Retrofit服务
-    public interface DetailService {
-        @GET("{type}/{item_id}?channel=wdj&source=channel_reading" +
-                "&source_id=9264&version=4.0.2" +
+
+    public interface MusicDetailService {
+        @GET("music/detail/{item_id}?channel=wdj&version=4.0.2" +
                 "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
-        Call<Object> getCall(@Path("type") String type, @Path("id") int id);
+        Call<Music> getCall(@Path("item_id") int id);
     }
 
-    public static Call<Object> getDetailCall(String type, int id) {
-        return getRetrofit(URL_BASE).create(DetailService.class).getCall(type, id);
+    public static Call<Music> getMusicCall(int id) {
+        return getRetrofit(URL_BASE).create(MusicDetailService.class).getCall(id);
     }
+
 }

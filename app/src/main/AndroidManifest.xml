@@ -26,6 +26,8 @@
         <activity android:name=".activity.MusicActivity" />
         <!--电影详情activity-->
         <activity android:name=".activity.MovieActivity" />
+        <!--电影简介页-->
+        <activity android:name=".activity.MovieProfileActivity" />
     </application>
 
 </manifest>

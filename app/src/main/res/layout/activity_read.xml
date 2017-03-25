@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/activity"
-    android:orientation="vertical">
+    android:background="@color/activity">
 
     <com.liuzh.one.view.AppToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_bar"
+        android:layout_below="@+id/toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,5 +37,12 @@
         </LinearLayout>
     </ScrollView>
 
-    <include layout="@layout/layout_detail_bottom" />
-</LinearLayout>
+    <include
+        android:id="@+id/bottom_bar"
+        layout="@layout/layout_detail_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true" />
+
+    <include layout="@layout/layout_loading" />
+</RelativeLayout>
