@@ -34,6 +34,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
+ * 电影详情的API返回的JSON有很多问题，JSON中没有内容的返回值，没有评论的ID
+ * 目前我通过webView访问网页版获取到html截取内容显示
+ * 其余如：作者、评论、版权信息等，无法获取到数据无法展示
+ * <p>
+ * ONE的外包团队真垃圾，webApp还用的是表格布局
+ * <p>
  * Created by 刘晓彬 on 2017/3/23.
  */
 
@@ -112,9 +118,8 @@ public class MovieActivity extends AppCompatActivity {
     }
 
     @SuppressLint({"JavascriptInterface", "SetJavaScriptEnabled", "AddJavascriptInterface"})
-    private void initData(Data data) {
+    private void initData(final Data data) {
         initViewPager(data);
-
         if (data.tag_list.size() != 0) {
             mToolbar.setToolbarTitle(data.tag_list.get(0).title);
         } else {
@@ -124,6 +129,14 @@ public class MovieActivity extends AppCompatActivity {
         tv_title.setText(mTitle);
         tv_author.setText(data.share_list.wx.desc.split(" ")[0]);
         iv_movie_info.setVisibility(View.VISIBLE);
+        iv_movie_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MovieProfileActivity.start(mContext, data.title,
+                        data.poster, data.share_list.qq.desc,
+                        data.info, data.officialstory);
+            }
+        });
         tv_info.setText(data.charge_edt + "  " + data.editor_email);
         tv_copyright.setText("版权信息，json里面找不到...");
         tv_like_comment.setText(mLikeCount + " 喜欢 · " + data.commentnum + " 评论");
@@ -165,7 +178,7 @@ public class MovieActivity extends AppCompatActivity {
 
             @Override
             public void destroyItem(ViewGroup container, int position, Object object) {
-                container.removeView(mIVList.get(position % mIVList.size()));
+//                container.removeView(mIVList.get(position % mIVList.size()));
             }
 
             @Override
@@ -228,7 +241,8 @@ public class MovieActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<Movie> call, Throwable t) {
-                        App.showToast("获取电影失败" + t.getMessage());
+                        App.showToast("失败，再次尝试");
+                        fetchMovie();
                     }
                 });
     }

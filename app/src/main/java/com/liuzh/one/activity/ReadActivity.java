@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.liuzh.one.R;
@@ -41,6 +42,7 @@ public class ReadActivity extends AppCompatActivity {
     private TextView tv_copyright;//
     private TextView tv_like_comment;
     private AppToolbar mToolbar;
+    private TextView tv_loading;
     private int mID;
 
     public static void start(Context context, int id) {
@@ -63,6 +65,8 @@ public class ReadActivity extends AppCompatActivity {
      * find view
      */
     private void initView() {
+        tv_loading = (TextView) findViewById(R.id.tv_loading);
+        tv_loading.setVisibility(View.VISIBLE);
         mWebView = (WebView) findViewById(R.id.webView);
         tv_title = (TextView) findViewById(R.id.tv_title);
         tv_author = (TextView) findViewById(R.id.tv_author);
@@ -105,6 +109,13 @@ public class ReadActivity extends AppCompatActivity {
         } else {
             mToolbar.setToolbarTitle("一个阅读");
         }
+        mWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                tv_loading.setVisibility(View.GONE);
+            }
+        });
         mWebView.loadDataWithBaseURL("about:blank",
                 HtmlUtil.fmt(data.hp_content), "text/html", "utf-8", null);
         tv_title.setText(data.hp_title);
@@ -131,8 +142,8 @@ public class ReadActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Read> call, Throwable t) {
-                App.showToast("获取read失败");
-                Log.i(TAG, "onFailure: " + t.getMessage());
+                App.showToast("失败，再次尝试");
+                fetchRead();
             }
         });
     }

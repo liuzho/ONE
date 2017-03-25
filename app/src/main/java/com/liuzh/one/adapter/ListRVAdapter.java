@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.liuzh.one.R;
 import com.liuzh.one.activity.MovieActivity;
+import com.liuzh.one.activity.MusicActivity;
 import com.liuzh.one.activity.ReadActivity;
 import com.liuzh.one.application.App;
 import com.liuzh.one.bean.list.ContentList;
@@ -177,6 +178,14 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             tv_forward = (TextView) itemView.findViewById(R.id.tv_forward);
             tv_post_time = (TextView) itemView.findViewById(R.id.tv_post_time);
             tv_lick_count = (TextView) itemView.findViewById(R.id.tv_lick_count);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int id = Integer.valueOf(mData.content_list
+                            .get(getLayoutPosition()).item_id);
+                    MusicActivity.start(mContext, id);
+                }
+            });
         }
     }
 

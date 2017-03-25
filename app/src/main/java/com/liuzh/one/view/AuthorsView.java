@@ -53,6 +53,10 @@ public class AuthorsView extends FrameLayout {
      */
     public void setAuthor(List<Author> authors) {
         this.mAuthors = authors;
+        if (authors.size() == 0) {
+            this.setVisibility(GONE);
+            return;
+        }
         for (int i = 0; i < authors.size(); i++) {
             Author author = authors.get(i);
             View authorView = View.inflate(mContext, R.layout.layout_author, ll_authors);

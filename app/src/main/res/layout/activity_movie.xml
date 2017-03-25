@@ -63,14 +63,5 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true" />
 
-    <TextView
-        android:id="@+id/tv_loading"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#fff"
-        android:gravity="center"
-        android:text="loading..."
-        android:textColor="#000"
-        android:textSize="25sp"
-        android:visibility="gone" />
+    <include layout="@layout/layout_loading"/>
 </RelativeLayout>

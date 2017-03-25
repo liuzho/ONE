@@ -149,8 +149,8 @@ public class ListFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<OneDay> call, Throwable t) {
-                        App.showToast("获取oneList失败" + t.getMessage() + t.getLocalizedMessage());
-                        Log.i(TAG, "onFailure: " + t.getMessage() + t.getLocalizedMessage());
+                        App.showToast("失败，再次尝试");
+                        fetchOneList();
                     }
                 });
     }
