@@ -14,7 +14,7 @@ import com.liuzh.one.activity.MovieActivity;
 import com.liuzh.one.activity.MusicActivity;
 import com.liuzh.one.activity.ReadActivity;
 import com.liuzh.one.application.App;
-import com.liuzh.one.bean.list.ContentList;
+import com.liuzh.one.bean.ContentList;
 import com.liuzh.one.bean.list.Data;
 import com.liuzh.one.utils.CircleTransform;
 import com.liuzh.one.utils.Constant;
@@ -40,6 +40,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.mData = data;
         mWinWidth = DensityUtil.getWinWidth((Activity) context);
     }
+
 
 
     @Override
@@ -146,7 +147,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((OneDayHolder) holder).tv_lick_count.setText(content.like_count.toString());
         Picasso.with(App.getContext())
                 .load(content.img_url)
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.placeholder)
                 .into(((OneDayHolder) holder).iv_img);
         ((OneDayHolder) holder).iv_img.setMaxWidth(mWinWidth);
         ((OneDayHolder) holder).iv_img.setMinimumWidth(mWinWidth);
@@ -268,7 +269,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((MovieHolder) holder).tv_lick_count.setText(content.like_count.toString());
         Picasso.with(App.getContext())
                 .load(content.img_url)
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.placeholder)
                 .into(((MovieHolder) holder).iv_img);
         ((MovieHolder) holder).iv_img.setMaxWidth(mWinWidth - DensityUtil.dip2px(90));
         ((MovieHolder) holder).iv_img.setMinimumWidth(mWinWidth - DensityUtil.dip2px(90));
@@ -340,7 +341,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         Picasso.with(App.getContext())
                 .load(content.img_url)
                 .resize(300, 180)
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.placeholder)
                 .into(((ReadHolder) holder).iv_img);
         ((ReadHolder) holder).iv_img.setMaxWidth(mWinWidth - DensityUtil.dip2px(90));
         ((ReadHolder) holder).iv_img.setMinimumWidth(mWinWidth - DensityUtil.dip2px(90));

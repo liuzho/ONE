@@ -1,6 +1,5 @@
 package com.liuzh.one.fragment;
 
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,17 +7,16 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.liuzh.one.R;
-import com.liuzh.one.activity.MainActivity;
 import com.liuzh.one.adapter.ListRVAdapter;
 import com.liuzh.one.application.App;
-import com.liuzh.one.bean.list.OneDay;
+import com.liuzh.one.bean.DataList;
+import com.liuzh.one.bean.list.Data;
 import com.liuzh.one.utils.DensityUtil;
 import com.liuzh.one.utils.RetrofitUtil;
 
@@ -27,132 +25,94 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * pager fragment
- * Created by 刘晓彬 on 2017/3/20.
+ * Created by 刘晓彬 on 2017/3/27.
  */
 
 public class ListFragment extends Fragment {
     private static final String TAG = "ListFragment";
+    public static final int TYPE_READ = 0;
+    public static final int TYPE_MUSIC = 1;
+    public static final int TYPE_MOVIE = 2;
 
-    private int mID;//fragment对应的one list的id
-    private View mRootView;//布局根view
-    private RecyclerView mRecyclerView;//recycler view
-    private String mType;//此fragment显示的是哪种类型列表数据
-    private Toolbar toolbar;
+    private int mType;
+
+    private View mRootView;
+    private RecyclerView mRecyclerView;
+    private TextView tv_loading;
 
     public ListFragment() {
+
     }
 
     @SuppressLint("ValidFragment")
-    public ListFragment(int id) {
-        this.mID = id;
+    public ListFragment(int type) {
+        mType = type;
     }
 
-    @SuppressLint("ValidFragment")
-    public ListFragment(String type) {
-        this.mType = type;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (mType != null) {
-            fetchTypeList();
-        } else {
-            fetchOneList();
-        }
+        fetchData();
     }
 
-    /**
-     * 获取某个类型的list
-     */
-    private void fetchTypeList() {
-
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,
-                             @Nullable ViewGroup container, Bundle savedInstanceState) {
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mRootView == null) {
-            mRootView = inflater.inflate(R.layout.fragment_list_content, null);
+            mRootView = inflater.inflate(R.layout.fragment_list_content, null, false);
+            mRootView.setPadding(0, DensityUtil.dip2px(50), 0, 0);
             initView();
             initData();
         }
         return mRootView;
     }
 
-
-    /**
-     * find view
-     */
-    private void initView() {
-        mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.recyclerView);
-    }
-
-    /**
-     * init view data
-     */
     private void initData() {
-        toolbar = ((MainActivity) getActivity()).getToolbar();
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                //控制toolbar的显示隐藏
-                LinearLayoutManager layoutManager =
-                        (LinearLayoutManager) mRecyclerView.getLayoutManager();
-                int pos = layoutManager.findFirstVisibleItemPosition();
-                if (pos == 0 && recyclerView.getChildAt(0).getY() == 0) {
-                    ObjectAnimator.ofFloat(toolbar, "translationY",
-                            -DensityUtil.dip2px(50)).setDuration(300).start();
-                    ObjectAnimator.ofFloat(toolbar, "alpha", 0).setDuration(300).start();
-                } else {
-                    ObjectAnimator.ofFloat(toolbar, "translationY", 0)
-                            .setDuration(300).start();
-                    ObjectAnimator.ofFloat(toolbar, "alpha", 1).setDuration(300).start();
-                }
-            }
-        });
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(
                 getActivity(), DividerItemDecoration.VERTICAL));
+        tv_loading.setVisibility(View.VISIBLE);
     }
 
-    /**
-     * 返回RecyclerView
-     * HomeFragment中用于设置view pager左右滑动时的监听，设置toolbar的显示隐藏
-     *
-     * @return RecyclerView
-     */
-    public RecyclerView getRecyclerView() {
-        return mRecyclerView;
+    private void initView() {
+        mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.recyclerView);
+        tv_loading = (TextView) mRootView.findViewById(R.id.tv_loading);
     }
 
-    /**
-     * 获取oneList数据
-     */
-    private void fetchOneList() {
-        RetrofitUtil.getOneListCall(mID)
-                .enqueue(new Callback<OneDay>() {
-                    @Override
-                    public void onResponse(Call<OneDay> call, Response<OneDay> response) {
-                        mRootView.findViewById(R.id.tv_loading).setVisibility(View.GONE);
-                        mRecyclerView.setAdapter(new ListRVAdapter(
-                                getActivity(), response.body().data));
-                    }
+    private void fetchData() {
 
-                    @Override
-                    public void onFailure(Call<OneDay> call, Throwable t) {
-                        App.showToast("失败，再次尝试");
-                        fetchOneList();
-                    }
-                });
+        Callback callback = new Callback<DataList>() {
+            @Override
+            public void onResponse(Call<DataList> call, Response<DataList> response) {
+                Data data = new Data();
+                data.content_list = response.body().data;
+                mRecyclerView.setAdapter(new ListRVAdapter(
+                        getActivity(), data));
+                tv_loading.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<DataList> call, Throwable t) {
+                App.showToast("失败，再次链接");
+            }
+        };
+
+        switch (mType) {
+            case TYPE_READ:
+                RetrofitUtil.getReadListCall()
+                        .enqueue(callback);
+                break;
+            case TYPE_MUSIC:
+                RetrofitUtil.getMusicListCall()
+                        .enqueue(callback);
+                break;
+            case TYPE_MOVIE:
+                RetrofitUtil.getMovieListCall()
+                        .enqueue(callback);
+                break;
+        }
     }
-
 }

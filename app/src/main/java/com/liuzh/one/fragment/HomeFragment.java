@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,7 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initFragments();
-        mActivityToolbar = (AppToolbar) ((MainActivity) getActivity()).getToolbar();
+        mActivityToolbar = ((MainActivity) getActivity()).getToolbar();
     }
 
     /**
@@ -52,7 +53,7 @@ public class HomeFragment extends Fragment {
         //创建2个fragment，其余fragment通过view pager滑动监听来动态创建
         mFragments = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
-            mFragments.add(new ListFragment(Integer.valueOf(mIDs.get(i))));
+            mFragments.add(new HomeContentFragment(Integer.valueOf(mIDs.get(i))));
         }
     }
 
@@ -66,6 +67,11 @@ public class HomeFragment extends Fragment {
             initData();
         }
         return mRootView;
+    }
+
+    public boolean toolNeedShow() {
+        return ((HomeContentFragment) mFragments
+                .get(mViewPager.getCurrentItem())).toolbarNeedShow();
     }
 
     /**
@@ -92,25 +98,29 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-                mActivityToolbar.setToolbarTitle(getResources().getStringArray(R.array.day)[position]);
+                Log.i(TAG, "onPageSelected: " + mActivityToolbar);
+                mActivityToolbar.setToolbarTitle(getResources()
+                        .getStringArray(R.array.day)[position]);
                 //如果当前页是最后一页则新建下一页的fragment
                 if (position == mFragments.size() - 1
                         && position != mIDs.size() - 1) {
-                    mFragments.add(new ListFragment(
+                    mFragments.add(new HomeContentFragment(
                             Integer.valueOf(mIDs.get(position + 1))));
                     mPagerAdapter.notifyDataSetChanged();
                 }
-                RecyclerView rv = ((ListFragment) mFragments.get(position)).getRecyclerView();
+                RecyclerView rv = ((HomeContentFragment) mFragments.get(position)).getRecyclerView();
                 //控制toolbar的显示隐藏
                 // view pager左右滑动的时候根据不同pager的位置也要控制toolbar的显示与隐藏
                 LinearLayoutManager layoutManager =
                         (LinearLayoutManager) rv.getLayoutManager();
                 int pos = layoutManager.findFirstVisibleItemPosition();
                 if (pos == 0 && rv.getChildAt(0).getY() == 0) {
+                    Log.i(TAG, "onPageSelected: toolbar2top ");
                     ObjectAnimator.ofFloat(mActivityToolbar, "translationY",
                             -DensityUtil.dip2px(50)).setDuration(300).start();
                     ObjectAnimator.ofFloat(mActivityToolbar, "alpha", 0).setDuration(300).start();
                 } else {
+                    Log.i(TAG, "onPageSelected: toolbar2bottom ");
                     ObjectAnimator.ofFloat(mActivityToolbar, "translationY", 0)
                             .setDuration(300).start();
                     ObjectAnimator.ofFloat(mActivityToolbar, "alpha", 1).setDuration(300).start();

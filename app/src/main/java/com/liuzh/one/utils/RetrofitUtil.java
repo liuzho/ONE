@@ -1,6 +1,7 @@
 package com.liuzh.one.utils;
 
-import com.liuzh.one.bean.list.ContentList;
+import com.liuzh.one.bean.ContentList;
+import com.liuzh.one.bean.DataList;
 import com.liuzh.one.bean.list.OneDay;
 import com.liuzh.one.bean.list.OneListId;
 import com.liuzh.one.bean.movie.Movie;
@@ -144,5 +145,39 @@ public class RetrofitUtil {
     public static Call<Music> getMusicCall(int id) {
         return getRetrofit(URL_BASE).create(MusicDetailService.class).getCall(id);
     }
+//---------------------------------------------------------------------------------------
 
+    public interface ReadList {
+        @GET("channel/reading/more/0?channel=wdj&version=4.0.2" +
+                "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
+        Call<DataList> getCall();
+    }
+
+    public static Call<DataList> getReadListCall() {
+        return getRetrofit(URL_BASE).create(ReadList.class).getCall();
+    }
+
+//---------------------------------------------------------------------------------------
+
+    public interface MusicList {
+        @GET("channel/music/more/0?channel=wdj&version=4.0.2" +
+                "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
+        Call<DataList> getCall();
+    }
+
+    public static Call<DataList> getMusicListCall() {
+        return getRetrofit(URL_BASE).create(MusicList.class).getCall();
+    }
+
+//---------------------------------------------------------------------------------------
+
+    public interface MovieList {
+        @GET("channel/movie/more/0?channel=wdj&version=4.0.2" +
+                "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
+        Call<DataList> getCall();
+    }
+
+    public static Call<DataList> getMovieListCall() {
+        return getRetrofit(URL_BASE).create(MovieList.class).getCall();
+    }
 }

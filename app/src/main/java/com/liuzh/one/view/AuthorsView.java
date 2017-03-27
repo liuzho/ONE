@@ -3,6 +3,7 @@ package com.liuzh.one.view;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -22,6 +23,7 @@ import java.util.List;
  */
 
 public class AuthorsView extends FrameLayout {
+    private static final String TAG = "AuthorsView";
     private LinearLayout ll_authors;
     private List<Author> mAuthors;
     private Context mContext;
@@ -57,9 +59,13 @@ public class AuthorsView extends FrameLayout {
             this.setVisibility(GONE);
             return;
         }
+        int count = 0;
         for (int i = 0; i < authors.size(); i++) {
             Author author = authors.get(i);
-            View authorView = View.inflate(mContext, R.layout.layout_author, ll_authors);
+            if (author.user_id.equals("0")) {
+                continue;
+            }
+            View authorView = View.inflate(mContext, R.layout.layout_author, null);
             Picasso.with(mContext)
                     .load(author.web_url)
                     .transform(new CircleTransform())
@@ -68,6 +74,12 @@ public class AuthorsView extends FrameLayout {
             ((TextView) authorView.findViewById(R.id.tv_author_name)).setText(author.user_name);
             ((TextView) authorView.findViewById(R.id.tv_profile)).setText(author.desc);
             ((TextView) authorView.findViewById(R.id.tv_wb_name)).setText(author.wb_name);
+            Log.i(TAG, "setAuthor: " + author.user_name + author.desc);
+            ll_authors.addView(authorView);
+            count++;
+        }
+        if (count == 0) {
+            this.setVisibility(GONE);
         }
     }
 }
