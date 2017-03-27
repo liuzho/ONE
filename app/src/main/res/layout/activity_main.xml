@@ -3,65 +3,65 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+
+    <FrameLayout
+        android:id="@+id/fl_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/activity"
-        android:orientation="vertical">
+        android:layout_marginBottom="50dp" />
 
-        <FrameLayout
-            android:id="@+id/fl_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.4dp"
+        android:layout_above="@+id/ll_tab"
+        android:background="#CCC" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.4dp"
-            android:background="#CCC" />
+    <LinearLayout
+        android:id="@+id/ll_tab"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="#f6f6f6"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="#f6f6f6"
-            android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/iv_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:src="@drawable/tab_home_checked" />
 
-            <ImageView
-                android:id="@+id/iv_home"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:src="@drawable/tab_home_checked" />
+        <ImageView
+            android:id="@+id/iv_read"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:src="@drawable/tab_read_unchecked" />
 
-            <ImageView
-                android:id="@+id/iv_read"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:src="@drawable/tab_read_unchecked" />
+        <ImageView
+            android:id="@+id/iv_music"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:src="@drawable/tab_music_unchecked" />
 
-            <ImageView
-                android:id="@+id/iv_music"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:src="@drawable/tab_music_unchecked" />
-
-            <ImageView
-                android:id="@+id/iv_movie"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:src="@drawable/tab_movie_unchecked" />
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/iv_movie"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:src="@drawable/tab_movie_unchecked" />
     </LinearLayout>
 
     <com.liuzh.one.view.AppToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:background="#000" />
+
 </RelativeLayout>

@@ -49,6 +49,8 @@
 
                 <include layout="@layout/layout_detail_content" />
 
+
+
                 <com.liuzh.one.view.CommentsView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -63,5 +65,5 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true" />
 
-    <include layout="@layout/layout_loading"/>
+    <include layout="@layout/layout_loading" />
 </RelativeLayout>

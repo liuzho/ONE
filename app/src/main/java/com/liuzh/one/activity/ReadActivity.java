@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -26,10 +24,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
+ * read activity
  * Created by 刘晓彬 on 2017/3/22.
  */
 
-public class ReadActivity extends AppCompatActivity {
+public class ReadActivity extends BaseActivity {
 
     private static final String TAG = "ReadActivity";
     private static final String KEY_ID = "key_id";
@@ -43,11 +42,9 @@ public class ReadActivity extends AppCompatActivity {
     private TextView tv_like_comment;
     private AppToolbar mToolbar;
     private TextView tv_loading;
-    private int mID;
 
     public static void start(Context context, int id) {
         Intent intent = new Intent(context, ReadActivity.class);
-        Log.i(TAG, "start: " + id);
         intent.putExtra(KEY_ID, id);
         context.startActivity(intent);
     }
@@ -55,10 +52,13 @@ public class ReadActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_read);
-        mID = getIntent().getIntExtra(KEY_ID, -1);
         initView();
         fetchRead();
+    }
+
+    @Override
+    protected int getContentId() {
+        return R.layout.activity_read;
     }
 
     /**
@@ -134,18 +134,24 @@ public class ReadActivity extends AppCompatActivity {
      * 获取阅读的详细信息
      */
     private void fetchRead() {
-        RetrofitUtil.getReadCall(mID).enqueue(new Callback<Read>() {
-            @Override
-            public void onResponse(Call<Read> call, Response<Read> response) {
-                initData(response.body().data);
-            }
+        int id = getIntent().getIntExtra(KEY_ID, -1);
+        if (id == -1) {
+            App.showToast("id=-1");
+            return;
+        }
+        RetrofitUtil.getReadCall(id)
+                .enqueue(new Callback<Read>() {
+                    @Override
+                    public void onResponse(Call<Read> call, Response<Read> response) {
+                        initData(response.body().data);
+                    }
 
-            @Override
-            public void onFailure(Call<Read> call, Throwable t) {
-                App.showToast("失败，再次尝试");
-                fetchRead();
-            }
-        });
+                    @Override
+                    public void onFailure(Call<Read> call, Throwable t) {
+                        App.showToast("失败，再次尝试");
+                        fetchRead();
+                    }
+                });
     }
 
 }

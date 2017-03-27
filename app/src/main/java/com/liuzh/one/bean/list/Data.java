@@ -1,6 +1,8 @@
 
 package com.liuzh.one.bean.list;
 
+import com.liuzh.one.bean.ContentList;
+
 import java.util.List;
 
 public class Data {

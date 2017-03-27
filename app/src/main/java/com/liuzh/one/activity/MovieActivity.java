@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
@@ -24,6 +24,7 @@ import com.liuzh.one.bean.movie.Movie;
 import com.liuzh.one.utils.HtmlUtil;
 import com.liuzh.one.utils.RetrofitUtil;
 import com.liuzh.one.view.AppToolbar;
+import com.liuzh.one.view.AuthorsView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -43,15 +44,11 @@ import retrofit2.Response;
  * Created by 刘晓彬 on 2017/3/23.
  */
 
-public class MovieActivity extends AppCompatActivity {
+public class MovieActivity extends BaseActivity {
     private static final String TAG = "MovieActivity";
     private static final String KEY_ID = "key_id";
     private static final String KEY_LIKE_COUNT = "key_like_count";
     private static final String KEY_TITLE = "key_title";
-    private Context mContext;
-    private int mID;
-    private String mTitle;
-    private int mLikeCount;
 
     private AppToolbar mToolbar;
     private TextView tv_movie_name;
@@ -73,18 +70,19 @@ public class MovieActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie);
-        mContext = this;
-        mID = getIntent().getIntExtra(KEY_ID, -1);
-        mLikeCount = getIntent().getIntExtra(KEY_LIKE_COUNT, -1);
-        mTitle = getIntent().getStringExtra(KEY_TITLE);
-
         fetchMovie();
         initView();
     }
+
+    @Override
+    protected int getContentId() {
+        return R.layout.activity_movie;
+    }
+
 
     private void initView() {
         tv_movie_name = (TextView) findViewById(R.id.tv_movie_name);
@@ -97,6 +95,7 @@ public class MovieActivity extends AppCompatActivity {
         mWebView = (WebView) findViewById(R.id.webView);
         mViewPager = (ViewPager) findViewById(R.id.bannerView);
         tv_loading = (TextView) findViewById(R.id.tv_loading);
+
         tv_loading.setVisibility(View.VISIBLE);
 
         mToolbar = (AppToolbar) findViewById(R.id.toolbar);
@@ -126,37 +125,41 @@ public class MovieActivity extends AppCompatActivity {
             mToolbar.setToolbarTitle("一个影视");
         }
         tv_movie_name.setText("·《" + data.title + "》·");
-        tv_title.setText(mTitle);
+        tv_title.setText(getIntent().getStringExtra(KEY_TITLE));
         tv_author.setText(data.share_list.wx.desc.split(" ")[0]);
         iv_movie_info.setVisibility(View.VISIBLE);
         iv_movie_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MovieProfileActivity.start(mContext, data.title,
+                MovieProfileActivity.start(MovieActivity.this, data.title,
                         data.poster, data.share_list.qq.desc,
                         data.info, data.officialstory);
             }
         });
         tv_info.setText(data.charge_edt + "  " + data.editor_email);
         tv_copyright.setText("版权信息，json里面找不到...");
-        tv_like_comment.setText(mLikeCount + " 喜欢 · " + data.commentnum + " 评论");
+        tv_like_comment.setText(getIntent().getIntExtra(KEY_LIKE_COUNT, -1) +
+                " 喜欢 · " + data.commentnum + " 评论");
 
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
         mWebView.setWebViewClient(new MovieWebViewClient());
         mWebView.loadUrl(data.web_url);
-
-
     }
 
+    /**
+     * 顶部电影图片信息的可滑动pager
+     *
+     * @param data 数据
+     */
     private void initViewPager(final Data data) {
         List<String> urls = new ArrayList<>();
         data.photo.add(0, data.detailcover);
         urls.addAll(data.photo);
         final List<ImageView> mIVList = new ArrayList<>();
         for (int i = 0; i < urls.size(); i++) {
-            ImageView imageView = new ImageView(mContext);
-            Picasso.with(mContext)
+            ImageView imageView = new ImageView(this);
+            Picasso.with(this)
                     .load(urls.get(i))
                     .resize(mViewPager.getWidth(), mViewPager.getHeight())
                     .into(imageView);
@@ -167,7 +170,6 @@ public class MovieActivity extends AppCompatActivity {
 
             @Override
             public int getCount() {
-                //将count设置成整数最大值，虚拟实现无线轮播
                 return mIVList.size();
             }
 
@@ -183,6 +185,7 @@ public class MovieActivity extends AppCompatActivity {
 
             @Override
             public Object instantiateItem(ViewGroup container, int position) {
+                Log.i(TAG, "instantiateItem: " + position);
                 View view = mIVList.get(position % mIVList.size());
                 ViewGroup parent = (ViewGroup) view.getParent();
                 //如果当前要显示的view有父布局先将父布局移除（view只能有一个父布局）
@@ -199,7 +202,7 @@ public class MovieActivity extends AppCompatActivity {
      * 用于截取获取到的html，只截取内容
      * *****************ONE这个外包团队真他妈垃圾********************
      * *****************什么JB那么长的API********************
-     * *****************什么JB那么恶心人的Json********************
+     * *****************什么JB那么恶心人的Json,返回的信息全有问题，规范也一坨屎***********
      * *****************垃圾！一坨屎！********************
      */
     private class MovieWebViewClient extends WebViewClient {
@@ -232,7 +235,7 @@ public class MovieActivity extends AppCompatActivity {
 
 
     private void fetchMovie() {
-        RetrofitUtil.getMovieCall(mID)
+        RetrofitUtil.getMovieCall(getIntent().getIntExtra(KEY_ID, -1))
                 .enqueue(new Callback<Movie>() {
                     @Override
                     public void onResponse(Call<Movie> call, Response<Movie> response) {

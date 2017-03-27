@@ -82,6 +82,11 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
         canvas.rotate(-mPosRotate, mViewWidth / 2, mViewWidth / 2);
         drawCD(canvas);
         drawCenter(canvas);
+        mPaint.setStrokeWidth(10);
+        mPaint.setColor(0x88eeeeee);
+        mPaint.setStyle(Paint.Style.STROKE);
+        canvas.drawCircle(mCenterXY, mCenterXY, mCDRadius - 5, mPaint);
+        mPaint.setStyle(Paint.Style.FILL);
     }
 
     /**
@@ -103,7 +108,6 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
      * @param canvas 画布
      */
     private void drawCenter(Canvas canvas) {
-        Log.i(TAG, "drawCenter");
         //绘制圆
         mPaint.setColor(Color.argb(120, 220, 220, 220));
         canvas.drawCircle(mCenterXY, mCenterXY, mBtnCRadius, mPaint);
