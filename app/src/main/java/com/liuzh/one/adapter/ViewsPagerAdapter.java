@@ -2,6 +2,7 @@ package com.liuzh.one.adapter;
 
 import android.support.v4.view.PagerAdapter;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 
 public class ViewsPagerAdapter extends PagerAdapter {
-
+    private static final String TAG = "ViewsPagerAdapter";
     private List<ImageView> mImageViews;
 
     public ViewsPagerAdapter(List<ImageView> imageViews) {
@@ -32,6 +33,7 @@ public class ViewsPagerAdapter extends PagerAdapter {
                 }
             });
         }
+        Log.i(TAG, "ViewsPagerAdapter: " + mImageViews.size());
     }
 
     @Override
@@ -51,7 +53,7 @@ public class ViewsPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View view = mImageViews.get(position % mImageViews.size());
+        View view = mImageViews.get(position);
         ViewGroup parent = (ViewGroup) view.getParent();
         //如果当前要显示的view有父布局先将父布局移除（view只能有一个父布局）
         if (parent != null) {
