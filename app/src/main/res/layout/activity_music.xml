@@ -22,29 +22,23 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <com.liuzh.one.view.CDView
+                android:id="@+id/cdv_music"
+                android:layout_width="400dp"
+                android:layout_height="400dp"
+                android:layout_marginLeft="-150dp"
+                android:layout_marginTop="-150dp" />
 
-                <com.liuzh.one.view.CDView
-                    android:id="@+id/cdv_music"
-                    android:layout_width="400dp"
-                    android:layout_height="400dp"
-                    android:layout_marginLeft="-150dp"
-                    android:layout_marginTop="-150dp" />
-
-                <TextView
-                    android:id="@+id/tv_music_author"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/cdv_music"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="30dp"
-                    android:gravity="center"
-                    android:textColor="#666"
-                    android:textSize="16sp"
-                    tools:text=" · Future Starts Slow · \nThe Kills | Blood Pressures" />
-            </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_music_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:textColor="#666"
+                android:textSize="16sp"
+                tools:text=" · Future Starts Slow · \nThe Kills | Blood Pressures" />
 
             <TextView
                 android:id="@+id/tv_title"
@@ -73,28 +67,24 @@
             <include
                 layout="@layout/layout_detail_content"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp" />
+                android:layout_height="wrap_content" />
 
             <com.liuzh.one.view.AuthorsView
                 android:id="@+id/av_authors"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp" />
+                android:layout_marginLeft="@dimen/detail_margin_horizon"
+                android:layout_marginRight="@dimen/detail_margin_horizon" />
 
-            <com.liuzh.one.view.CommentsView
+            <include
+                layout="@layout/layout_detail_comments"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
 
     <include
-        android:id="@+id/bottom_bar"
-        layout="@layout/layout_detail_bottom"
+        layout="@layout/layout_detail_bottombar"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true" />

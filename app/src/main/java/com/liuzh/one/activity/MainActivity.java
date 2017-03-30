@@ -3,7 +3,6 @@ package com.liuzh.one.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -20,8 +19,6 @@ import java.util.ArrayList;
 
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
-    private static final String TAG = "MainActivity";
-
     public static final String INTENT_KEY_LIST_ID = "list_id";
     private AppToolbar mToolbar;
     private HomeFragment mHomeFragment;
@@ -30,13 +27,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ListFragment mMovieFragment;
     private FragmentManager mFragmentManager;//fragment manager
 
-    private ImageView iv_home;
-    private ImageView iv_read;
-    private ImageView iv_music;
-    private ImageView iv_movie;
+    private ImageView mIvHome;
+    private ImageView mIvRead;
+    private ImageView mIvMusic;
+    private ImageView mIMovie;
 
-    private boolean operateToolbar = true;
-
+    private boolean mCanOperateToolbar = true;
 
     public static void start(Context context, ArrayList<String> value) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -50,25 +46,46 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initAppToolbar();
-        initView();
+    protected void fetchData() {
     }
 
-    protected void initAppToolbar() {
-        //init toolbar
+    public AppToolbar getToolbar() {
+        return mToolbar;
+    }
+
+    @Override
+    protected void findViews() {
         mToolbar = (AppToolbar) findViewById(R.id.toolbar);
+        mIvHome = (ImageView) findViewById(R.id.iv_home);
+        mIvRead = (ImageView) findViewById(R.id.iv_read);
+        mIvMusic = (ImageView) findViewById(R.id.iv_music);
+        mIMovie = (ImageView) findViewById(R.id.iv_movie);
+    }
+
+    @Override
+    protected void initViewData() {
+        mHomeFragment = new HomeFragment();
+        mFragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        transaction.add(R.id.fl_fragment, mHomeFragment);
+        transaction.show(mHomeFragment);
+        transaction.commit();
+        //onclick
+        mIvHome.setOnClickListener(this);
+        mIvRead.setOnClickListener(this);
+        mIvMusic.setOnClickListener(this);
+        mIMovie.setOnClickListener(this);
+        //init toolbar
         mToolbar.setToolbarTitle(getString(R.string.app_name));
-        mToolbar.setLeftDrawable(getResources().getDrawable(R.drawable.user));
-        mToolbar.setLeftClickListener(new View.OnClickListener() {
+        mToolbar.setLBtnDrawable(R.drawable.user);
+        mToolbar.setLBtnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 App.showToast("用户");
             }
         });
-        mToolbar.setRightRDrawable(getResources().getDrawable(R.drawable.search));
-        mToolbar.setRightRClickListener(new View.OnClickListener() {
+        mToolbar.setRRDrawable(R.drawable.search);
+        mToolbar.setRRClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 App.showToast("搜索");
@@ -79,35 +96,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         setSupportActionBar(mToolbar);
     }
 
-
-    public AppToolbar getToolbar() {
-        return mToolbar;
-    }
-
-    /**
-     * 初始化view
-     */
-    private void initView() {
-        mHomeFragment = new HomeFragment();
-        //view data
-        mFragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        transaction.add(R.id.fl_fragment, mHomeFragment);
-        transaction.show(mHomeFragment);
-        transaction.commit();
-        iv_home = (ImageView) findViewById(R.id.iv_home);
-        iv_read = (ImageView) findViewById(R.id.iv_read);
-        iv_music = (ImageView) findViewById(R.id.iv_music);
-        iv_movie = (ImageView) findViewById(R.id.iv_movie);
-
-        iv_home.setOnClickListener(this);
-        iv_read.setOnClickListener(this);
-        iv_music.setOnClickListener(this);
-        iv_movie.setOnClickListener(this);
-
-    }
-
-
     @Override
     public void onClick(View view) {
         resetTab();
@@ -115,7 +103,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         hideFragments(transaction);
         switch (view.getId()) {
             case R.id.iv_home:
-                iv_home.setImageResource(R.drawable.tab_home_checked);
+                mToolbar.setToolbarTitle(getResources()
+                        .getStringArray(R.array.day)[mHomeFragment.getPagerPos()]);
+                mIvHome.setImageResource(R.drawable.tab_home_checked);
                 if (mHomeFragment == null) {
                     mHomeFragment = new HomeFragment();
                     transaction.add(R.id.fl_fragment, mHomeFragment);
@@ -126,37 +116,40 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     hideToolbar();
                 }
                 transaction.show(mHomeFragment);
-                operateToolbar = true;
+                mCanOperateToolbar = true;
                 break;
             case R.id.iv_read:
-                iv_read.setImageResource(R.drawable.tab_read_checked);
+                mToolbar.setToolbarTitle(getString(R.string.one_read));
+                mIvRead.setImageResource(R.drawable.tab_read_checked);
                 if (mReadFragment == null) {
                     mReadFragment = new ListFragment(ListFragment.TYPE_READ);
                     transaction.add(R.id.fl_fragment, mReadFragment);
                 }
                 transaction.show(mReadFragment);
                 showToolbar();
-                operateToolbar = false;
+                mCanOperateToolbar = false;
                 break;
             case R.id.iv_music:
-                iv_music.setImageResource(R.drawable.tab_music_checked);
+                mToolbar.setToolbarTitle(getString(R.string.one_music));
+                mIvMusic.setImageResource(R.drawable.tab_music_checked);
                 if (mMusicFragment == null) {
                     mMusicFragment = new ListFragment(ListFragment.TYPE_MUSIC);
                     transaction.add(R.id.fl_fragment, mMusicFragment);
                 }
                 transaction.show(mMusicFragment);
                 showToolbar();
-                operateToolbar = false;
+                mCanOperateToolbar = false;
                 break;
             case R.id.iv_movie:
-                iv_movie.setImageResource(R.drawable.tab_movie_checked);
+                mToolbar.setToolbarTitle(getString(R.string.one_movie));
+                mIMovie.setImageResource(R.drawable.tab_movie_checked);
                 if (mMovieFragment == null) {
                     mMovieFragment = new ListFragment(ListFragment.TYPE_MOVIE);
                     transaction.add(R.id.fl_fragment, mMovieFragment);
                 }
                 transaction.show(mMovieFragment);
                 showToolbar();
-                operateToolbar = false;
+                mCanOperateToolbar = false;
                 break;
         }
         transaction.commit();
@@ -188,14 +181,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void resetTab() {
-        iv_home.setImageResource(R.drawable.tab_home_unchecked);
-        iv_read.setImageResource(R.drawable.tab_read_unchecked);
-        iv_music.setImageResource(R.drawable.tab_music_unchecked);
-        iv_movie.setImageResource(R.drawable.tab_movie_unchecked);
+        mIvHome.setImageResource(R.drawable.tab_home_unchecked);
+        mIvRead.setImageResource(R.drawable.tab_read_unchecked);
+        mIvMusic.setImageResource(R.drawable.tab_music_unchecked);
+        mIMovie.setImageResource(R.drawable.tab_movie_unchecked);
     }
 
-    public boolean getOperateToolbar() {
-        return operateToolbar;
+    public boolean canOperateToolbar() {
+        return mCanOperateToolbar;
     }
 
 }

@@ -45,7 +45,7 @@ public class ContentList {
     public String share_url;
     public ShareInfo share_info;
     public ShareList share_list;
-    public List<TagList> tag_list = null;
+    public List<Tag> tag_list = null;
     public String orientation;
     public String music_name;
     public String audio_author;

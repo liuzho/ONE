@@ -18,16 +18,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--主Activity-->
+        <!--主页-->
         <activity android:name="com.liuzh.one.activity.MainActivity" />
-        <!--阅读详情activity-->
+        <!--阅读详情页-->
         <activity android:name=".activity.ReadActivity" />
-        <!--音乐详情activity-->
+        <!--音乐详情页-->
         <activity android:name=".activity.MusicActivity" />
-        <!--电影详情activity-->
+        <!--电影详情页-->
         <activity android:name=".activity.MovieActivity" />
         <!--电影简介页-->
         <activity android:name=".activity.MovieProfileActivity" />
+        <!--问答详情页-->
+        <activity android:name=".activity.QuestionActivity" />
     </application>
 
 </manifest>

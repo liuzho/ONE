@@ -12,16 +12,20 @@ import android.widget.TextView;
 import com.liuzh.one.R;
 import com.liuzh.one.activity.MovieActivity;
 import com.liuzh.one.activity.MusicActivity;
+import com.liuzh.one.activity.QuestionActivity;
 import com.liuzh.one.activity.ReadActivity;
 import com.liuzh.one.application.App;
 import com.liuzh.one.bean.ContentList;
 import com.liuzh.one.bean.list.Data;
+import com.liuzh.one.bean.list.Weather;
 import com.liuzh.one.utils.CircleTransform;
 import com.liuzh.one.utils.Constant;
 import com.liuzh.one.utils.DateUtil;
 import com.liuzh.one.utils.DensityUtil;
 import com.liuzh.one.view.CDView;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 /**
  * 主页one list的RV的适配器
@@ -30,17 +34,19 @@ import com.squareup.picasso.Picasso;
 
 public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-
-    private Data mData;//data
     private Context mContext;
     private int mWinWidth;
+    private Weather mWeather;
+    private String mDate;
+    private List<ContentList> mContentList;
 
     public ListRVAdapter(Context context, Data data) {
-        this.mContext = context;
-        this.mData = data;
+        mContext = context;
+        mDate = data.date;
+        mWeather = data.weather;
+        mContentList = data.content_list;
         mWinWidth = DensityUtil.getWinWidth((Activity) context);
     }
-
 
 
     @Override
@@ -75,7 +81,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ContentList content = mData.content_list.get(position);
+        ContentList content = mContentList.get(position);
         if (holder instanceof OneDayHolder) {
             initOneDayHolder(holder, content);
         } else if (holder instanceof MusicHolder) {
@@ -83,37 +89,30 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else if (holder instanceof MovieHolder) {
             initMovieHolder(holder, content);
         } else {
-            initHolder(holder, content);
+            initReadHolder(holder, content);
         }
-
     }
 
 
     @Override
     public int getItemViewType(int position) {
-        return Integer.valueOf(mData.content_list.get(position).content_type);
+        return Integer.valueOf(mContentList.get(position).content_type);
     }
 
     @Override
     public int getItemCount() {
-        return mData.content_list.size();
+        return mContentList.size();
     }
 
     /**
      * "one每天"item的holder
      */
-    private class OneDayHolder extends RecyclerView.ViewHolder {
-
-
-        ImageView iv_img;
-
+    private class OneDayHolder extends BaseHolder {
         TextView tv_date;
         TextView tv_climate;
         TextView tv_volume;
         TextView tv_title_picInfo;
-        TextView tv_forward;
         TextView tv_words_info;
-        TextView tv_lick_count;
 
         OneDayHolder(View itemView) {
             super(itemView);
@@ -126,19 +125,14 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             tv_words_info = (TextView) itemView.findViewById(R.id.tv_words_info);
             tv_lick_count = (TextView) itemView.findViewById(R.id.tv_lick_count);
         }
-
     }
 
-    /**
-     * 初始one day holder数据
-     *
-     * @param holder  holder
-     * @param content content
-     */
+
     private void initOneDayHolder(RecyclerView.ViewHolder holder, ContentList content) {
-        ((OneDayHolder) holder).tv_date.setText(mData.date.replace("-", "／").split(" ")[0]);
-        ((OneDayHolder) holder).tv_climate.setText(mData.weather.climate +
-                "，" + mData.weather.city_name);
+        ((OneDayHolder) holder).tv_date.setText(
+                mDate.replace("-", "／").split(" ")[0]);
+        ((OneDayHolder) holder).tv_climate.setText(
+                mWeather.climate + "，" + mWeather.city_name);
         ((OneDayHolder) holder).tv_volume.setText(content.volume);
         ((OneDayHolder) holder).tv_title_picInfo.setText(content.title +
                 "｜" + content.pic_info);
@@ -157,17 +151,10 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     /**
      * music item的holder
      */
-    private class MusicHolder extends RecyclerView.ViewHolder {
+    private class MusicHolder extends BaseHolder {
 
-        TextView tv_type;
-        TextView tv_title;
-        TextView tv_author;
         CDView cdv_music;
         TextView tv_info;
-        TextView tv_forward;
-        TextView tv_post_time;
-        TextView tv_lick_count;
-
 
         MusicHolder(View itemView) {
             super(itemView);
@@ -182,22 +169,19 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int id = Integer.valueOf(mData.content_list
-                            .get(getLayoutPosition()).item_id);
+                    int id = getId();
                     MusicActivity.start(mContext, id);
                 }
             });
         }
     }
 
-    /**
-     * 初始化music item holder数据
-     *
-     * @param holder  holder
-     * @param content content
-     */
     private void initMusicHolder(RecyclerView.ViewHolder holder, ContentList content) {
-        ((MusicHolder) holder).tv_type.setText("- 音乐 -");
+        if (content.tag_list.size() != 0) {
+            ((MusicHolder) holder).tv_type.setText("- " + content.tag_list.get(0).title + " -");
+        } else {
+            ((MusicHolder) holder).tv_type.setText("- 音乐 -");
+        }
         ((MusicHolder) holder).tv_title.setText(content.title);
         ((MusicHolder) holder).tv_author.setText("文／" + content.author.user_name);
         ((MusicHolder) holder).tv_info.setText(content.music_name + " · " +
@@ -214,19 +198,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((MusicHolder) holder).cdv_music.setMaxHeight(mWinWidth);
     }
 
-    /**
-     * read item holder
-     */
-    private class MovieHolder extends RecyclerView.ViewHolder {
-        TextView tv_type;
-        TextView tv_title;
-        TextView tv_author;
-        ImageView iv_img;
-        TextView tv_forward;
-        TextView tv_subtitle;
-        TextView tv_post_time;
-        TextView tv_lick_count;
-
+    private class MovieHolder extends BaseHolder {
         MovieHolder(View itemView) {
             super(itemView);
             tv_type = (TextView) itemView.findViewById(R.id.tv_type);
@@ -240,26 +212,21 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int id = Integer.valueOf(mData.content_list
-                            .get(getLayoutPosition()).item_id);
-                    int like_count = mData.content_list
-                            .get(getLayoutPosition()).like_count;
-                    String title = mData.content_list
-                            .get(getLayoutPosition()).title;
+                    int id = getId();
+                    int like_count = getLikeCount();
+                    String title = getTitle();
                     MovieActivity.start(mContext, id, like_count, title);
                 }
             });
         }
     }
 
-    /**
-     * 初始movie item数据
-     *
-     * @param holder  holder
-     * @param content content
-     */
     private void initMovieHolder(RecyclerView.ViewHolder holder, ContentList content) {
-        ((MovieHolder) holder).tv_type.setText("- 影视 -");
+        if (content.tag_list.size() != 0) {
+            ((MovieHolder) holder).tv_type.setText("- " + content.tag_list.get(0).title + " -");
+        } else {
+            ((MovieHolder) holder).tv_type.setText("- 影视 -");
+        }
         ((MovieHolder) holder).tv_title.setText(content.title);
         ((MovieHolder) holder).tv_author.setText("文／" + content.author.user_name);
         ((MovieHolder) holder).tv_forward.setText(content.forward);
@@ -276,15 +243,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((MovieHolder) holder).iv_img.setMaxHeight(mWinWidth * 4);
     }
 
-    private class ReadHolder extends RecyclerView.ViewHolder {
-        TextView tv_type;
-        TextView tv_title;
-        TextView tv_author;
-        ImageView iv_img;
-        TextView tv_forward;
-        TextView tv_post_time;
-        TextView tv_lick_count;
-
+    private class ReadHolder extends BaseHolder {
         ReadHolder(View itemView) {
             super(itemView);
             tv_type = (TextView) itemView.findViewById(R.id.tv_type);
@@ -297,10 +256,8 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int id = Integer.valueOf(mData.content_list
-                            .get(getLayoutPosition()).item_id);
-                    int type = Integer.valueOf(mData.content_list
-                            .get(getLayoutPosition()).content_type);
+                    int id = getId();
+                    int type = getType();
                     switch (type) {
                         case Constant.ITEM_TYPE_READ_CARTOON:
                             ReadActivity.start(mContext, id);
@@ -308,6 +265,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         case Constant.ITEM_TYPE_SERIAL:
                             break;
                         case Constant.ITEM_TYPE_QUESTION:
+                            QuestionActivity.start(mContext, id);
                             break;
                     }
                 }
@@ -315,7 +273,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    private void initHolder(RecyclerView.ViewHolder holder, ContentList content) {
+    private void initReadHolder(RecyclerView.ViewHolder holder, ContentList content) {
         String type = "";
         switch (Integer.valueOf(content.content_type)) {
             case Constant.ITEM_TYPE_READ_CARTOON:
@@ -346,5 +304,37 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((ReadHolder) holder).iv_img.setMaxWidth(mWinWidth - DensityUtil.dip2px(90));
         ((ReadHolder) holder).iv_img.setMinimumWidth(mWinWidth - DensityUtil.dip2px(90));
         ((ReadHolder) holder).iv_img.setMaxHeight(mWinWidth * 5);
+    }
+
+
+    private class BaseHolder extends RecyclerView.ViewHolder {
+        TextView tv_type;
+        TextView tv_title;
+        TextView tv_author;
+        ImageView iv_img;
+        TextView tv_forward;
+        TextView tv_post_time;
+        TextView tv_lick_count;
+        TextView tv_subtitle;
+
+        BaseHolder(View itemView) {
+            super(itemView);
+        }
+
+        int getId() {
+            return Integer.valueOf(mContentList.get(getLayoutPosition()).item_id);
+        }
+
+        int getType() {
+            return Integer.valueOf(mContentList.get(getLayoutPosition()).content_type);
+        }
+
+        int getLikeCount() {
+            return mContentList.get(getLayoutPosition()).like_count;
+        }
+
+        String getTitle() {
+            return mContentList.get(getLayoutPosition()).title;
+        }
     }
 }

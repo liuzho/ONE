@@ -11,13 +11,12 @@ import android.widget.TextView;
 import com.liuzh.one.R;
 import com.liuzh.one.application.App;
 import com.liuzh.one.bean.Tag;
-import com.liuzh.one.bean.read.Read;
-import com.liuzh.one.bean.read.ReadData;
+import com.liuzh.one.bean.question.Question;
+import com.liuzh.one.bean.question.QuestionData;
 import com.liuzh.one.utils.Constant;
 import com.liuzh.one.utils.HtmlUtil;
 import com.liuzh.one.utils.RetrofitUtil;
 import com.liuzh.one.view.AppToolbar;
-import com.liuzh.one.view.AuthorsView;
 
 import java.util.List;
 
@@ -26,44 +25,44 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * read activity
- * Created by 刘晓彬 on 2017/3/22.
+ * Created by 刘晓彬 on 2017/3/28.
  */
 
-public class ReadActivity extends BaseActivity {
+public class QuestionActivity extends BaseActivity {
 
-    private WebView mWvContent;
-    private TextView mTvTitle;
-    private TextView mTvAuthor;
-    private AuthorsView mAvAuthors;
+    private AppToolbar mToolbar;
+    private TextView mTvQuestionTitle;
+    private TextView mTvQuestionContent;
+    private TextView mTvQuestionAsker;
+    private TextView mTvAnswerer;
     private TextView mTvEditorInfo;
     private TextView mTvCopyright;
-    private TextView mTvLikeComment;
-    private AppToolbar mToolbar;
-    private Call<Read> mReadCall;
+    private WebView mWvContent;
+    private Call<Question> mQuestionCall;
 
     public static void start(Context context, int id) {
-        Intent intent = new Intent(context, ReadActivity.class);
+        Intent intent = new Intent(context, QuestionActivity.class);
         intent.putExtra(Constant.INTENT_KEY_ID, id);
         context.startActivity(intent);
     }
 
     @Override
     protected int getContentId() {
-        return R.layout.activity_read;
+        return R.layout.activity_question;
     }
+
 
     @Override
     protected void findViews() {
         findLoadingView(R.id.tv_loading);
+        mToolbar = (AppToolbar) findViewById(R.id.toolbar);
+        mTvQuestionTitle = (TextView) findViewById(R.id.tv_question_title);
+        mTvQuestionContent = (TextView) findViewById(R.id.tv_question_content);
+        mTvQuestionAsker = (TextView) findViewById(R.id.tv_question_asker);
+        mTvAnswerer = (TextView) findViewById(R.id.tv_answerer);
         mWvContent = (WebView) findViewById(R.id.webView);
-        mTvTitle = (TextView) findViewById(R.id.tv_title);
-        mTvAuthor = (TextView) findViewById(R.id.tv_author);
-        mAvAuthors = (AuthorsView) findViewById(R.id.av_authors);
         mTvEditorInfo = (TextView) findViewById(R.id.tv_info);
         mTvCopyright = (TextView) findViewById(R.id.tv_copyright);
-        mTvLikeComment = (TextView) findViewById(R.id.tv_like_comment);
-        mToolbar = (AppToolbar) findViewById(R.id.toolbar);
     }
 
     @Override
@@ -77,22 +76,8 @@ public class ReadActivity extends BaseActivity {
                 finish();
             }
         });
-        mToolbar.setRLDrawable(R.drawable.listen);
-        mToolbar.setRLClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                App.showToast("听阅读");
-            }
-        });
         mToolbar.setRRDrawable(R.drawable.share);
-        mToolbar.setRRClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                App.showToast("分享");
-            }
-        });
         setSupportActionBar(mToolbar);
-        // webView加载完毕后隐藏loading界面
         mWvContent.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
@@ -102,45 +87,45 @@ public class ReadActivity extends BaseActivity {
         });
     }
 
-    private void setData(ReadData data) {
+    private void setData(QuestionData data) {
         List<Tag> tags = data.tag_list;
-        String toolbarTitle = getString(R.string.one_read);
+        String toolbarTitle = getString(R.string.one_question);
         if (tags.size() != 0) {
             toolbarTitle = tags.get(0).title;
         }
         mToolbar.setToolbarTitle(toolbarTitle);
+        mTvQuestionTitle.setText(data.question_title);
+        mTvQuestionContent.setText(data.question_content);
+        mTvQuestionAsker.setText("————" + data.asker.user_name + "问道");
+        mTvAnswerer.setText(data.answerer.user_name + "答：");
         mWvContent.loadDataWithBaseURL("about:blank",
-                HtmlUtil.fmt(data.hp_content), "text/html", "utf-8", null);
-        mTvTitle.setText(data.hp_title);
-        mTvAuthor.setText("文／" + data.hp_author);
-        mTvEditorInfo.setText(data.hp_author_introduce + "  " + data.editor_email);
-        mTvLikeComment.setText(data.praisenum + " 喜欢 · " + data.commentnum + " 评论");
+                HtmlUtil.fmt(data.answer_content), "text/html", "utf-8", null);
+        mTvEditorInfo.setText(data.charge_edt + "  " + data.charge_email);
         if (TextUtils.isEmpty(data.copyright)) {
             mTvCopyright.setVisibility(View.GONE);
         } else {
-            mTvCopyright.setText(data.copyright);
+            mTvCopyright.setText(data.copyright + "");
         }
-        mAvAuthors.setAuthors(data.author_list);
     }
 
     @Override
     protected void fetchData() {
         int id = getIntent().getIntExtra(Constant.INTENT_KEY_ID, -1);
         if (id == -1) {
-            App.showToast("id=-1");
+            App.showToast("ID = -1");
             return;
         }
-        mReadCall = RetrofitUtil.getReadCall(id);
-        mReadCall.enqueue(new Callback<Read>() {
+        mQuestionCall = RetrofitUtil.getQuestionCall(id);
+        mQuestionCall.enqueue(new Callback<Question>() {
             @Override
-            public void onResponse(Call<Read> call, Response<Read> response) {
+            public void onResponse(Call<Question> call, Response<Question> response) {
                 setData(response.body().data);
+                hiddenLoadingView();
             }
 
             @Override
-            public void onFailure(Call<Read> call, Throwable t) {
+            public void onFailure(Call<Question> call, Throwable t) {
                 App.showToast("失败，再次尝试");
-                //call.enqueue(this);
                 fetchData();
             }
         });
@@ -149,6 +134,6 @@ public class ReadActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mReadCall.cancel();
+        mQuestionCall.cancel();
     }
 }

@@ -19,8 +19,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:orientation="vertical">
 
             <include layout="@layout/layout_detail_head" />
 
@@ -29,17 +28,19 @@
             <com.liuzh.one.view.AuthorsView
                 android:id="@+id/av_authors"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/detail_margin_horizon"
+                android:layout_marginRight="@dimen/detail_margin_horizon" />
 
-            <com.liuzh.one.view.CommentsView
+            <include
+                layout="@layout/layout_detail_comments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
 
     <include
-        android:id="@+id/bottom_bar"
-        layout="@layout/layout_detail_bottom"
+        layout="@layout/layout_detail_bottombar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true" />

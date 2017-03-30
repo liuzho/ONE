@@ -1,7 +1,5 @@
 package com.liuzh.one.bean;
 
-import com.liuzh.one.bean.ContentList;
-
 import java.util.List;
 
 /**

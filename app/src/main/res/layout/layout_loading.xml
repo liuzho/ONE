@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#fff"
     android:gravity="center"
-    android:text="loading..."
+    android:text="@string/loading"
     android:textColor="#000"
     android:textSize="25sp"
     android:visibility="gone" />

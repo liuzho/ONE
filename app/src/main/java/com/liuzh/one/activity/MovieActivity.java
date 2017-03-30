@@ -3,28 +3,25 @@ package com.liuzh.one.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liuzh.one.R;
+import com.liuzh.one.adapter.ViewsPagerAdapter;
 import com.liuzh.one.application.App;
-import com.liuzh.one.bean.movie.Data;
+import com.liuzh.one.bean.Tag;
 import com.liuzh.one.bean.movie.Movie;
+import com.liuzh.one.bean.movie.MovieData;
+import com.liuzh.one.utils.Constant;
 import com.liuzh.one.utils.HtmlUtil;
 import com.liuzh.one.utils.RetrofitUtil;
 import com.liuzh.one.view.AppToolbar;
-import com.liuzh.one.view.AuthorsView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -45,37 +42,25 @@ import retrofit2.Response;
  */
 
 public class MovieActivity extends BaseActivity {
-    private static final String TAG = "MovieActivity";
-    private static final String KEY_ID = "key_id";
-    private static final String KEY_LIKE_COUNT = "key_like_count";
-    private static final String KEY_TITLE = "key_title";
 
     private AppToolbar mToolbar;
-    private TextView tv_movie_name;
-    private TextView tv_title;
-    private TextView tv_author;
-    private ImageView iv_movie_info;
-    private TextView tv_info;
-    private TextView tv_copyright;
-    private TextView tv_like_comment;
-    private WebView mWebView;
-    private ViewPager mViewPager;
-    private TextView tv_loading;
+    private TextView mTvMovieName;
+    private TextView mTvTitle;
+    private TextView mTvAuthor;
+    private ImageView mIvMovieInfoBtn;
+    private TextView mTvEditorInfo;
+    private TextView mTvCopyright;
+    private TextView mTvLikeComment;
+    private WebView mWvContent;
+    private ViewPager mVpMoveImgs;
+    private Call<Movie> mMovieCall;
 
     public static void start(Context context, int id, int likeCount, String title) {
         Intent intent = new Intent(context, MovieActivity.class);
-        intent.putExtra(KEY_ID, id);
-        intent.putExtra(KEY_LIKE_COUNT, likeCount);
-        intent.putExtra(KEY_TITLE, title);
+        intent.putExtra(Constant.INTENT_KEY_ID, id);
+        intent.putExtra(Constant.INTENT_KEY_LIKE_COUNT, likeCount);
+        intent.putExtra(Constant.INTENT_KEY_TITLE, title);
         context.startActivity(intent);
-    }
-
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        fetchMovie();
-        initView();
     }
 
     @Override
@@ -83,68 +68,94 @@ public class MovieActivity extends BaseActivity {
         return R.layout.activity_movie;
     }
 
-
-    private void initView() {
-        tv_movie_name = (TextView) findViewById(R.id.tv_movie_name);
-        tv_title = (TextView) findViewById(R.id.tv_title);
-        tv_author = (TextView) findViewById(R.id.tv_author);
-        iv_movie_info = (ImageView) findViewById(R.id.iv_movie_info);
-        tv_info = (TextView) findViewById(R.id.tv_info);
-        tv_copyright = (TextView) findViewById(R.id.tv_copyright);
-        tv_like_comment = (TextView) findViewById(R.id.tv_like_comment);
-        mWebView = (WebView) findViewById(R.id.webView);
-        mViewPager = (ViewPager) findViewById(R.id.bannerView);
-        tv_loading = (TextView) findViewById(R.id.tv_loading);
-
-        tv_loading.setVisibility(View.VISIBLE);
-
+    @Override
+    protected void findViews() {
+        findLoadingView(R.id.tv_loading);
+        mTvMovieName = (TextView) findViewById(R.id.tv_movie_name);
+        mTvTitle = (TextView) findViewById(R.id.tv_title);
+        mTvAuthor = (TextView) findViewById(R.id.tv_author);
+        mIvMovieInfoBtn = (ImageView) findViewById(R.id.iv_movie_info);
+        mTvEditorInfo = (TextView) findViewById(R.id.tv_info);
+        mTvCopyright = (TextView) findViewById(R.id.tv_copyright);
+        mTvLikeComment = (TextView) findViewById(R.id.tv_like_comment);
+        mWvContent = (WebView) findViewById(R.id.webView);
+        mVpMoveImgs = (ViewPager) findViewById(R.id.bannerView);
         mToolbar = (AppToolbar) findViewById(R.id.toolbar);
-        mToolbar.setLeftDrawable(getResources().getDrawable(R.drawable.back));
-        mToolbar.setLeftClickListener(new View.OnClickListener() {
+    }
+
+    @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
+    @Override
+    protected void initViewData() {
+        showLoadingView();
+        // init toolbar
+        mToolbar.setLBtnDrawable(R.drawable.back);
+        mToolbar.setLBtnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-        mToolbar.setRightRDrawable(getResources().getDrawable(R.drawable.share));
-        mToolbar.setRightRClickListener(new View.OnClickListener() {
+        mToolbar.setRRDrawable(R.drawable.share);
+        mToolbar.setRRClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 App.showToast("分享");
             }
         });
         setSupportActionBar(mToolbar);
+        String title = getIntent().getStringExtra(Constant.INTENT_KEY_TITLE);
+        mTvTitle.setText(title);
+        mIvMovieInfoBtn.setVisibility(View.VISIBLE);
+        mTvCopyright.setText("版权信息，json内没有...");
+        mWvContent.getSettings().setJavaScriptEnabled(true);
+        mWvContent.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
+        mWvContent.setWebViewClient(new MovieWebViewClient());
     }
 
-    @SuppressLint({"JavascriptInterface", "SetJavaScriptEnabled", "AddJavascriptInterface"})
-    private void initData(final Data data) {
-        initViewPager(data);
-        if (data.tag_list.size() != 0) {
-            mToolbar.setToolbarTitle(data.tag_list.get(0).title);
-        } else {
-            mToolbar.setToolbarTitle("一个影视");
+    @Override
+    protected void fetchData() {
+        int id = getIntent().getIntExtra(Constant.INTENT_KEY_ID, -1);
+        if (id == -1) {
+            App.showToast("id=-1");
+            return;
         }
-        tv_movie_name.setText("·《" + data.title + "》·");
-        tv_title.setText(getIntent().getStringExtra(KEY_TITLE));
-        tv_author.setText(data.share_list.wx.desc.split(" ")[0]);
-        iv_movie_info.setVisibility(View.VISIBLE);
-        iv_movie_info.setOnClickListener(new View.OnClickListener() {
+        mMovieCall = RetrofitUtil.getMovieCall(id);
+        mMovieCall.enqueue(new Callback<Movie>() {
+            @Override
+            public void onResponse(Call<Movie> call, Response<Movie> response) {
+                setData(response.body().data);
+            }
+
+            @Override
+            public void onFailure(Call<Movie> call, Throwable t) {
+                App.showToast("失败，再次尝试");
+                fetchData();
+            }
+        });
+    }
+
+    private void setData(final MovieData data) {
+        initViewPager(data);
+        List<Tag> tags = data.tag_list;
+        String toolbarTitle = getString(R.string.one_movie);
+        if (tags.size() != 0) {
+            toolbarTitle = tags.get(0).title;
+        }
+        mToolbar.setToolbarTitle(toolbarTitle);
+        mTvMovieName.setText("·《" + data.title + "》·");
+        mTvAuthor.setText(data.share_list.wx.desc.split(" ")[0]);
+        mIvMovieInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MovieProfileActivity.start(MovieActivity.this, data.title,
+                MovieProfileActivity.start(mContext, data.title,
                         data.poster, data.share_list.qq.desc,
                         data.info, data.officialstory);
             }
         });
-        tv_info.setText(data.charge_edt + "  " + data.editor_email);
-        tv_copyright.setText("版权信息，json里面找不到...");
-        tv_like_comment.setText(getIntent().getIntExtra(KEY_LIKE_COUNT, -1) +
-                " 喜欢 · " + data.commentnum + " 评论");
-
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
-        mWebView.setWebViewClient(new MovieWebViewClient());
-        mWebView.loadUrl(data.web_url);
+        mTvEditorInfo.setText(data.charge_edt + "  " + data.editor_email);
+        int likeCount = getIntent().getIntExtra(Constant.INTENT_KEY_LIKE_COUNT, -1);
+        mTvLikeComment.setText(likeCount + " 喜欢 · " + data.commentnum + " 评论");
+        mWvContent.loadUrl(data.web_url);
     }
 
     /**
@@ -152,50 +163,23 @@ public class MovieActivity extends BaseActivity {
      *
      * @param data 数据
      */
-    private void initViewPager(final Data data) {
+    private void initViewPager(final MovieData data) {
         List<String> urls = new ArrayList<>();
         data.photo.add(0, data.detailcover);
         urls.addAll(data.photo);
-        final List<ImageView> mIVList = new ArrayList<>();
+        final List<ImageView> imageViews = new ArrayList<>();
         for (int i = 0; i < urls.size(); i++) {
-            ImageView imageView = new ImageView(this);
-            Picasso.with(this)
+            ImageView imageView = new ImageView(mContext);
+            if (i == 0 && !TextUtils.isEmpty(data.video)) {
+                imageView.setTag(data.video);
+            }
+            Picasso.with(mContext)
                     .load(urls.get(i))
-                    .resize(mViewPager.getWidth(), mViewPager.getHeight())
+                    .resize(mVpMoveImgs.getWidth(), mVpMoveImgs.getHeight())
                     .into(imageView);
-            mIVList.add(imageView);
+            imageViews.add(imageView);
         }
-
-        mViewPager.setAdapter(new PagerAdapter() {
-
-            @Override
-            public int getCount() {
-                return mIVList.size();
-            }
-
-            @Override
-            public boolean isViewFromObject(View view, Object object) {
-                return view == object;
-            }
-
-            @Override
-            public void destroyItem(ViewGroup container, int position, Object object) {
-//                container.removeView(mIVList.get(position % mIVList.size()));
-            }
-
-            @Override
-            public Object instantiateItem(ViewGroup container, int position) {
-                Log.i(TAG, "instantiateItem: " + position);
-                View view = mIVList.get(position % mIVList.size());
-                ViewGroup parent = (ViewGroup) view.getParent();
-                //如果当前要显示的view有父布局先将父布局移除（view只能有一个父布局）
-                if (parent != null) {
-                    parent.removeView(view);
-                }
-                container.addView(view);
-                return view;
-            }
-        });
+        mVpMoveImgs.setAdapter(new ViewsPagerAdapter(imageViews));
     }
 
     /**
@@ -206,12 +190,11 @@ public class MovieActivity extends BaseActivity {
      * *****************垃圾！一坨屎！********************
      */
     private class MovieWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            view.loadUrl(request.toString());
-            return true;
-        }
-
+        //        @Override
+//        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+//            view.loadUrl(request.toString());
+//            return true;
+//        }
         public void onPageFinished(WebView view, String url) {
             view.loadUrl("javascript:window.local_obj.textContent(" +
                     "document.getElementsByClassName('text-content')[0].innerHTML);");
@@ -222,31 +205,21 @@ public class MovieActivity extends BaseActivity {
     private class InJavaScriptLocalObj {
         @JavascriptInterface
         public void textContent(final String html) {
-            mWebView.post(new Runnable() {
+            mWvContent.post(new Runnable() {
                 @Override
                 public void run() {
-                    mWebView.loadDataWithBaseURL("about:blank",
+                    mWvContent.loadDataWithBaseURL("about:blank",
                             HtmlUtil.fmt(html), "text/html", "utf-8", null);
-                    tv_loading.setVisibility(View.GONE);
+                    hiddenLoadingView();
                 }
             });
         }
     }
 
 
-    private void fetchMovie() {
-        RetrofitUtil.getMovieCall(getIntent().getIntExtra(KEY_ID, -1))
-                .enqueue(new Callback<Movie>() {
-                    @Override
-                    public void onResponse(Call<Movie> call, Response<Movie> response) {
-                        initData(response.body().data);
-                    }
-
-                    @Override
-                    public void onFailure(Call<Movie> call, Throwable t) {
-                        App.showToast("失败，再次尝试");
-                        fetchMovie();
-                    }
-                });
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mMovieCall.cancel();
     }
 }

@@ -2,24 +2,25 @@ package com.liuzh.one.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.liuzh.one.R;
 import com.liuzh.one.application.App;
-import com.liuzh.one.bean.music.Data;
+import com.liuzh.one.bean.Tag;
 import com.liuzh.one.bean.music.Music;
+import com.liuzh.one.bean.music.MusicData;
 import com.liuzh.one.utils.CircleTransform;
+import com.liuzh.one.utils.Constant;
 import com.liuzh.one.utils.HtmlUtil;
 import com.liuzh.one.utils.RetrofitUtil;
 import com.liuzh.one.view.AppToolbar;
 import com.liuzh.one.view.AuthorsView;
 import com.liuzh.one.view.CDView;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,31 +33,23 @@ import retrofit2.Response;
 
 public class MusicActivity extends BaseActivity {
 
-    private static final String KEY_ID = "key_id";
 
     private AppToolbar mToolbar;
-    private TextView tv_loading;
-    private CDView cdv_music;
-    private TextView tv_music_author;
-    private TextView tv_title;
-    private TextView tv_author_name;
-    private WebView mWebView;
-    private TextView tv_info;//作者名+email
-    private TextView tv_copyright;
-    private TextView tv_like_comment;
-    private AuthorsView av_authors;
+    private CDView mCdvMusic;
+    private TextView mTvMusicAuthor;
+    private TextView mTvTitle;
+    private TextView mTvAuthorName;
+    private WebView mWvContent;
+    private TextView mTvEditorInfo;
+    private TextView mTvCopyright;
+    private TextView mTvLikeComment;
+    private AuthorsView mAvAuthors;
+    private Call<Music> mMusicCall;
 
     public static void start(Context context, int id) {
         Intent intent = new Intent(context, MusicActivity.class);
-        intent.putExtra(KEY_ID, id);
+        intent.putExtra(Constant.INTENT_KEY_ID, id);
         context.startActivity(intent);
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initView();
-        fetchMusic();
     }
 
     @Override
@@ -64,78 +57,91 @@ public class MusicActivity extends BaseActivity {
         return R.layout.activity_music;
     }
 
-    private void initView() {
-        tv_loading = (TextView) findViewById(R.id.tv_loading);
-        tv_loading.setVisibility(View.VISIBLE);
+    @Override
+    protected void findViews() {
+        findLoadingView(R.id.tv_loading);
         mToolbar = (AppToolbar) findViewById(R.id.toolbar);
-        mToolbar.setLeftDrawable(getResources().getDrawable(R.drawable.back));
-        mToolbar.setLeftClickListener(new View.OnClickListener() {
+        mCdvMusic = (CDView) findViewById(R.id.cdv_music);
+        mTvMusicAuthor = (TextView) findViewById(R.id.tv_music_author);
+        mTvTitle = (TextView) findViewById(R.id.tv_title);
+        mTvAuthorName = (TextView) findViewById(R.id.tv_author_name);
+        mWvContent = (WebView) findViewById(R.id.webView);
+        mTvEditorInfo = (TextView) findViewById(R.id.tv_info);
+        mTvCopyright = (TextView) findViewById(R.id.tv_copyright);
+        mTvLikeComment = (TextView) findViewById(R.id.tv_like_comment);
+        mAvAuthors = (AuthorsView) findViewById(R.id.av_authors);
+    }
+
+    @Override
+    protected void initViewData() {
+        showLoadingView();
+        // init toolbar
+        mToolbar.setLBtnDrawable(R.drawable.back);
+        mToolbar.setLBtnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-        mToolbar.setRightRDrawable(getResources().getDrawable(R.drawable.share));
-        mToolbar.setRightRClickListener(new View.OnClickListener() {
+        mToolbar.setRRDrawable(R.drawable.share);
+        mToolbar.setRRClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 App.showToast("分享");
             }
         });
         setSupportActionBar(mToolbar);
-        cdv_music = (CDView) findViewById(R.id.cdv_music);
-        tv_music_author = (TextView) findViewById(R.id.tv_music_author);
-        tv_title = (TextView) findViewById(R.id.tv_title);
-        tv_author_name = (TextView) findViewById(R.id.tv_author_name);
-        mWebView = (WebView) findViewById(R.id.webView);
-        tv_info = (TextView) findViewById(R.id.tv_info);
-        tv_copyright = (TextView) findViewById(R.id.tv_copyright);
-        tv_like_comment = (TextView) findViewById(R.id.tv_like_comment);
-        av_authors = (AuthorsView) findViewById(R.id.av_authors);
     }
 
-    private void initData(Data data) {
-        if (data.tag_list.size() != 0) {
-            mToolbar.setToolbarTitle(data.tag_list.get(0).title);
-        } else {
-            mToolbar.setToolbarTitle("一个音乐");
+    private void setData(MusicData data) {
+        String toolbarTitle = getString(R.string.one_music);
+        List<Tag> tags = data.tag_list;
+        if (tags.size() != 0) {
+            toolbarTitle = tags.get(0).title;
         }
-        Picasso.with(this)
+        mToolbar.setToolbarTitle(toolbarTitle);
+        Picasso.with(mContext)
                 .load(data.cover)
                 .transform(new CircleTransform())
-                .into(cdv_music);
-        tv_music_author.setText(" · " + data.title + " · \n" +
+                .into(mCdvMusic);
+        mTvMusicAuthor.setText(" · " + data.title + " · \n" +
                 data.author.user_name + " | " + data.album);
-        tv_title.setText(data.story_title);
-        tv_author_name.setText("文 / " + data.story_author.user_name);
-        mWebView.loadDataWithBaseURL("about:blank",
+        mTvTitle.setText(data.story_title);
+        mTvAuthorName.setText("文 / " + data.story_author.user_name);
+        mWvContent.loadDataWithBaseURL("about:blank",
                 HtmlUtil.fmt(data.story), "text/html", "utf-8", null);
-        tv_info.setText(data.charge_edt + "  " + data.editor_email);
-        tv_copyright.setText(data.copyright);
-        tv_like_comment.setText(data.praisenum + " 喜欢 · " + data.commentnum + " 评论");
-        av_authors.setAuthor(data.author_list);
+        mTvEditorInfo.setText(data.charge_edt + "  " + data.editor_email);
+        mTvCopyright.setText(data.copyright);
+        mTvLikeComment.setText(data.praisenum + " 喜欢 · " + data.commentnum + " 评论");
+        mAvAuthors.setAuthors(data.author_list);
     }
 
-    private void fetchMusic() {
-        int id = getIntent().getIntExtra(KEY_ID, -1);
+    @Override
+    protected void fetchData() {
+        int id = getIntent().getIntExtra(Constant.INTENT_KEY_ID, -1);
         if (id == -1) {
             App.showToast("id=-1");
             return;
         }
-        RetrofitUtil.getMusicCall(id)
-                .enqueue(new Callback<Music>() {
-                    @Override
-                    public void onResponse(Call<Music> call, Response<Music> response) {
-                        initData(response.body().data);
-                        tv_loading.setVisibility(View.GONE);
-                    }
+        mMusicCall = RetrofitUtil.getMusicCall(id);
+        mMusicCall.enqueue(new Callback<Music>() {
+            @Override
+            public void onResponse(Call<Music> call, Response<Music> response) {
+                setData(response.body().data);
+                hiddenLoadingView();
+            }
 
-                    @Override
-                    public void onFailure(Call<Music> call, Throwable t) {
-                        fetchMusic();
-                        App.showToast("失败-再次请求");
-                    }
-                });
+            @Override
+            public void onFailure(Call<Music> call, Throwable t) {
+                App.showToast("失败-再次请求");
+                fetchData();
+            }
+        });
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mMusicCall.cancel();
     }
 }

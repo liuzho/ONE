@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_bar"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/toolbar">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_alignParentTop="true"
+        android:background="#eee" />
+
+    <ImageView
+        android:id="@+id/iv_collect"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="12dp"
+        android:src="@drawable/collect" />
+
+    <ImageView
+        android:id="@+id/iv_like"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_toRightOf="@id/iv_collect"
+        android:src="@drawable/like" />
+
+    <ImageView
+        android:id="@+id/iv_comment"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_toRightOf="@id/iv_like"
+        android:src="@drawable/comment" />
+
+    <TextView
+        android:id="@+id/tv_like_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="20dp"
+        android:textColor="#aaa"
+        android:textSize="13sp"
+        tools:text="600喜欢·78评论" />
+</RelativeLayout>

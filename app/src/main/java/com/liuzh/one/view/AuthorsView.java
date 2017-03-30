@@ -25,7 +25,6 @@ import java.util.List;
 public class AuthorsView extends FrameLayout {
     private static final String TAG = "AuthorsView";
     private LinearLayout ll_authors;
-    private List<Author> mAuthors;
     private Context mContext;
 
     public AuthorsView(Context context) {
@@ -40,7 +39,6 @@ public class AuthorsView extends FrameLayout {
         super(context, attrs, defStyleAttr);
         View.inflate(context, R.layout.layout_detail_authors, this);
         ll_authors = (LinearLayout) findViewById(R.id.ll_authors);
-        mAuthors = new ArrayList<>();
         mContext = context;
     }
 
@@ -53,8 +51,7 @@ public class AuthorsView extends FrameLayout {
      *
      * @param authors 作者列表
      */
-    public void setAuthor(List<Author> authors) {
-        this.mAuthors = authors;
+    public void setAuthors(List<Author> authors) {
         if (authors.size() == 0) {
             this.setVisibility(GONE);
             return;
@@ -74,7 +71,7 @@ public class AuthorsView extends FrameLayout {
             ((TextView) authorView.findViewById(R.id.tv_author_name)).setText(author.user_name);
             ((TextView) authorView.findViewById(R.id.tv_profile)).setText(author.desc);
             ((TextView) authorView.findViewById(R.id.tv_wb_name)).setText(author.wb_name);
-            Log.i(TAG, "setAuthor: " + author.user_name + author.desc);
+            Log.i(TAG, "setAuthors: " + author.user_name + author.desc);
             ll_authors.addView(authorView);
             count++;
         }

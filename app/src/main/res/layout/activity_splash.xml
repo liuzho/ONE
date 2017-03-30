@@ -8,6 +8,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="复杂世界里，一个就够了"
+        android:text="@string/oneProfile"
         android:textSize="22sp" />
 </LinearLayout>
