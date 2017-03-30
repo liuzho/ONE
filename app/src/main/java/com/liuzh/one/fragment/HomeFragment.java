@@ -35,6 +35,8 @@ public class HomeFragment extends Fragment {
     private ArrayList<String> mIDs;//ids
     private AppToolbar mActivityToolbar;//activity 的 toolbar，用于出现隐藏的动画
 
+    private int mPagerPos = 0;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         if (mRootView == null) {
-            mRootView = inflater.inflate(R.layout.fragment_main_tab, null);
+            mRootView = inflater.inflate(R.layout.fragment_home, null);
             initView();
             initData();
         }
@@ -99,6 +101,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 Log.i(TAG, "onPageSelected: " + mActivityToolbar);
+                mPagerPos = position;
                 mActivityToolbar.setToolbarTitle(getResources()
                         .getStringArray(R.array.day)[position]);
                 //如果当前页是最后一页则新建下一页的fragment
@@ -133,6 +136,9 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    public int getPagerPos() {
+        return mPagerPos;
+    }
 
     /**
      * viewpager切换动画

@@ -6,6 +6,7 @@ import com.liuzh.one.bean.list.OneDay;
 import com.liuzh.one.bean.list.OneListId;
 import com.liuzh.one.bean.movie.Movie;
 import com.liuzh.one.bean.music.Music;
+import com.liuzh.one.bean.question.Question;
 import com.liuzh.one.bean.read.Read;
 
 import retrofit2.Call;
@@ -133,6 +134,22 @@ public class RetrofitUtil {
         return getRetrofit(URL_BASE).create(MovieDetailService.class).getCall(id);
     }
 
+    //--------------------------------------------------------------------------------------
+
+    /**
+     * 电影service
+     */
+    public interface QuestionDetailService {
+        @GET("question/{item_id}?channel=wdj" +
+                "&source=channel_reading&source_id=9254&version=4.0.2" +
+                "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
+        Call<Question> getCall(@Path("item_id") int id);
+    }
+
+    public static Call<Question> getQuestionCall(int id) {
+        return getRetrofit(URL_BASE).create(QuestionDetailService.class).getCall(id);
+    }
+
 //--------------------------------------------------------------------------------------
 
 
@@ -180,4 +197,6 @@ public class RetrofitUtil {
     public static Call<DataList> getMovieListCall() {
         return getRetrofit(URL_BASE).create(MovieList.class).getCall();
     }
+
+    //-----------------------------------------------------------------------------
 }

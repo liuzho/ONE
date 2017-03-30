@@ -31,13 +31,13 @@ import retrofit2.Response;
  */
 
 public class HomeContentFragment extends Fragment {
-    private static final String TAG = "HomeContentFragment";
 
+    private static final String TAG = "HomeContentFragment";
     private int mID;//fragment对应的one list的id
     private View mRootView;//布局根view
     private RecyclerView mRecyclerView;//recycler view
-    private Toolbar toolbar;
-    private boolean toolbarNeedShow = false;
+    private Toolbar mActivityToolbar;
+    private boolean mToolbarNeedShow = false;
 
     public HomeContentFragment() {
     }
@@ -58,7 +58,7 @@ public class HomeContentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container, Bundle savedInstanceState) {
         if (mRootView == null) {
-            mRootView = inflater.inflate(R.layout.fragment_list_content, null);
+            mRootView = inflater.inflate(R.layout.fragment_home_content, null);
             initView();
             initData();
         }
@@ -67,7 +67,7 @@ public class HomeContentFragment extends Fragment {
 
 
     public boolean toolbarNeedShow() {
-        return toolbarNeedShow;
+        return mToolbarNeedShow;
     }
 
     /**
@@ -81,7 +81,7 @@ public class HomeContentFragment extends Fragment {
      * init view data
      */
     private void initData() {
-        toolbar = ((MainActivity) getActivity()).getToolbar();
+        mActivityToolbar = ((MainActivity) getActivity()).getToolbar();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -109,21 +109,21 @@ public class HomeContentFragment extends Fragment {
                 (LinearLayoutManager) recyclerView.getLayoutManager();
         int pos = layoutManager.findFirstVisibleItemPosition();
         if (pos == 0 && recyclerView.getChildAt(0).getY() == 0) {
-            toolbarNeedShow = false;
-            if (!((MainActivity) getActivity()).getOperateToolbar()) {
+            mToolbarNeedShow = false;
+            if (!((MainActivity) getActivity()).canOperateToolbar()) {
                 return;
             }
-            ObjectAnimator.ofFloat(toolbar, "translationY",
+            ObjectAnimator.ofFloat(mActivityToolbar, "translationY",
                     -DensityUtil.dip2px(50)).setDuration(300).start();
-            ObjectAnimator.ofFloat(toolbar, "alpha", 0).setDuration(300).start();
+            ObjectAnimator.ofFloat(mActivityToolbar, "alpha", 0).setDuration(300).start();
         } else {
-            toolbarNeedShow = true;
-            if (!((MainActivity) getActivity()).getOperateToolbar()) {
+            mToolbarNeedShow = true;
+            if (!((MainActivity) getActivity()).canOperateToolbar()) {
                 return;
             }
-            ObjectAnimator.ofFloat(toolbar, "translationY", 0)
+            ObjectAnimator.ofFloat(mActivityToolbar, "translationY", 0)
                     .setDuration(300).start();
-            ObjectAnimator.ofFloat(toolbar, "alpha", 1).setDuration(300).start();
+            ObjectAnimator.ofFloat(mActivityToolbar, "alpha", 1).setDuration(300).start();
         }
 
     }

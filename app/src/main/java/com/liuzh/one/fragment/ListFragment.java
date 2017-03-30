@@ -62,7 +62,7 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mRootView == null) {
-            mRootView = inflater.inflate(R.layout.fragment_list_content, null, false);
+            mRootView = inflater.inflate(R.layout.fragment_home_content, null, false);
             mRootView.setPadding(0, DensityUtil.dip2px(50), 0, 0);
             initView();
             initData();
@@ -115,4 +115,6 @@ public class ListFragment extends Fragment {
                 break;
         }
     }
+
+
 }

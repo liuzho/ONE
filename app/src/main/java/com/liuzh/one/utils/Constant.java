@@ -6,6 +6,12 @@ package com.liuzh.one.utils;
  */
 
 public class Constant {
+    //intent key : id
+    public static final String INTENT_KEY_ID = "intent_key_id";
+    //intent key : like count
+    public static final String INTENT_KEY_LIKE_COUNT = "intent_key_like_count";
+    //intent key : title
+    public static final String INTENT_KEY_TITLE = "intent_key_title";
     /**
      * 0 one day
      * 1 read 软糖漫画

@@ -14,6 +14,7 @@
     <inspection_tool class="AndroidLintSimpleDateFormat" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="AndroidLintSmallSp" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="AndroidLintStaticFieldLeak" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="AndroidLintUnknownIdInLayout" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="AndroidLintUseCompoundDrawables" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="AndroidLintUselessParent" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="AndroidLintWebViewLayout" enabled="false" level="ERROR" enabled_by_default="false" />

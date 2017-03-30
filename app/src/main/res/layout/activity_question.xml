@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity">
+
+    <com.liuzh.one.view.AppToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_bar"
+        android:layout_below="@id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_question_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/detail_margin_horizon"
+                android:layout_marginRight="@dimen/detail_margin_horizon"
+                android:layout_marginTop="15dp"
+                android:textColor="#000"
+                android:textSize="24sp"
+                tools:text="Gay和女生交朋友时心里在想什么?" />
+
+            <TextView
+                android:id="@+id/tv_question_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="@dimen/detail_margin_horizon"
+                android:layout_marginRight="@dimen/detail_margin_horizon"
+                android:layout_marginTop="10dp"
+                android:textColor="#222"
+                android:textSize="16sp"
+                tools:text="Gay和女生交朋友时心里究竟在想什么?" />
+
+            <TextView
+                android:id="@+id/tv_question_asker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="@dimen/detail_margin_horizon"
+                android:textColor="#222"
+                android:textSize="16sp"
+                tools:text="——贩梦问道" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="25dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="15dp"
+                android:background="#e1e1e1" />
+
+            <TextView
+                android:id="@+id/tv_answerer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="@dimen/detail_margin_horizon"
+                android:textColor="#000"
+                android:textSize="20sp"
+                tools:text="克里奇答：" />
+
+            <include layout="@layout/layout_detail_content" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="25dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="15dp"
+                android:background="#eee" />
+
+            <include
+                layout="@layout/layout_detail_comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+    <include
+        layout="@layout/layout_detail_bottombar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true" />
+
+    <include layout="@layout/layout_loading" />
+</RelativeLayout>

@@ -5,6 +5,6 @@
         android:endColor="#88f1f1f1"
         android:startColor="#88f1f1f1" />
     <size
-        android:width="100dp"
-        android:height="50dp" />
+        android:width="120dp"
+        android:height="80dp" />
 </shape>

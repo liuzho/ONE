@@ -1,7 +1,7 @@
 
 package com.liuzh.one.bean;
 
-public class TagList {
+public class Tag {
 
     public String id;
     public String title;

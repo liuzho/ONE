@@ -4,19 +4,10 @@
     android:layout_height="match_parent"
     android:background="@color/fragment">
 
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <TextView
-        android:id="@+id/tv_loading"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#fff"
-        android:gravity="center"
-        android:text="Loading..."
-        android:textSize="25sp"
-        android:visibility="gone" />
+    <include layout="@layout/layout_loading" />
 </FrameLayout>

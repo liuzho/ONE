@@ -67,7 +67,7 @@
             android:ems="1"
             android:textColor="#888"
             android:gravity="center"
-            android:text="比较蛋疼的垂直显示" />
+            android:text="这应该是个背景" />
         <!--tools:text="STORIES OF MUSIC \n -one-" -->
 
     </RelativeLayout>
