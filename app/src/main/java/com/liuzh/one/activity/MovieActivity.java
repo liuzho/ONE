@@ -1,11 +1,13 @@
 package com.liuzh.one.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -19,6 +21,7 @@ import com.liuzh.one.bean.Tag;
 import com.liuzh.one.bean.movie.Movie;
 import com.liuzh.one.bean.movie.MovieData;
 import com.liuzh.one.utils.Constant;
+import com.liuzh.one.utils.DensityUtil;
 import com.liuzh.one.utils.HtmlUtil;
 import com.liuzh.one.utils.RetrofitUtil;
 import com.liuzh.one.view.AppToolbar;
@@ -109,7 +112,13 @@ public class MovieActivity extends BaseActivity {
         mTvCopyright.setText("版权信息，json内没有...");
         mWvContent.getSettings().setJavaScriptEnabled(true);
         mWvContent.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
-        mWvContent.setWebViewClient(new MovieWebViewClient());
+        mWvContent.setWebViewClient(new WebViewClient() {
+            public void onPageFinished(WebView view, String url) {
+                view.loadUrl("javascript:window.local_obj.textContent(" +
+                        "document.getElementsByClassName('text-content')[0].innerHTML);");
+                super.onPageFinished(view, url);
+            }
+        });
     }
 
     @Override
@@ -176,11 +185,13 @@ public class MovieActivity extends BaseActivity {
             Picasso.with(mContext)
                     .load(urls.get(i))
                     .resize(mVpMoveImgs.getWidth(), mVpMoveImgs.getHeight())
+                    .placeholder(R.drawable.placeholder)
                     .into(imageView);
             imageViews.add(imageView);
         }
         mVpMoveImgs.setAdapter(new ViewsPagerAdapter(imageViews));
     }
+
 
     /**
      * 用于截取获取到的html，只截取内容
@@ -189,19 +200,6 @@ public class MovieActivity extends BaseActivity {
      * *****************什么JB那么恶心人的Json,返回的信息全有问题，规范也一坨屎***********
      * *****************垃圾！一坨屎！********************
      */
-    private class MovieWebViewClient extends WebViewClient {
-        //        @Override
-//        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-//            view.loadUrl(request.toString());
-//            return true;
-//        }
-        public void onPageFinished(WebView view, String url) {
-            view.loadUrl("javascript:window.local_obj.textContent(" +
-                    "document.getElementsByClassName('text-content')[0].innerHTML);");
-            super.onPageFinished(view, url);
-        }
-    }
-
     private class InJavaScriptLocalObj {
         @JavascriptInterface
         public void textContent(final String html) {
