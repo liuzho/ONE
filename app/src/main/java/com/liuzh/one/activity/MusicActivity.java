@@ -59,7 +59,6 @@ public class MusicActivity extends BaseActivity {
 
     @Override
     protected void findViews() {
-        findLoadingView(R.id.tv_loading);
         mToolbar = (AppToolbar) findViewById(R.id.toolbar);
         mCdvMusic = (CDView) findViewById(R.id.cdv_music);
         mTvMusicAuthor = (TextView) findViewById(R.id.tv_music_author);

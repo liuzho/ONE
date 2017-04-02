@@ -2,6 +2,7 @@ package com.liuzh.one.fragment;
 
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.liuzh.one.R;
 import com.liuzh.one.activity.MainActivity;
@@ -38,6 +40,7 @@ public class HomeContentFragment extends Fragment {
     private RecyclerView mRecyclerView;//recycler view
     private Toolbar mActivityToolbar;
     private boolean mToolbarNeedShow = false;
+    private ImageView mIvLoading;
 
     public HomeContentFragment() {
     }
@@ -58,7 +61,7 @@ public class HomeContentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container, Bundle savedInstanceState) {
         if (mRootView == null) {
-            mRootView = inflater.inflate(R.layout.fragment_home_content, null);
+            mRootView = inflater.inflate(R.layout.fragment_content, null);
             initView();
             initData();
         }
@@ -75,15 +78,48 @@ public class HomeContentFragment extends Fragment {
      */
     private void initView() {
         mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.recyclerView);
+        mIvLoading = (ImageView) mRootView.findViewById(R.id.iv_loading);
     }
 
     /**
      * init view data
      */
     private void initData() {
+        mIvLoading.setVisibility(View.VISIBLE);
+        ((AnimationDrawable) mIvLoading.getDrawable()).start();
         mActivityToolbar = ((MainActivity) getActivity()).getToolbar();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+//
+//        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
+//            private float downY;
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                LinearLayoutManager layoutManager =
+//                        (LinearLayoutManager) mRecyclerView.getLayoutManager();
+//                switch (motionEvent.getAction()) {
+//                    case MotionEvent.ACTION_DOWN:
+//                        if (layoutManager.findFirstVisibleItemPosition() == 2 &&
+//                                mRecyclerView.getChildAt(0).getY() == 0) {
+//                            downY = motionEvent.getY();
+//                            return true;
+//                        }
+//                        break;
+//                    case MotionEvent.ACTION_MOVE:
+//                        float d = motionEvent.getY() - downY;
+//                        if (d >= 0 && d <= DensityUtil.dip2px(50)) {
+//                            mRecyclerView.setPadding(
+//                                    0, (int) (DensityUtil.dip2px(50) - d), 0, 0);
+//                        }
+//                        return true;
+//                    case MotionEvent.ACTION_UP:
+//                        mRecyclerView.setPadding(0, 0, 0, 0);
+//                        break;
+//                    default:
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -146,9 +182,9 @@ public class HomeContentFragment extends Fragment {
                 .enqueue(new Callback<OneDay>() {
                     @Override
                     public void onResponse(Call<OneDay> call, Response<OneDay> response) {
-                        mRootView.findViewById(R.id.tv_loading).setVisibility(View.GONE);
                         mRecyclerView.setAdapter(new ListRVAdapter(
                                 getActivity(), response.body().data));
+                        mIvLoading.setVisibility(View.GONE);
                     }
 
                     @Override

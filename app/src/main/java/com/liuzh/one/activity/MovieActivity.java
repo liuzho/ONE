@@ -1,13 +1,11 @@
 package com.liuzh.one.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -21,7 +19,6 @@ import com.liuzh.one.bean.Tag;
 import com.liuzh.one.bean.movie.Movie;
 import com.liuzh.one.bean.movie.MovieData;
 import com.liuzh.one.utils.Constant;
-import com.liuzh.one.utils.DensityUtil;
 import com.liuzh.one.utils.HtmlUtil;
 import com.liuzh.one.utils.RetrofitUtil;
 import com.liuzh.one.view.AppToolbar;
@@ -73,7 +70,6 @@ public class MovieActivity extends BaseActivity {
 
     @Override
     protected void findViews() {
-        findLoadingView(R.id.tv_loading);
         mTvMovieName = (TextView) findViewById(R.id.tv_movie_name);
         mTvTitle = (TextView) findViewById(R.id.tv_title);
         mTvAuthor = (TextView) findViewById(R.id.tv_author);
@@ -189,7 +185,7 @@ public class MovieActivity extends BaseActivity {
                     .into(imageView);
             imageViews.add(imageView);
         }
-        mVpMoveImgs.setAdapter(new ViewsPagerAdapter(imageViews));
+        mVpMoveImgs.setAdapter(new ViewsPagerAdapter(mContext, imageViews));
     }
 
 

@@ -55,7 +55,6 @@ public class ReadActivity extends BaseActivity {
 
     @Override
     protected void findViews() {
-        findLoadingView(R.id.tv_loading);
         mWvContent = (WebView) findViewById(R.id.webView);
         mTvTitle = (TextView) findViewById(R.id.tv_title);
         mTvAuthor = (TextView) findViewById(R.id.tv_author);
