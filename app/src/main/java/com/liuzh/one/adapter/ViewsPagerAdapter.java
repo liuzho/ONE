@@ -1,5 +1,6 @@
 package com.liuzh.one.adapter;
 
+import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.text.TextUtils;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.liuzh.one.activity.VideoActivity;
 import com.liuzh.one.application.App;
 
 import java.util.List;
@@ -20,7 +22,7 @@ public class ViewsPagerAdapter extends PagerAdapter {
     private static final String TAG = "ViewsPagerAdapter";
     private List<ImageView> mImageViews;
 
-    public ViewsPagerAdapter(List<ImageView> imageViews) {
+    public ViewsPagerAdapter(final Context context, List<ImageView> imageViews) {
         mImageViews = imageViews;
         ImageView iv = mImageViews.get(0);
         final String videoUrl = (String) iv.getTag();
@@ -28,8 +30,7 @@ public class ViewsPagerAdapter extends PagerAdapter {
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //// TODO: 2017/3/30 play video
-                    App.showToast("播放：" + videoUrl);
+                    VideoActivity.start(context,videoUrl);
                 }
             });
         }

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tv_loading"
+
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/iv_loading"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    android:gravity="center"
-    android:text="@string/loading"
-    android:textColor="#000"
-    android:textSize="25sp"
+    android:scaleType="center"
+    android:src="@drawable/frame_loading"
     android:visibility="gone" />

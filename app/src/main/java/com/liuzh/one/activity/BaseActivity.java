@@ -1,10 +1,14 @@
 package com.liuzh.one.activity;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
+
+import com.liuzh.one.R;
 
 /**
  * base activity
@@ -14,7 +18,7 @@ import android.view.View;
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected Context mContext;
-    protected View mLoadingView;
+    private ImageView mLoading;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,6 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         fetchData();
     }
 
+
     protected abstract int getContentId();
 
     protected abstract void fetchData();
@@ -34,22 +39,17 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract void initViewData();
 
-    protected void findLoadingView(int resId) {
-        mLoadingView = findViewById(resId);
-    }
-
     protected void hiddenLoadingView() {
-        if (mLoadingView == null) {
-            return;
-        }
-        mLoadingView.setVisibility(View.GONE);
+        mLoading.setVisibility(View.GONE);
+
     }
 
     protected void showLoadingView() {
-        if (mLoadingView == null) {
-            return;
+        if (mLoading == null) {
+            mLoading = (ImageView) findViewById(R.id.iv_loading);
         }
-        mLoadingView.setVisibility(View.VISIBLE);
+        ((AnimationDrawable) mLoading.getDrawable()).start();
+        mLoading.setVisibility(View.VISIBLE);
     }
 
 

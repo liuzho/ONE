@@ -54,7 +54,6 @@ public class QuestionActivity extends BaseActivity {
 
     @Override
     protected void findViews() {
-        findLoadingView(R.id.tv_loading);
         mToolbar = (AppToolbar) findViewById(R.id.toolbar);
         mTvQuestionTitle = (TextView) findViewById(R.id.tv_question_title);
         mTvQuestionContent = (TextView) findViewById(R.id.tv_question_content);

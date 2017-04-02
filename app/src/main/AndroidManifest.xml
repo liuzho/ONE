@@ -30,6 +30,7 @@
         <activity android:name=".activity.MovieProfileActivity" />
         <!--问答详情页-->
         <activity android:name=".activity.QuestionActivity" />
+        <activity android:name=".activity.VideoActivity"/>
     </application>
 
 </manifest>

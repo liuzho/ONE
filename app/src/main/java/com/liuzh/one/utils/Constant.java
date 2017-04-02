@@ -12,7 +12,11 @@ public class Constant {
     public static final String INTENT_KEY_LIKE_COUNT = "intent_key_like_count";
     //intent key : title
     public static final String INTENT_KEY_TITLE = "intent_key_title";
+    //intent key : url
+    public static final String INTENT_KEY_URL = "intent_key_url";
     /**
+     * -1 下拉刷新head
+     * -2 上拉加载bottom
      * 0 one day
      * 1 read 软糖漫画
      * 2 连载
@@ -20,6 +24,8 @@ public class Constant {
      * 4 音乐
      * 5 影视
      */
+    public static final int ITEM_TYPE_HEAD = -1;
+    public static final int ITEM_TYPE_BOTTOM = -2;
     public static final int ITEM_TYPE_DAY_ONE = 0;
     public static final int ITEM_TYPE_READ_CARTOON = 1;
     public static final int ITEM_TYPE_SERIAL = 2;

@@ -1,6 +1,7 @@
 package com.liuzh.one.fragment;
 
 import android.annotation.SuppressLint;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.liuzh.one.R;
 import com.liuzh.one.adapter.ListRVAdapter;
@@ -38,7 +39,7 @@ public class ListFragment extends Fragment {
 
     private View mRootView;
     private RecyclerView mRecyclerView;
-    private TextView tv_loading;
+    private ImageView mIvLoading;
 
     public ListFragment() {
 
@@ -62,7 +63,7 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mRootView == null) {
-            mRootView = inflater.inflate(R.layout.fragment_home_content, null, false);
+            mRootView = inflater.inflate(R.layout.fragment_content, null, false);
             mRootView.setPadding(0, DensityUtil.dip2px(50), 0, 0);
             initView();
             initData();
@@ -71,15 +72,16 @@ public class ListFragment extends Fragment {
     }
 
     private void initData() {
+        mIvLoading.setVisibility(View.VISIBLE);
+        ((AnimationDrawable) mIvLoading.getDrawable()).start();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(
                 getActivity(), DividerItemDecoration.VERTICAL));
-        tv_loading.setVisibility(View.VISIBLE);
     }
 
     private void initView() {
+        mIvLoading = (ImageView) mRootView.findViewById(R.id.iv_loading);
         mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.recyclerView);
-        tv_loading = (TextView) mRootView.findViewById(R.id.tv_loading);
     }
 
     private void fetchData() {
@@ -91,7 +93,7 @@ public class ListFragment extends Fragment {
                 data.content_list = response.body().data;
                 mRecyclerView.setAdapter(new ListRVAdapter(
                         getActivity(), data));
-                tv_loading.setVisibility(View.GONE);
+                mIvLoading.setVisibility(View.GONE);
             }
 
             @Override
