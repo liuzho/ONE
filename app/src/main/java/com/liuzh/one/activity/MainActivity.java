@@ -1,6 +1,7 @@
 package com.liuzh.one.activity;
 
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
@@ -12,14 +13,15 @@ import com.liuzh.one.R;
 import com.liuzh.one.application.App;
 import com.liuzh.one.fragment.HomeFragment;
 import com.liuzh.one.fragment.ListFragment;
+import com.liuzh.one.utils.Constant;
 import com.liuzh.one.utils.DensityUtil;
 import com.liuzh.one.view.AppToolbar;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
-    public static final String INTENT_KEY_LIST_ID = "list_id";
     private AppToolbar mToolbar;
     private HomeFragment mHomeFragment;
     private ListFragment mReadFragment;
@@ -32,11 +34,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ImageView mIvMusic;
     private ImageView mIMovie;
 
-    private boolean mCanOperateToolbar = true;
 
     public static void start(Context context, ArrayList<String> value) {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putStringArrayListExtra(INTENT_KEY_LIST_ID, value);
+        intent.putStringArrayListExtra(Constant.INTENT_KEY_LIST_ID, value);
         context.startActivity(intent);
     }
 
@@ -49,8 +50,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void fetchData() {
     }
 
-    public AppToolbar getToolbar() {
-        return mToolbar;
+    public void setToolbarTitle(String title) {
+        mToolbar.setToolbarTitle(title);
     }
 
     @Override
@@ -103,20 +104,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         hideFragments(transaction);
         switch (view.getId()) {
             case R.id.iv_home:
-                mToolbar.setToolbarTitle(getResources()
-                        .getStringArray(R.array.day)[mHomeFragment.getPagerPos()]);
                 mIvHome.setImageResource(R.drawable.tab_home_checked);
                 if (mHomeFragment == null) {
                     mHomeFragment = new HomeFragment();
                     transaction.add(R.id.fl_fragment, mHomeFragment);
                 }
-                if (mHomeFragment.toolNeedShow()) {
-                    showToolbar();
-                } else {
-                    hideToolbar();
-                }
                 transaction.show(mHomeFragment);
-                mCanOperateToolbar = true;
                 break;
             case R.id.iv_read:
                 mToolbar.setToolbarTitle(getString(R.string.one_read));
@@ -127,7 +120,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 transaction.show(mReadFragment);
                 showToolbar();
-                mCanOperateToolbar = false;
                 break;
             case R.id.iv_music:
                 mToolbar.setToolbarTitle(getString(R.string.one_music));
@@ -138,7 +130,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 transaction.show(mMusicFragment);
                 showToolbar();
-                mCanOperateToolbar = false;
                 break;
             case R.id.iv_movie:
                 mToolbar.setToolbarTitle(getString(R.string.one_movie));
@@ -149,20 +140,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 transaction.show(mMovieFragment);
                 showToolbar();
-                mCanOperateToolbar = false;
                 break;
         }
         transaction.commit();
     }
 
-    private void hideToolbar() {
-        mToolbar.setTranslationY(-DensityUtil.dip2px(50));
-        mToolbar.setAlpha(0);
+    public void hideToolbar() {
+        ObjectAnimator.ofFloat(mToolbar, "translationY",
+                -DensityUtil.dip2px(50)).setDuration(300).start();
+        ObjectAnimator.ofFloat(mToolbar, "alpha", 0).setDuration(300).start();
     }
 
-    private void showToolbar() {
-        mToolbar.setTranslationY(0);
-        mToolbar.setAlpha(1);
+    public void showToolbar() {
+        ObjectAnimator.ofFloat(mToolbar, "translationY", 0)
+                .setDuration(300).start();
+        ObjectAnimator.ofFloat(mToolbar, "alpha", 1).setDuration(300).start();
     }
 
     private void hideFragments(FragmentTransaction transaction) {
@@ -180,6 +172,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    /**
+     * 重置所有tab状态为未选中
+     */
     private void resetTab() {
         mIvHome.setImageResource(R.drawable.tab_home_unchecked);
         mIvRead.setImageResource(R.drawable.tab_read_unchecked);
@@ -187,8 +182,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mIMovie.setImageResource(R.drawable.tab_movie_unchecked);
     }
 
-    public boolean canOperateToolbar() {
-        return mCanOperateToolbar;
+    public List<String> getListId() {
+        return getIntent().getStringArrayListExtra(Constant.INTENT_KEY_LIST_ID);
     }
 
 }

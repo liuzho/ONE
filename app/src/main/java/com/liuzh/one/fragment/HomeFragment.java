@@ -1,24 +1,20 @@
 package com.liuzh.one.fragment;
 
-import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.liuzh.one.R;
 import com.liuzh.one.activity.MainActivity;
-import com.liuzh.one.adapter.HomePagerAdapter;
-import com.liuzh.one.utils.DensityUtil;
-import com.liuzh.one.view.AppToolbar;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * homeFragment
@@ -30,19 +26,18 @@ public class HomeFragment extends Fragment {
 
     private View mRootView;//root view
     private ViewPager mViewPager;//viewpager
-    private ArrayList<Fragment> mFragments;//all fragment
-    private HomePagerAdapter mPagerAdapter;//adapter
-    private ArrayList<String> mIDs;//ids
-    private AppToolbar mActivityToolbar;//activity 的 toolbar，用于出现隐藏的动画
-
-    private int mPagerPos = 0;
-
+    private ArrayList<HomeContentFragment> mFragments;//all fragment
+    private FragmentPagerAdapter mPagerAdapter;//adapter
+    private List<String> mIDs;//one ids
+    private MainActivity mMainActivity;
+    private String[] mDayArr;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mMainActivity = (MainActivity) getActivity();
+        mDayArr = getResources().getStringArray(R.array.day);
         initFragments();
-        mActivityToolbar = ((MainActivity) getActivity()).getToolbar();
     }
 
     /**
@@ -50,12 +45,13 @@ public class HomeFragment extends Fragment {
      */
     private void initFragments() {
         //从依附的activity的intent中取一天的list id
-        mIDs = getActivity().getIntent()
-                .getStringArrayListExtra(MainActivity.INTENT_KEY_LIST_ID);
+        mIDs = mMainActivity.getListId();
         //创建2个fragment，其余fragment通过view pager滑动监听来动态创建
         mFragments = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
-            mFragments.add(new HomeContentFragment(Integer.valueOf(mIDs.get(i))));
+            int id = Integer.valueOf(mIDs.get(i));
+            HomeContentFragment fragment = new HomeContentFragment(id);
+            mFragments.add(fragment);
         }
     }
 
@@ -71,23 +67,43 @@ public class HomeFragment extends Fragment {
         return mRootView;
     }
 
-    public boolean toolNeedShow() {
-        return ((HomeContentFragment) mFragments
-                .get(mViewPager.getCurrentItem())).toolbarNeedShow();
-    }
 
     /**
-     * find view
+     * 被隐藏的时候：停止当前ContentFragment中的RecycleView的滚动（防止toolbar的显示异常）
+     * 被显示的时候：设置toolbar显示状态、设置toolbar的title
+     *
+     * @param hidden 是否隐藏
      */
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        int pos = mViewPager.getCurrentItem();
+        RecyclerView rv = mFragments.get(pos).getRecyclerView();
+        if (hidden) {
+            rv.stopScroll();
+        } else {
+            mFragments.get(pos).changeToolbarVisibility();
+            mMainActivity.setToolbarTitle(mDayArr[pos]);
+        }
+    }
+
+
     private void initView() {
         mViewPager = (ViewPager) mRootView.findViewById(R.id.viewPager);
     }
 
-    /**
-     * init view data
-     */
     private void initData() {
-        mPagerAdapter = new HomePagerAdapter(getChildFragmentManager(), mFragments);
+        mPagerAdapter = new FragmentPagerAdapter(getChildFragmentManager()) {
+            @Override
+            public int getCount() {
+                return mFragments.size();
+            }
+
+            @Override
+            public Fragment getItem(int position) {
+                return mFragments.get(position);
+            }
+        };
         mViewPager.setAdapter(mPagerAdapter);
         /*设置pager切换动画后，在4.1.2有奇怪的问题
         * 滑动当前页，实际滑动的是下一页*/
@@ -100,44 +116,22 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-                Log.i(TAG, "onPageSelected: " + mActivityToolbar);
-                mPagerPos = position;
-                mActivityToolbar.setToolbarTitle(getResources()
-                        .getStringArray(R.array.day)[position]);
+                mMainActivity.setToolbarTitle(mDayArr[position]);
                 //如果当前页是最后一页则新建下一页的fragment
                 if (position == mFragments.size() - 1
                         && position != mIDs.size() - 1) {
-                    mFragments.add(new HomeContentFragment(
-                            Integer.valueOf(mIDs.get(position + 1))));
+                    int id = Integer.valueOf(mIDs.get(position + 1));
+                    HomeContentFragment fragment = new HomeContentFragment(id);
+                    mFragments.add(fragment);
                     mPagerAdapter.notifyDataSetChanged();
                 }
-                RecyclerView rv = ((HomeContentFragment) mFragments.get(position)).getRecyclerView();
-                //控制toolbar的显示隐藏
-                // view pager左右滑动的时候根据不同pager的位置也要控制toolbar的显示与隐藏
-                LinearLayoutManager layoutManager =
-                        (LinearLayoutManager) rv.getLayoutManager();
-                int pos = layoutManager.findFirstVisibleItemPosition();
-                if (pos == 0 && rv.getChildAt(0).getY() == 0) {
-                    Log.i(TAG, "onPageSelected: toolbar2top ");
-                    ObjectAnimator.ofFloat(mActivityToolbar, "translationY",
-                            -DensityUtil.dip2px(50)).setDuration(300).start();
-                    ObjectAnimator.ofFloat(mActivityToolbar, "alpha", 0).setDuration(300).start();
-                } else {
-                    Log.i(TAG, "onPageSelected: toolbar2bottom ");
-                    ObjectAnimator.ofFloat(mActivityToolbar, "translationY", 0)
-                            .setDuration(300).start();
-                    ObjectAnimator.ofFloat(mActivityToolbar, "alpha", 1).setDuration(300).start();
-                }
+                mFragments.get(position).changeToolbarVisibility();
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
             }
         });
-    }
-
-    public int getPagerPos() {
-        return mPagerPos;
     }
 
     /**

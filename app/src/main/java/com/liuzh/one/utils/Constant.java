@@ -14,6 +14,8 @@ public class Constant {
     public static final String INTENT_KEY_TITLE = "intent_key_title";
     //intent key : url
     public static final String INTENT_KEY_URL = "intent_key_url";
+    //intent key : list id
+    public static final String INTENT_KEY_LIST_ID = "list_id";
     /**
      * -1 下拉刷新head
      * -2 上拉加载bottom

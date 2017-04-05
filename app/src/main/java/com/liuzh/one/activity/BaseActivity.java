@@ -18,7 +18,7 @@ import com.liuzh.one.R;
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected Context mContext;
-    private ImageView mLoading;
+    private ImageView mIvLoading;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,16 +40,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void initViewData();
 
     protected void hiddenLoadingView() {
-        mLoading.setVisibility(View.GONE);
+        mIvLoading.setVisibility(View.GONE);
 
     }
 
     protected void showLoadingView() {
-        if (mLoading == null) {
-            mLoading = (ImageView) findViewById(R.id.iv_loading);
+        if (mIvLoading == null) {
+            mIvLoading = (ImageView) findViewById(R.id.iv_loading);
         }
-        ((AnimationDrawable) mLoading.getDrawable()).start();
-        mLoading.setVisibility(View.VISIBLE);
+        ((AnimationDrawable) mIvLoading.getDrawable()).start();
+        mIvLoading.setVisibility(View.VISIBLE);
     }
 
 
