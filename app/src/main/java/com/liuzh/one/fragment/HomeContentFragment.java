@@ -1,6 +1,5 @@
 package com.liuzh.one.fragment;
 
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +18,6 @@ import com.liuzh.one.activity.MainActivity;
 import com.liuzh.one.adapter.ListRVAdapter;
 import com.liuzh.one.application.App;
 import com.liuzh.one.bean.list.OneDay;
-import com.liuzh.one.utils.DensityUtil;
 import com.liuzh.one.utils.RetrofitUtil;
 
 import retrofit2.Call;
@@ -38,9 +35,8 @@ public class HomeContentFragment extends Fragment {
     private int mID;//fragment对应的one list的id
     private View mRootView;//布局根view
     private RecyclerView mRecyclerView;//recycler view
-    private Toolbar mActivityToolbar;
-    private boolean mToolbarNeedShow = false;
     private ImageView mIvLoading;
+    private LinearLayoutManager mRvLayoutManager;
 
     public HomeContentFragment() {
     }
@@ -69,10 +65,6 @@ public class HomeContentFragment extends Fragment {
     }
 
 
-    public boolean toolbarNeedShow() {
-        return mToolbarNeedShow;
-    }
-
     /**
      * find view
      */
@@ -87,81 +79,31 @@ public class HomeContentFragment extends Fragment {
     private void initData() {
         mIvLoading.setVisibility(View.VISIBLE);
         ((AnimationDrawable) mIvLoading.getDrawable()).start();
-        mActivityToolbar = ((MainActivity) getActivity()).getToolbar();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//
-//        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
-//            private float downY;
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                LinearLayoutManager layoutManager =
-//                        (LinearLayoutManager) mRecyclerView.getLayoutManager();
-//                switch (motionEvent.getAction()) {
-//                    case MotionEvent.ACTION_DOWN:
-//                        if (layoutManager.findFirstVisibleItemPosition() == 2 &&
-//                                mRecyclerView.getChildAt(0).getY() == 0) {
-//                            downY = motionEvent.getY();
-//                            return true;
-//                        }
-//                        break;
-//                    case MotionEvent.ACTION_MOVE:
-//                        float d = motionEvent.getY() - downY;
-//                        if (d >= 0 && d <= DensityUtil.dip2px(50)) {
-//                            mRecyclerView.setPadding(
-//                                    0, (int) (DensityUtil.dip2px(50) - d), 0, 0);
-//                        }
-//                        return true;
-//                    case MotionEvent.ACTION_UP:
-//                        mRecyclerView.setPadding(0, 0, 0, 0);
-//                        break;
-//                    default:
-//                        break;
-//                }
-//                return false;
-//            }
-//        });
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                toolbarHandler(recyclerView);
-            }
+        mRvLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
 
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                toolbarHandler(recyclerView);
+                changeToolbarVisibility();
             }
-
         });
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(
-                getActivity(), DividerItemDecoration.VERTICAL));
+        DividerItemDecoration decoration = new DividerItemDecoration(
+                getActivity(), DividerItemDecoration.VERTICAL);
+        mRecyclerView.addItemDecoration(decoration);
     }
 
 
     //控制toolbar的显示隐藏
-    private void toolbarHandler(RecyclerView recyclerView) {
-        LinearLayoutManager layoutManager =
-                (LinearLayoutManager) recyclerView.getLayoutManager();
-        int pos = layoutManager.findFirstVisibleItemPosition();
-        if (pos == 0 && recyclerView.getChildAt(0).getY() == 0) {
-            mToolbarNeedShow = false;
-            if (!((MainActivity) getActivity()).canOperateToolbar()) {
-                return;
-            }
-            ObjectAnimator.ofFloat(mActivityToolbar, "translationY",
-                    -DensityUtil.dip2px(50)).setDuration(300).start();
-            ObjectAnimator.ofFloat(mActivityToolbar, "alpha", 0).setDuration(300).start();
+    public void changeToolbarVisibility() {
+        int pos = mRvLayoutManager.findFirstVisibleItemPosition();
+        float firstViewY = mRecyclerView.getChildAt(0).getY();
+        if (pos == 0 && firstViewY == 0f) {
+            ((MainActivity) getActivity()).hideToolbar();
         } else {
-            mToolbarNeedShow = true;
-            if (!((MainActivity) getActivity()).canOperateToolbar()) {
-                return;
-            }
-            ObjectAnimator.ofFloat(mActivityToolbar, "translationY", 0)
-                    .setDuration(300).start();
-            ObjectAnimator.ofFloat(mActivityToolbar, "alpha", 1).setDuration(300).start();
+            ((MainActivity) getActivity()).showToolbar();
         }
-
     }
 
     /**

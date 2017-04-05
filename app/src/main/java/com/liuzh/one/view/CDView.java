@@ -109,7 +109,7 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
      */
     private void drawCenter(Canvas canvas) {
         //绘制圆
-        mPaint.setColor(Color.argb(120, 220, 220, 220));
+        mPaint.setColor(Color.argb(180, 240, 240, 240));
         canvas.drawCircle(mCenterXY, mCenterXY, mBtnCRadius, mPaint);
         mPaint.setColor(Color.WHITE);
         if (mIsPlaying) {

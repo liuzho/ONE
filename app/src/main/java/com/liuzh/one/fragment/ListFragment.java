@@ -117,6 +117,4 @@ public class ListFragment extends Fragment {
                 break;
         }
     }
-
-
 }
