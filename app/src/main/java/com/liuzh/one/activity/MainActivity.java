@@ -46,9 +46,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         return R.layout.activity_main;
     }
 
-    @Override
-    protected void fetchData() {
-    }
 
     public void setToolbarTitle(String title) {
         mToolbar.setToolbarTitle(title);

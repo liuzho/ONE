@@ -1,6 +1,5 @@
 package com.liuzh.one.utils;
 
-import com.liuzh.one.bean.ContentList;
 import com.liuzh.one.bean.DataList;
 import com.liuzh.one.bean.list.OneDay;
 import com.liuzh.one.bean.list.OneListId;
@@ -21,16 +20,8 @@ import retrofit2.http.Path;
  */
 
 public class RetrofitUtil {
-    //URL的开头部分
+
     public static final String URL_BASE = "http://v3.wufazhuce.com:8000/api/";
-
-    //获取list：阅读
-    public static final String LIST_TYPE_READ = "reading";
-    //获取list：音乐
-    public static final String LIST_TYPE_MUSIC = "music";
-    //获取list：电影
-    public static final String LIST_TYPE_MOVIE = "movie";
-
 
     /**
      * 获取Retrofit实例
@@ -44,7 +35,9 @@ public class RetrofitUtil {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
-//--------------------------------------------------------------------------------------
+
+
+//----------------------------------oneListId--------------------------------------------
 
     /**
      * oneListId的接口
@@ -63,8 +56,9 @@ public class RetrofitUtil {
     public static Call<OneListId> getOneListIdCall() {
         return getRetrofit(URL_BASE).create(OneListIdService.class).getCall();
     }
-//--------------------------------------------------------------------------------------
 
+
+//---------------------------------------oneList------------------------------------------
 
     /**
      * oneList的接口
@@ -84,28 +78,9 @@ public class RetrofitUtil {
     public static Call<OneDay> getOneListCall(int id) {
         return getRetrofit(URL_BASE).create(OneListService.class).getCall(id);
     }
-//--------------------------------------------------------------------------------------
 
 
-    /**
-     * 获取某个类型数据列表的接口
-     */
-    public interface ListService {
-        @GET("channel/{type}/more/0?channel=wdj&version=4.0.2" +
-                "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android\"")
-        Call<ContentList> getCall(@Path("type") String t);
-    }
-
-    /**
-     * 获取List的Call实例
-     *
-     * @param type list的类型
-     * @return Call实例
-     */
-    public static Call<ContentList> getListCall(String type) {
-        return getRetrofit(URL_BASE).create(ListService.class).getCall(type);
-    }
-//--------------------------------------------------------------------------------------
+//------------------------------------ReadDetail-----------------------------------
 
     public interface ReadDetailService {
         @GET("essay/{item_id}?channel=wdj&source=channel_reading" +
@@ -118,11 +93,9 @@ public class RetrofitUtil {
         return getRetrofit(URL_BASE).create(ReadDetailService.class).getCall(id);
     }
 
-//--------------------------------------------------------------------------------------
 
-    /**
-     * 电影service
-     */
+//-------------------------------------MovieDetail------------------------------------
+
     public interface MovieDetailService {
         @GET("movie/detail/{item_id}?channel=wdj" +
                 "&source=channel_movie&source_id=9240&version=4.0.2" +
@@ -134,11 +107,9 @@ public class RetrofitUtil {
         return getRetrofit(URL_BASE).create(MovieDetailService.class).getCall(id);
     }
 
-    //--------------------------------------------------------------------------------------
 
-    /**
-     * 电影service
-     */
+//--------------------------------QuestionDetail----------------------------------------
+
     public interface QuestionDetailService {
         @GET("question/{item_id}?channel=wdj" +
                 "&source=channel_reading&source_id=9254&version=4.0.2" +
@@ -150,8 +121,8 @@ public class RetrofitUtil {
         return getRetrofit(URL_BASE).create(QuestionDetailService.class).getCall(id);
     }
 
-//--------------------------------------------------------------------------------------
 
+//------------------------------MusicDetail---------------------------------------------
 
     public interface MusicDetailService {
         @GET("music/detail/{item_id}?channel=wdj&version=4.0.2" +
@@ -162,7 +133,9 @@ public class RetrofitUtil {
     public static Call<Music> getMusicCall(int id) {
         return getRetrofit(URL_BASE).create(MusicDetailService.class).getCall(id);
     }
-//---------------------------------------------------------------------------------------
+
+
+//------------------------------------ReadList-----------------------------------------
 
     public interface ReadList {
         @GET("channel/reading/more/0?channel=wdj&version=4.0.2" +
@@ -174,7 +147,8 @@ public class RetrofitUtil {
         return getRetrofit(URL_BASE).create(ReadList.class).getCall();
     }
 
-//---------------------------------------------------------------------------------------
+
+//----------------------------------------MusicList-------------------------------------
 
     public interface MusicList {
         @GET("channel/music/more/0?channel=wdj&version=4.0.2" +
@@ -186,7 +160,7 @@ public class RetrofitUtil {
         return getRetrofit(URL_BASE).create(MusicList.class).getCall();
     }
 
-//---------------------------------------------------------------------------------------
+//--------------------------------------MovieList----------------------------------------
 
     public interface MovieList {
         @GET("channel/movie/more/0?channel=wdj&version=4.0.2" +
@@ -198,5 +172,4 @@ public class RetrofitUtil {
         return getRetrofit(URL_BASE).create(MovieList.class).getCall();
     }
 
-    //-----------------------------------------------------------------------------
 }

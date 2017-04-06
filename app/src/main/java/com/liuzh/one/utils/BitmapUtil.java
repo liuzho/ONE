@@ -14,10 +14,8 @@ public class BitmapUtil {
 
     /**
      * 生成一个圆形的图片
-     * 从---鸿洋大佬---的博客抄来的！！！
-     *
      * @param src 原图片
-     * @return 圆形的图片
+     * @return 圆形图片
      */
     public static Bitmap createCircleBitmap(Bitmap src) {
         int size = Math.min(src.getWidth(), src.getHeight());
@@ -44,7 +42,5 @@ public class BitmapUtil {
 
         squaredBitmap.recycle();
         return bitmap;
-
-
     }
 }

@@ -14,7 +14,7 @@ import com.liuzh.one.bean.Tag;
 import com.liuzh.one.bean.read.Read;
 import com.liuzh.one.bean.read.ReadData;
 import com.liuzh.one.utils.Constant;
-import com.liuzh.one.utils.HtmlUtil;
+import com.liuzh.one.utils.HtmlFmtUtil;
 import com.liuzh.one.utils.RetrofitUtil;
 import com.liuzh.one.view.AppToolbar;
 import com.liuzh.one.view.AuthorsView;
@@ -109,7 +109,7 @@ public class ReadActivity extends BaseActivity {
         }
         mToolbar.setToolbarTitle(toolbarTitle);
         mWvContent.loadDataWithBaseURL("about:blank",
-                HtmlUtil.fmt(data.hp_content), "text/html", "utf-8", null);
+                HtmlFmtUtil.fmt(data.hp_content), "text/html", "utf-8", null);
         mTvTitle.setText(data.hp_title);
         mTvAuthor.setText("文／" + data.hp_author);
         mTvEditorInfo.setText(data.hp_author_introduce + "  " + data.editor_email);

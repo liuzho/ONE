@@ -19,7 +19,7 @@ import com.liuzh.one.bean.Tag;
 import com.liuzh.one.bean.movie.Movie;
 import com.liuzh.one.bean.movie.MovieData;
 import com.liuzh.one.utils.Constant;
-import com.liuzh.one.utils.HtmlUtil;
+import com.liuzh.one.utils.HtmlFmtUtil;
 import com.liuzh.one.utils.RetrofitUtil;
 import com.liuzh.one.view.AppToolbar;
 import com.squareup.picasso.Picasso;
@@ -203,7 +203,7 @@ public class MovieActivity extends BaseActivity {
                 @Override
                 public void run() {
                     mWvContent.loadDataWithBaseURL("about:blank",
-                            HtmlUtil.fmt(html), "text/html", "utf-8", null);
+                            HtmlFmtUtil.fmt(html), "text/html", "utf-8", null);
                     hiddenLoadingView();
                 }
             });
