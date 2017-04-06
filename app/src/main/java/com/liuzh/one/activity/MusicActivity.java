@@ -13,7 +13,7 @@ import com.liuzh.one.bean.music.Music;
 import com.liuzh.one.bean.music.MusicData;
 import com.liuzh.one.utils.CircleTransform;
 import com.liuzh.one.utils.Constant;
-import com.liuzh.one.utils.HtmlUtil;
+import com.liuzh.one.utils.HtmlFmtUtil;
 import com.liuzh.one.utils.RetrofitUtil;
 import com.liuzh.one.view.AppToolbar;
 import com.liuzh.one.view.AuthorsView;
@@ -108,7 +108,7 @@ public class MusicActivity extends BaseActivity {
         mTvTitle.setText(data.story_title);
         mTvAuthorName.setText("文 / " + data.story_author.user_name);
         mWvContent.loadDataWithBaseURL("about:blank",
-                HtmlUtil.fmt(data.story), "text/html", "utf-8", null);
+                HtmlFmtUtil.fmt(data.story), "text/html", "utf-8", null);
         mTvEditorInfo.setText(data.charge_edt + "  " + data.editor_email);
         mTvCopyright.setText(data.copyright);
         mTvLikeComment.setText(data.praisenum + " 喜欢 · " + data.commentnum + " 评论");

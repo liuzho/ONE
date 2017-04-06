@@ -48,7 +48,6 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         mWinWidth = DensityUtil.getWinWidth((Activity) context);
     }
 
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder holder;
@@ -187,7 +186,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((MusicHolder) holder).tv_info.setText(content.music_name + " · " +
                 content.audio_author + " | " + content.audio_album);
         ((MusicHolder) holder).tv_forward.setText(content.forward);
-        int post_time = Integer.valueOf(DateUtil.getFormatH()) - 6;
+        int post_time = Integer.valueOf(DateUtil.getFmtH()) - 6;
         ((MusicHolder) holder).tv_post_time.setText(post_time + "小时前");
         ((MusicHolder) holder).tv_lick_count.setText(content.like_count.toString());
         Picasso.with(App.getContext())
@@ -231,7 +230,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((MovieHolder) holder).tv_author.setText("文／" + content.author.user_name);
         ((MovieHolder) holder).tv_forward.setText(content.forward);
         ((MovieHolder) holder).tv_subtitle.setText("－－《" + content.subtitle + "》");
-        int post_time = Integer.valueOf(DateUtil.getFormatH()) - 6;
+        int post_time = Integer.valueOf(DateUtil.getFmtH()) - 6;
         ((MovieHolder) holder).tv_post_time.setText(post_time + "小时前");
         ((MovieHolder) holder).tv_lick_count.setText(content.like_count.toString());
         Picasso.with(App.getContext())
@@ -293,7 +292,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((ReadHolder) holder).tv_title.setText(content.title);
         ((ReadHolder) holder).tv_author.setText("文／" + content.author.user_name);
         ((ReadHolder) holder).tv_forward.setText(content.forward);
-        int post_time = Integer.valueOf(DateUtil.getFormatH()) - 6;
+        int post_time = Integer.valueOf(DateUtil.getFmtH()) - 6;
         ((ReadHolder) holder).tv_post_time.setText(post_time + "小时前");
         ((ReadHolder) holder).tv_lick_count.setText(content.like_count.toString());
         Picasso.with(App.getContext())

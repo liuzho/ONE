@@ -37,7 +37,7 @@ public class SplashActivity extends AppCompatActivity {
      * 获取oneListId
      */
     public void fetchOneListId() {
-        String nowDate = DateUtil.getFormatYMD();
+        String nowDate = DateUtil.getFmtYMD();
         String lastOpenDate = SPUtil.getString(SPUtil.SP_KEY_OPEN_DATE, "");
         //根据SP存储的年月日信息，如果当天打开过应用即当天获取过oneListId，
         // 则不再获取直接从SP中读取IDs然后进入MainActivity
@@ -54,7 +54,7 @@ public class SplashActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<OneListId> call, Response<OneListId> response) {
                         //向SP写入打开应用的日期
-                        SPUtil.putString(SPUtil.SP_KEY_OPEN_DATE, DateUtil.getFormatYMD());
+                        SPUtil.putString(SPUtil.SP_KEY_OPEN_DATE, DateUtil.getFmtYMD());
                         OneListId listId = response.body();
                         //将oneListId全部存入SP
                         String content = listId.data.get(0);

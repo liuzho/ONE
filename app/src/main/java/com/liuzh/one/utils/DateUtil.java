@@ -1,5 +1,6 @@
 package com.liuzh.one.utils;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -13,22 +14,23 @@ public class DateUtil {
      *
      * @return 格式化后的年月日
      */
-    public static String getFormatYMD() {
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yy / MM / dd");
+    public static String getFmtYMD() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yy / MM / dd");
         return sdf.format(new Date());
     }
 
     public static String getFormatYMDHMS() {
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yy / MM / dd  hh:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yy / MM / dd  hh:mm:ss");
         return sdf.format(new Date());
     }
 
     /**
      * 获取小时数
+     *
      * @return 小时数
      */
-    public static String getFormatH() {
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("hh");
+    public static String getFmtH() {
+        SimpleDateFormat sdf = new SimpleDateFormat("hh");
         return sdf.format(new Date());
     }
 }

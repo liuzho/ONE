@@ -77,4 +77,8 @@ public class AppToolbar extends Toolbar {
     public void setRRClickListener(OnClickListener listener) {
         mIvRRBtn.setOnClickListener(listener);
     }
+
+    public TextView getTvTitle() {
+        return mTvTitle;
+    }
 }

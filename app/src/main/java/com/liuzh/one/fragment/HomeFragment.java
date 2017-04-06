@@ -1,14 +1,10 @@
 package com.liuzh.one.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.liuzh.one.R;
 import com.liuzh.one.activity.MainActivity;
@@ -21,16 +17,18 @@ import java.util.List;
  * Created by 刘晓彬 on 2017/3/16.
  */
 
-public class HomeFragment extends Fragment {
-    private static final String TAG = "HomeFragment";
-
-    private View mRootView;//root view
+public class HomeFragment extends BaseFragment {
     private ViewPager mViewPager;//viewpager
-    private ArrayList<HomeContentFragment> mFragments;//all fragment
+    private ArrayList<OneContentFragment> mFragments;//all fragment
     private FragmentPagerAdapter mPagerAdapter;//adapter
-    private List<String> mIDs;//one ids
+    private List<String> mIdList;//one ids
     private MainActivity mMainActivity;
     private String[] mDayArr;
+
+    @Override
+    protected int getRootViewId() {
+        return R.layout.fragment_home;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,30 +43,18 @@ public class HomeFragment extends Fragment {
      */
     private void initFragments() {
         //从依附的activity的intent中取一天的list id
-        mIDs = mMainActivity.getListId();
+        mIdList = mMainActivity.getListId();
         //创建2个fragment，其余fragment通过view pager滑动监听来动态创建
         mFragments = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
-            int id = Integer.valueOf(mIDs.get(i));
-            HomeContentFragment fragment = new HomeContentFragment(id);
+            int id = Integer.valueOf(mIdList.get(i));
+            OneContentFragment fragment = new OneContentFragment(id);
             mFragments.add(fragment);
         }
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        if (mRootView == null) {
-            mRootView = inflater.inflate(R.layout.fragment_home, null);
-            initView();
-            initData();
-        }
-        return mRootView;
-    }
-
-
     /**
+     * 当前fragment:
      * 被隐藏的时候：停止当前ContentFragment中的RecycleView的滚动（防止toolbar的显示异常）
      * 被显示的时候：设置toolbar显示状态、设置toolbar的title
      *
@@ -78,21 +64,21 @@ public class HomeFragment extends Fragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         int pos = mViewPager.getCurrentItem();
-        RecyclerView rv = mFragments.get(pos).getRecyclerView();
         if (hidden) {
-            rv.stopScroll();
+            mFragments.get(pos).stopRvScroll();
         } else {
-            mFragments.get(pos).changeToolbarVisibility();
+            mFragments.get(pos).controlToolbarVisibility();
             mMainActivity.setToolbarTitle(mDayArr[pos]);
         }
     }
 
-
-    private void initView() {
-        mViewPager = (ViewPager) mRootView.findViewById(R.id.viewPager);
+    @Override
+    protected void initView(View rootView) {
+        mViewPager = (ViewPager) rootView.findViewById(R.id.viewPager);
     }
 
-    private void initData() {
+    @Override
+    protected void initData() {
         mPagerAdapter = new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public int getCount() {
@@ -119,13 +105,13 @@ public class HomeFragment extends Fragment {
                 mMainActivity.setToolbarTitle(mDayArr[position]);
                 //如果当前页是最后一页则新建下一页的fragment
                 if (position == mFragments.size() - 1
-                        && position != mIDs.size() - 1) {
-                    int id = Integer.valueOf(mIDs.get(position + 1));
-                    HomeContentFragment fragment = new HomeContentFragment(id);
+                        && position != mIdList.size() - 1) {
+                    int id = Integer.valueOf(mIdList.get(position + 1));
+                    OneContentFragment fragment = new OneContentFragment(id);
                     mFragments.add(fragment);
                     mPagerAdapter.notifyDataSetChanged();
                 }
-                mFragments.get(position).changeToolbarVisibility();
+                mFragments.get(position).controlToolbarVisibility();
             }
 
             @Override

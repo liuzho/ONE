@@ -33,7 +33,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract int getContentId();
 
-    protected abstract void fetchData();
+    protected void fetchData() {
+    }
 
     protected abstract void findViews();
 
@@ -41,7 +42,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void hiddenLoadingView() {
         mIvLoading.setVisibility(View.GONE);
-
     }
 
     protected void showLoadingView() {

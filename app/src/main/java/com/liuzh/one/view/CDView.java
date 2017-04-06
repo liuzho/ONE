@@ -24,7 +24,7 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
     private int mCDRadius;//CD宽度
     private int mViewWidth;//view宽度
     private int mCenterXY;//中心点的xy坐标
-    private int mBtnCRadius;//中心可点击的圆的半径
+    private int mBtnRadius;//中心可点击的圆的半径
     private float mPosRotate;//当前CD的旋转角度
     private boolean mIsPlaying;//是否处于播放状态
     private Timer mTimer;//定时器
@@ -46,7 +46,6 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
         init();
     }
 
-
     /**
      * 初始化工作
      */
@@ -58,7 +57,6 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
         mTimer = new Timer();
     }
 
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -68,20 +66,24 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
         mViewWidth = Math.min(width, height);
         setMeasuredDimension(mViewWidth, mViewWidth);
         //通过padding设置CD的宽度
-        float VPadding = getPaddingTop() + getPaddingBottom();
-        float HPadding = getPaddingLeft() + getPaddingRight();
-        mCDRadius = (int) ((mViewWidth - Math.max(VPadding, HPadding)) / 2);
+        float vPadding = getPaddingTop() + getPaddingBottom();
+        float hPadding = getPaddingLeft() + getPaddingRight();
+        mCDRadius = (int) ((mViewWidth - Math.max(vPadding, hPadding)) / 2);
         mCenterXY = mViewWidth / 2;
-        mBtnCRadius = mCDRadius / 6;
+        mBtnRadius = mCDRadius / 6;
     }
 
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.rotate(-mPosRotate, mViewWidth / 2, mViewWidth / 2);
+        canvas.rotate(-mPosRotate, mCenterXY, mCenterXY);
         drawCD(canvas);
-        drawCenter(canvas);
+        drawBtn(canvas);
+        drawBorder(canvas);
+    }
+
+    private void drawBorder(Canvas canvas) {
         mPaint.setStrokeWidth(10);
         mPaint.setColor(0x88eeeeee);
         mPaint.setStyle(Paint.Style.STROKE);
@@ -101,28 +103,27 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
         }
     }
 
-
     /**
      * 绘制中心的点击播放区域，小圆圈和三角形
      *
      * @param canvas 画布
      */
-    private void drawCenter(Canvas canvas) {
-        //绘制圆
+    private void drawBtn(Canvas canvas) {
+        //绘制按钮圆
         mPaint.setColor(Color.argb(180, 240, 240, 240));
-        canvas.drawCircle(mCenterXY, mCenterXY, mBtnCRadius, mPaint);
+        canvas.drawCircle(mCenterXY, mCenterXY, mBtnRadius, mPaint);
         mPaint.setColor(Color.WHITE);
         if (mIsPlaying) {
             //绘制暂停按钮形态
-            Rect rightRect = new Rect((int) (mCenterXY + mBtnCRadius * Math.sqrt(3) / 6f - 2f),
-                    (int) (mCenterXY - mBtnCRadius / 2f),
-                    (int) (mCenterXY + mBtnCRadius * Math.sqrt(3) / 6f),
-                    (int) (mCenterXY + mBtnCRadius / 2f));
+            Rect rightRect = new Rect((int) (mCenterXY + mBtnRadius * Math.sqrt(3) / 6f - 3f),
+                    (int) (mCenterXY - mBtnRadius / 2f),
+                    (int) (mCenterXY + mBtnRadius * Math.sqrt(3) / 6f),
+                    (int) (mCenterXY + mBtnRadius / 2f));
 
-            Rect leftRect = new Rect((int) (mCenterXY - mBtnCRadius * Math.sqrt(3) / 6f),
-                    (int) (mCenterXY - mBtnCRadius / 2f),
-                    (int) (mCenterXY - mBtnCRadius * Math.sqrt(3) / 6f + 2f),
-                    (int) (mCenterXY + mBtnCRadius / 2f));
+            Rect leftRect = new Rect((int) (mCenterXY - mBtnRadius * Math.sqrt(3) / 6f),
+                    (int) (mCenterXY - mBtnRadius / 2f),
+                    (int) (mCenterXY - mBtnRadius * Math.sqrt(3) / 6f + 3f),
+                    (int) (mCenterXY + mBtnRadius / 2f));
             canvas.drawRect(leftRect, mPaint);
             canvas.drawRect(rightRect, mPaint);
         } else {
@@ -148,10 +149,10 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
                 mDownX = event.getX();
                 mDownY = event.getY();
                 //如果没有点在可点击的区域，则不接收事件
-                if (mDownX < mCenterXY - mBtnCRadius ||
-                        mDownX > mCenterXY + mBtnCRadius ||
-                        mDownY < mCenterXY - mBtnCRadius ||
-                        mDownY > mCenterXY + mBtnCRadius) {
+                if (mDownX < mCenterXY - mBtnRadius ||
+                        mDownX > mCenterXY + mBtnRadius ||
+                        mDownY < mCenterXY - mBtnRadius ||
+                        mDownY > mCenterXY + mBtnRadius) {
                     return false;
                 }
                 break;
@@ -176,13 +177,12 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
                 }
                 break;
         }
-
         return true;
     }
 
     /**
      * 开始播放音乐
-     * 使用timer每0.1s叠加0.6°旋转角度
+     * 使用timer每0.03s叠加0.2°旋转角度
      */
     private void playMusic() {
         Log.i(TAG, "playMusic");
@@ -197,8 +197,8 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
                 post(new Runnable() {
                     @Override
                     public void run() {
-                        setPivotX(mViewWidth / 2);
-                        setPivotY(mViewWidth / 2);
+                        setPivotX(mCenterXY);
+                        setPivotY(mCenterXY);
                         setRotation(mPosRotate);
                         invalidate();
                     }
@@ -211,7 +211,6 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
      * 停止播放音乐
      */
     private void stopMusic() {
-        Log.i(TAG, "stopMusic");
         mIsPlaying = false;
         mTimer.cancel();
         mTimer = null;

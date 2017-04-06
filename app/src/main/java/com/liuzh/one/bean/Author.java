@@ -1,7 +1,9 @@
 
 package com.liuzh.one.bean;
 
-public class Author {
+import java.io.Serializable;
+
+public class Author implements Serializable{
 
     public String user_id;
     public String user_name;

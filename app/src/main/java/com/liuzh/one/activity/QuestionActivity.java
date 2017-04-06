@@ -14,7 +14,7 @@ import com.liuzh.one.bean.Tag;
 import com.liuzh.one.bean.question.Question;
 import com.liuzh.one.bean.question.QuestionData;
 import com.liuzh.one.utils.Constant;
-import com.liuzh.one.utils.HtmlUtil;
+import com.liuzh.one.utils.HtmlFmtUtil;
 import com.liuzh.one.utils.RetrofitUtil;
 import com.liuzh.one.view.AppToolbar;
 
@@ -98,7 +98,7 @@ public class QuestionActivity extends BaseActivity {
         mTvQuestionAsker.setText("————" + data.asker.user_name + "问道");
         mTvAnswerer.setText(data.answerer.user_name + "答：");
         mWvContent.loadDataWithBaseURL("about:blank",
-                HtmlUtil.fmt(data.answer_content), "text/html", "utf-8", null);
+                HtmlFmtUtil.fmt(data.answer_content), "text/html", "utf-8", null);
         mTvEditorInfo.setText(data.charge_edt + "  " + data.charge_email);
         if (TextUtils.isEmpty(data.copyright)) {
             mTvCopyright.setVisibility(View.GONE);

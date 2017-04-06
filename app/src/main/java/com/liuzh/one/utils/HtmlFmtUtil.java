@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
  * Created by 刘晓彬 on 2017/3/24.
  */
 
-public class HtmlUtil {
+public class HtmlFmtUtil {
 
     public static String fmt(String str) {
         //用正则将img的style置为空
