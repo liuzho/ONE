@@ -91,10 +91,10 @@
         android:id="@+id/iv_comment"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
         android:layout_below="@+id/tv_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginRight="110dp"
+        android:layout_marginLeft="200dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/comment" />
 
@@ -102,10 +102,10 @@
         android:id="@+id/iv_laud"
         android:layout_width="14dp"
         android:layout_height="14dp"
-        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/iv_comment"
+        android:layout_marginLeft="10dp"
         android:layout_below="@+id/tv_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginRight="80dp"
         android:layout_marginTop="10dp"
         android:src="@drawable/comment_laud" />
 
@@ -113,10 +113,10 @@
         android:id="@+id/tv_laud_num"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:layout_alignParentRight="true"
         android:layout_below="@+id/tv_content"
+        android:layout_toRightOf="@+id/iv_laud"
         android:layout_marginBottom="8dp"
-        android:layout_marginRight="55dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:textColor="#bbb"
