@@ -29,7 +29,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
+<<<<<<< HEAD
             android:padding="12dp"
+=======
+>>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
             android:src="@drawable/tab_home_checked" />
 
         <ImageView
@@ -38,7 +41,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
+<<<<<<< HEAD
             android:padding="12dp"
+=======
+>>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
             android:src="@drawable/tab_read_unchecked" />
 
         <ImageView
@@ -47,7 +53,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
+<<<<<<< HEAD
             android:padding="12dp"
+=======
+>>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
             android:src="@drawable/tab_music_unchecked" />
 
         <ImageView
@@ -56,7 +65,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
+<<<<<<< HEAD
             android:padding="12dp"
+=======
+>>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
             android:src="@drawable/tab_movie_unchecked" />
     </LinearLayout>
 

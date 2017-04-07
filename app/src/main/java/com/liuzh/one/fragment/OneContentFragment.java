@@ -12,7 +12,11 @@ import android.widget.ImageView;
 
 import com.liuzh.one.R;
 import com.liuzh.one.activity.MainActivity;
+<<<<<<< HEAD
 import com.liuzh.one.adapter.ListRvAdapter;
+=======
+import com.liuzh.one.adapter.ListRVAdapter;
+>>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
 import com.liuzh.one.application.App;
 import com.liuzh.one.bean.list.OneDay;
 import com.liuzh.one.utils.RetrofitUtil;
@@ -104,8 +108,13 @@ public class OneContentFragment extends BaseFragment {
         mCall.enqueue(new Callback<OneDay>() {
             @Override
             public void onResponse(Call<OneDay> call, Response<OneDay> response) {
+<<<<<<< HEAD
                 ListRvAdapter adapter =
                         new ListRvAdapter(getActivity(), response.body().data);
+=======
+                ListRVAdapter adapter =
+                        new ListRVAdapter(getActivity(), response.body().data);
+>>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
                 mRecyclerView.setAdapter(adapter);
                 mIvLoading.setVisibility(View.GONE);
             }

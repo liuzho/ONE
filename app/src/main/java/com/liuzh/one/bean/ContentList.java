@@ -1,6 +1,10 @@
 
 package com.liuzh.one.bean;
 
+<<<<<<< HEAD
+=======
+import com.liuzh.one.bean.list.Answerer;
+>>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
 import com.liuzh.one.bean.list.ShareInfo;
 
 import java.util.List;
@@ -49,6 +53,10 @@ public class ContentList {
     public String music_name;
     public String audio_author;
     public String audio_album;
+<<<<<<< HEAD
     public Author answerer;
+=======
+    public Answerer answerer;
+>>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
 
 }

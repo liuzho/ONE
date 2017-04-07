@@ -1,14 +1,20 @@
 package com.liuzh.one.utils;
 
 import android.graphics.Bitmap;
+<<<<<<< HEAD
 import android.graphics.BitmapFactory;
+=======
+>>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+<<<<<<< HEAD
 import com.liuzh.one.R;
 import com.liuzh.one.application.App;
 
+=======
+>>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
 /**
  * bitmap工具类
  * Created by LiuZh on 2017/3/15.
@@ -18,7 +24,10 @@ public class BitmapUtil {
 
     /**
      * 生成一个圆形的图片
+<<<<<<< HEAD
      *
+=======
+>>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
      * @param src 原图片
      * @return 圆形图片
      */
@@ -35,9 +44,12 @@ public class BitmapUtil {
 
         Bitmap bitmap = Bitmap.createBitmap(size, size, src.getConfig());
 
+<<<<<<< HEAD
         if (bitmap == null){
             return squaredBitmap;
         }
+=======
+>>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
         Canvas canvas = new Canvas(bitmap);
         Paint paint = new Paint();
         BitmapShader shader = new BitmapShader(squaredBitmap,

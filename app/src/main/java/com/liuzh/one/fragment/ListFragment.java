@@ -11,7 +11,11 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.liuzh.one.R;
+<<<<<<< HEAD
 import com.liuzh.one.adapter.ListRvAdapter;
+=======
+import com.liuzh.one.adapter.ListRVAdapter;
+>>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
 import com.liuzh.one.application.App;
 import com.liuzh.one.bean.DataList;
 import com.liuzh.one.bean.list.Data;
@@ -78,14 +82,22 @@ public class ListFragment extends BaseFragment {
             public void onResponse(Call<DataList> call, Response<DataList> response) {
                 Data data = new Data();
                 data.content_list = response.body().data;
+<<<<<<< HEAD
                 mRecyclerView.setAdapter(new ListRvAdapter(getActivity(), data));
+=======
+                mRecyclerView.setAdapter(new ListRVAdapter(getActivity(), data));
+>>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
                 mIvLoading.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<DataList> call, Throwable t) {
                 App.showToast("失败，再次链接");
+<<<<<<< HEAD
                 fetchData();
+=======
+                call.enqueue(this);
+>>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
             }
         };
 
