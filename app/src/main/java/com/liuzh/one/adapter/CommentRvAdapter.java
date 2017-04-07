@@ -16,6 +16,8 @@ import com.liuzh.one.bean.comment.Datum;
 import com.liuzh.one.utils.CircleTransform;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 /**
  * Created by 刘晓彬 on 2017/4/7.
  */
@@ -27,6 +29,20 @@ public class CommentRvAdapter extends RecyclerView.Adapter {
     public CommentRvAdapter(Context context, CommentData data) {
         mContext = context;
         mCommentData = data;
+        boolean added = false;
+        boolean hasHot = false;
+        List<Datum> datums = mCommentData.data;
+        for (int i = 0; i < datums.size(); i++) {
+            Datum datum = datums.get(i);
+            if (datum.type == 0) {
+                hasHot = true;
+            } else if (datum.type == 1 && !added && hasHot) {
+                Datum d = new Datum();
+                d.type = 3;
+                datums.add(i, d);
+                added = true;
+            }
+        }
     }
 
 
@@ -34,9 +50,21 @@ public class CommentRvAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         RecyclerView.ViewHolder holder;
-        holder = new CommentHolder(inflater.inflate(
-                R.layout.layout_rv_item_commet, parent, false));
+        switch (viewType) {
+            case 3:
+                holder = new DecorHolder(inflater.inflate(
+                        R.layout.layout_hot_decoration, parent, false));
+                break;
+            default:
+                holder = new CommentHolder(inflater.inflate(
+                        R.layout.layout_rv_item_commet, parent, false));
+        }
         return holder;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return mCommentData.data.get(position).type;
     }
 
     @Override
@@ -55,7 +83,7 @@ public class CommentRvAdapter extends RecyclerView.Adapter {
             ((CommentHolder) holder).tvLaudNum.setText(datum.praisenum + "");
             if (datum.touser != null) {
                 ((CommentHolder) holder).llToUser.setVisibility(View.VISIBLE);
-                ((CommentHolder) holder).tvToUserName.setText(datum.touser.user_name+"：");
+                ((CommentHolder) holder).tvToUserName.setText(datum.touser.user_name + "：");
                 ((CommentHolder) holder).tvToUserContent.setText(datum.quote);
             } else {
                 ((CommentHolder) holder).llToUser.setVisibility(View.GONE);
@@ -65,7 +93,7 @@ public class CommentRvAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return mCommentData.count >= 16 ? 16 : mCommentData.count;
+        return mCommentData.data.size();
     }
 
 
@@ -94,6 +122,13 @@ public class CommentRvAdapter extends RecyclerView.Adapter {
             llToUser = (LinearLayout) itemView.findViewById(R.id.ll_to_user);
             tvToUserName = (TextView) itemView.findViewById(R.id.tv_to_user_username);
             tvToUserContent = (TextView) itemView.findViewById(R.id.tv_to_user_content);
+        }
+    }
+
+    class DecorHolder extends RecyclerView.ViewHolder {
+
+        public DecorHolder(View itemView) {
+            super(itemView);
         }
     }
 }

@@ -2,6 +2,9 @@ package com.liuzh.one.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebView;
@@ -9,8 +12,11 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.liuzh.one.R;
+import com.liuzh.one.adapter.CommentRvAdapter;
 import com.liuzh.one.application.App;
 import com.liuzh.one.bean.Tag;
+import com.liuzh.one.bean.comment.Comment;
+import com.liuzh.one.bean.comment.CommentData;
 import com.liuzh.one.bean.question.Question;
 import com.liuzh.one.bean.question.QuestionData;
 import com.liuzh.one.utils.Constant;
@@ -39,6 +45,8 @@ public class QuestionActivity extends BaseActivity {
     private TextView mTvCopyright;
     private WebView mWvContent;
     private Call<Question> mQuestionCall;
+    private Call<Comment> mCommentCall;
+    private RecyclerView mRvComments;
 
     public static void start(Context context, int id) {
         Intent intent = new Intent(context, QuestionActivity.class);
@@ -62,6 +70,7 @@ public class QuestionActivity extends BaseActivity {
         mWvContent = (WebView) findViewById(R.id.webView);
         mTvEditorInfo = (TextView) findViewById(R.id.tv_info);
         mTvCopyright = (TextView) findViewById(R.id.tv_copyright);
+        mRvComments = (RecyclerView) findViewById(R.id.rv_comments);
     }
 
     @Override
@@ -84,6 +93,15 @@ public class QuestionActivity extends BaseActivity {
                 hiddenLoadingView();
             }
         });
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        mRvComments.setLayoutManager(layoutManager);
+        mRvComments.addItemDecoration(new DividerItemDecoration(
+                mContext, DividerItemDecoration.VERTICAL));
     }
 
     private void setData(QuestionData data) {
@@ -114,6 +132,32 @@ public class QuestionActivity extends BaseActivity {
             App.showToast("ID = -1");
             return;
         }
+        fetchQuestion(id);
+        fetchComment(id);
+
+    }
+
+    private void fetchComment(final int id) {
+        mCommentCall = RetrofitUtil.getQuestionCommentCall(id);
+        mCommentCall.enqueue(new Callback<Comment>() {
+            @Override
+            public void onResponse(Call<Comment> call, Response<Comment> response) {
+                setComment(response.body().data);
+            }
+
+            @Override
+            public void onFailure(Call<Comment> call, Throwable t) {
+                fetchComment(id);
+            }
+        });
+    }
+
+
+    private void setComment(CommentData comment) {
+        mRvComments.setAdapter(new CommentRvAdapter(mContext, comment));
+    }
+
+    private void fetchQuestion(final int id) {
         mQuestionCall = RetrofitUtil.getQuestionCall(id);
         mQuestionCall.enqueue(new Callback<Question>() {
             @Override
@@ -125,7 +169,7 @@ public class QuestionActivity extends BaseActivity {
             @Override
             public void onFailure(Call<Question> call, Throwable t) {
                 App.showToast("失败，再次尝试");
-                fetchData();
+                fetchQuestion(id);
             }
         });
     }

@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +17,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liuzh.one.R;
+import com.liuzh.one.adapter.CommentRvAdapter;
 import com.liuzh.one.adapter.ViewsPagerAdapter;
 import com.liuzh.one.application.App;
 import com.liuzh.one.bean.Tag;
+import com.liuzh.one.bean.comment.Comment;
+import com.liuzh.one.bean.comment.CommentData;
 import com.liuzh.one.bean.movie.Movie;
 import com.liuzh.one.bean.movie.MovieData;
 import com.liuzh.one.utils.Constant;
@@ -55,6 +61,8 @@ public class MovieActivity extends BaseActivity {
     private WebView mWvContent;
     private ViewPager mVpMoveImgs;
     private Call<Movie> mMovieCall;
+    private Call<Comment> mCommentCall;
+    private RecyclerView mRvComments;
 
     public static void start(Context context, int id, int likeCount, String title) {
         Intent intent = new Intent(context, MovieActivity.class);
@@ -81,6 +89,16 @@ public class MovieActivity extends BaseActivity {
         mWvContent = (WebView) findViewById(R.id.webView);
         mVpMoveImgs = (ViewPager) findViewById(R.id.bannerView);
         mToolbar = (AppToolbar) findViewById(R.id.toolbar);
+        mRvComments = (RecyclerView) findViewById(R.id.rv_comments);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        mRvComments.setLayoutManager(layoutManager);
+        mRvComments.addItemDecoration(new DividerItemDecoration(
+                mContext, DividerItemDecoration.VERTICAL));
     }
 
     @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
@@ -125,22 +143,49 @@ public class MovieActivity extends BaseActivity {
             App.showToast("id=-1");
             return;
         }
+        fetchMovie(id);
+        fetchComments(id);
+
+    }
+
+    private void fetchComments(final int id) {
+        mCommentCall = RetrofitUtil.getMovieCommentCall(id);
+        mCommentCall.enqueue(new Callback<Comment>() {
+            @Override
+            public void onResponse(Call<Comment> call, Response<Comment> response) {
+                setComment(response.body().data);
+            }
+
+            @Override
+            public void onFailure(Call<Comment> call, Throwable t) {
+                App.showToast("失败，再次尝试");
+                fetchComments(id);
+            }
+        });
+    }
+
+    private void setComment(CommentData data) {
+        mRvComments.setAdapter(new CommentRvAdapter(mContext, data));
+    }
+
+
+    private void fetchMovie(final int id) {
         mMovieCall = RetrofitUtil.getMovieCall(id);
         mMovieCall.enqueue(new Callback<Movie>() {
             @Override
             public void onResponse(Call<Movie> call, Response<Movie> response) {
-                setData(response.body().data);
+                setMovieData(response.body().data);
             }
 
             @Override
             public void onFailure(Call<Movie> call, Throwable t) {
                 App.showToast("失败，再次尝试");
-                fetchData();
+                fetchMovie(id);
             }
         });
     }
 
-    private void setData(final MovieData data) {
+    private void setMovieData(final MovieData data) {
         initViewPager(data);
         List<Tag> tags = data.tag_list;
         String toolbarTitle = getString(R.string.one_movie);
@@ -223,5 +268,6 @@ public class MovieActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         mMovieCall.cancel();
+        mCommentCall.cancel();
     }
 }

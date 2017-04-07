@@ -43,14 +43,14 @@
 
     <ImageView
         android:id="@+id/iv_img"
-        android:adjustViewBounds="true"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="45dp"
         android:layout_marginRight="45dp"
-        android:layout_height="wrap_content"
-        tools:layout_height="180dp"
-        android:layout_marginBottom="8dp"
-        tools:background="#eee" />
+        android:adjustViewBounds="true"
+        tools:background="#eee"
+        tools:layout_height="180dp" />
 
     <TextView
         android:id="@+id/tv_forward"
@@ -68,11 +68,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:textSize="@dimen/content_text"
         android:layout_marginBottom="5dp"
         android:layout_marginRight="@dimen/rv_text_margin_horizon"
         android:gravity="center"
         android:textColor="#888"
+        android:textSize="@dimen/content_text"
         tools:text="--《爱在黎明破晓前》" />
 
     <include layout="@layout/layout_rv_item_bottom" />

@@ -148,7 +148,6 @@ public class ReadActivity extends BaseActivity {
 
 
     @Override
-
     protected void fetchData() {
         int id = getIntent().getIntExtra(Constant.INTENT_KEY_ID, -1);
         if (id == -1) {

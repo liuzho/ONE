@@ -8,11 +8,11 @@
         android:id="@+id/iv_toolbar_left"
         android:layout_width="26dp"
         android:layout_height="26dp"
-        android:scaleType="fitXY"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
         android:clickable="true"
+        android:scaleType="fitXY"
         tools:src="@drawable/back" />
 
     <TextView
@@ -28,11 +28,11 @@
         android:id="@+id/iv_toolbar_right_l"
         android:layout_width="26dp"
         android:layout_height="26dp"
-        android:scaleType="fitXY"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="60dp"
         android:clickable="true"
+        android:scaleType="fitXY"
         tools:src="@drawable/listen" />
 
     <ImageView
@@ -40,10 +40,10 @@
         android:layout_width="26dp"
         android:layout_height="26dp"
         android:layout_alignParentRight="true"
-        android:scaleType="fitXY"
         android:layout_centerVertical="true"
         android:layout_marginRight="15dp"
         android:clickable="true"
+        android:scaleType="fitXY"
         tools:src="@drawable/share" />
 
     <View

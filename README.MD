@@ -11,7 +11,9 @@
 
 - 更新：
 
-	2017-4-7 ：更换部分图标；添加各详情页的评论列表；优化部分代码
+	2017-4-7 ：注：后期更新会迅速减少，这个项目没啥写的了，gif图是早期的，与最新有些不同
+
+	2017-4-7 ：更换部分图片；添加各详情页的评论列表；优化部分代码
 
 	2017-4-6 ：添加BaseFragment、优化fragment代码/逻辑、自定义RecycleView实现滚动实时监听(未完成)
 			添加作者信息Activity(未完成)
@@ -31,8 +33,7 @@
 ...再早没写，忘了
 
 - 使用到的库：
- 1. compile 'io.reactivex.rxjava2:rxandroid:2.0.1'//RxAndroid
- 2. compile 'io.reactivex.rxjava2:rxjava:2.0.7'//RxJava
- 3. compile 'com.squareup.retrofit2:retrofit:2.2.0'//Retrofit
- 4. compile 'com.squareup.retrofit2:converter-gson:2.0.2'//Gson
- 5. compile 'com.squareup.picasso:picasso:2.5.2'//Picasso
+
+ 1. compile 'com.squareup.retrofit2:retrofit:2.2.0'//Retrofit
+ 2. compile 'com.squareup.retrofit2:converter-gson:2.0.2'//Gson
+ 3. compile 'com.squareup.picasso:picasso:2.5.2'//Picasso

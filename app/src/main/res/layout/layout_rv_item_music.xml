@@ -20,12 +20,12 @@
 
     <TextView
         android:id="@+id/tv_toolbar_title"
-        android:lineSpacingExtra="2dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/rv_text_margin_horizon"
         android:layout_marginRight="@dimen/rv_text_margin_horizon"
         android:gravity="center|left"
+        android:lineSpacingExtra="2dp"
         android:textColor="#000"
         android:textSize="@dimen/item_title"
         tools:text="越微信，越孤独" />
@@ -48,8 +48,9 @@
         <ImageView
             android:id="@+id/feeds_music"
             android:layout_width="300dp"
-            android:layout_centerVertical="true"
             android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:padding="2dp"
             android:scaleType="fitXY"
             android:src="@drawable/feeds_music" />
 
@@ -63,13 +64,15 @@
         <com.liuzh.one.view.CDView
             android:id="@+id/cdv_music"
             android:layout_width="180dp"
-            android:layout_marginRight="10dp"
             android:layout_height="180dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
             android:layout_alignRight="@+id/feeds_music"
-            android:layout_centerInParent="true"
+            android:layout_marginRight="10dp"
             android:adjustViewBounds="true" />
 
         <ImageView
+            android:id="@+id/imageView"
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -77,40 +80,28 @@
             android:gravity="center"
             android:src="@drawable/feeds_music_story" />
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="160dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:ems="1"
-            android:textColor="#888"
-            android:gravity="center"
-            android:text="这应该是个背景" />
-        <!--tools:text="STORIES OF MUSIC \n -one-" -->
-
     </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_info"
-        android:maxLines="1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="@dimen/rv_text_margin_horizon"
         android:layout_marginRight="@dimen/rv_text_margin_horizon"
         android:layout_marginTop="20dp"
+        android:maxLines="1"
         android:textColor="#888"
         android:textSize="10sp"
         tools:text="我发现你 · FINE乐团 | I'M SOORY" />
 
     <TextView
         android:id="@+id/tv_forward"
-        android:lineSpacingExtra="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/rv_text_margin_horizon"
         android:layout_marginRight="@dimen/rv_text_margin_horizon"
+        android:lineSpacingExtra="5dp"
         android:textColor="@color/textContent"
         android:textSize="@dimen/content_text"
         tools:text="我从未如此认真的观察过这座城市，昨夜的模样，它带着疲惫与迷幻，出现在我面前时，耳边响起的正是《我发现你》。" />

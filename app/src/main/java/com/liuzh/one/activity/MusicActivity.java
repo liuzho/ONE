@@ -2,13 +2,19 @@ package com.liuzh.one.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.liuzh.one.R;
+import com.liuzh.one.adapter.CommentRvAdapter;
 import com.liuzh.one.application.App;
 import com.liuzh.one.bean.Tag;
+import com.liuzh.one.bean.comment.Comment;
+import com.liuzh.one.bean.comment.CommentData;
 import com.liuzh.one.bean.music.Music;
 import com.liuzh.one.bean.music.MusicData;
 import com.liuzh.one.utils.CircleTransform;
@@ -45,6 +51,8 @@ public class MusicActivity extends BaseActivity {
     private TextView mTvLikeComment;
     private AuthorsView mAvAuthors;
     private Call<Music> mMusicCall;
+    private Call<Comment> mCommentCall;
+    private RecyclerView mRvComments;
 
     public static void start(Context context, int id) {
         Intent intent = new Intent(context, MusicActivity.class);
@@ -69,6 +77,7 @@ public class MusicActivity extends BaseActivity {
         mTvCopyright = (TextView) findViewById(R.id.tv_copyright);
         mTvLikeComment = (TextView) findViewById(R.id.tv_like_comment);
         mAvAuthors = (AuthorsView) findViewById(R.id.av_authors);
+        mRvComments = (RecyclerView) findViewById(R.id.rv_comments);
     }
 
     @Override
@@ -90,6 +99,15 @@ public class MusicActivity extends BaseActivity {
             }
         });
         setSupportActionBar(mToolbar);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        mRvComments.setLayoutManager(layoutManager);
+        mRvComments.addItemDecoration(new DividerItemDecoration(
+                mContext, DividerItemDecoration.VERTICAL));
     }
 
     private void setData(MusicData data) {
@@ -122,6 +140,30 @@ public class MusicActivity extends BaseActivity {
             App.showToast("id=-1");
             return;
         }
+        fetchMusic(id);
+        fetchComment(id);
+    }
+
+    private void fetchComment(final int id) {
+        mCommentCall = RetrofitUtil.getMusicCommentCall(id);
+        mCommentCall.enqueue(new Callback<Comment>() {
+            @Override
+            public void onResponse(Call<Comment> call, Response<Comment> response) {
+                setComment(response.body().data);
+            }
+
+            @Override
+            public void onFailure(Call<Comment> call, Throwable t) {
+                fetchComment(id);
+            }
+        });
+    }
+
+    public void setComment(CommentData comment) {
+        mRvComments.setAdapter(new CommentRvAdapter(mContext, comment));
+    }
+
+    private void fetchMusic(final int id) {
         mMusicCall = RetrofitUtil.getMusicCall(id);
         mMusicCall.enqueue(new Callback<Music>() {
             @Override
@@ -133,7 +175,7 @@ public class MusicActivity extends BaseActivity {
             @Override
             public void onFailure(Call<Music> call, Throwable t) {
                 App.showToast("失败-再次请求");
-                fetchData();
+                fetchMusic(id);
             }
         });
     }
@@ -142,5 +184,8 @@ public class MusicActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         mMusicCall.cancel();
+        mCommentCall.cancel();
     }
+
+
 }

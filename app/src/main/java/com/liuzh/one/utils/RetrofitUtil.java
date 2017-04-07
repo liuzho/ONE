@@ -174,7 +174,7 @@ public class RetrofitUtil {
     }
 
 
-//--------------------------------------MovieList----------------------------------------
+//--------------------------------------ReadComment----------------------------------------
 
     public interface ReadComment {
         @GET("comment/praiseandtime/essay/{item_id}/0?channel=wdj&version=4.0.2" +
@@ -185,5 +185,46 @@ public class RetrofitUtil {
     public static Call<Comment> getReadCommentCall(int id) {
         return getRetrofit(URL_BASE).create(ReadComment.class).getCall(id);
     }
+
+
+//--------------------------------------MovieList----------------------------------------
+
+    public interface MovieComment {
+        @GET("comment/praiseandtime/movie/{item_id}/0?channel=wdj&version=4.0.2" +
+                "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
+        Call<Comment> getCall(@Path("item_id") int id);
+    }
+
+    public static Call<Comment> getMovieCommentCall(int id) {
+        return getRetrofit(URL_BASE).create(MovieComment.class).getCall(id);
+    }
+
+
+//--------------------------------------MusicList----------------------------------------
+
+    public interface MusicComment {
+        @GET("comment/praiseandtime/music/{item_id}/0?channel=wdj&version=4.0.2" +
+                "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
+        Call<Comment> getCall(@Path("item_id") int id);
+    }
+
+    public static Call<Comment> getMusicCommentCall(int id) {
+        return getRetrofit(URL_BASE).create(MusicComment.class).getCall(id);
+    }
+
+
+//--------------------------------------QuestionList----------------------------------------
+
+    public interface QuestionComment {
+        @GET("comment/praiseandtime/question/{item_id}/0?channel=wdj&version=4.0.2" +
+                "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
+        Call<Comment> getCall(@Path("item_id") int id);
+    }
+
+    public static Call<Comment> getQuestionCommentCall(int id) {
+        return getRetrofit(URL_BASE).create(QuestionComment.class).getCall(id);
+    }
+
+
 
 }

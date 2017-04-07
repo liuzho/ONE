@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <!--主页-->
-        <activity android:name="com.liuzh.one.activity.MainActivity" />
+        <activity android:name=".activity.MainActivity" />
         <!--阅读详情页-->
         <activity android:name=".activity.ReadActivity" />
         <!--音乐详情页-->

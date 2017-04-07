@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#fff"
     android:layout_height="wrap_content"
+    android:background="#fff"
     android:orientation="vertical">
 
     <TextView
@@ -20,12 +20,12 @@
 
     <TextView
         android:id="@+id/tv_toolbar_title"
-        android:lineSpacingExtra="2dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/rv_text_margin_horizon"
         android:layout_marginRight="@dimen/rv_text_margin_horizon"
         android:gravity="center|left"
+        android:lineSpacingExtra="2dp"
         android:textColor="#000"
         android:textSize="@dimen/item_title"
         tools:text="宇宙超度指南 · 克隆伦理" />
@@ -43,23 +43,23 @@
 
     <ImageView
         android:id="@+id/iv_img"
-        tools:layout_height="180dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="45dp"
         android:layout_marginRight="45dp"
         android:adjustViewBounds="true"
-        tools:background="#eee" />
+        tools:background="#eee"
+        tools:layout_height="180dp" />
 
     <TextView
         android:id="@+id/tv_forward"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/rv_text_margin_horizon"
         android:layout_marginLeft="@dimen/rv_text_margin_horizon"
-        android:textColor="@color/textContent"
+        android:layout_marginRight="@dimen/rv_text_margin_horizon"
         android:lineSpacingExtra="5dp"
+        android:textColor="@color/textContent"
         android:textSize="@dimen/content_text"
         tools:text="活着的意义只有活人关心。----空舟禅师" />
 
