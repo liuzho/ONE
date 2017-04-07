@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="20dp">
+
+    <ImageView
+        android:id="@+id/iv_head"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        tools:background="#ddd" />
+
+    <TextView
+        android:id="@+id/tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/iv_head"
+        android:gravity="center"
+        android:textColor="#888"
+        android:textSize="14sp"
+        tools:text="狐狸先森" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textColor="#999"
+        android:textSize="14sp"
+        tools:text="07 Apr.2017" />
+
+    <LinearLayout
+        android:id="@+id/ll_to_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:background="@drawable/follow_bg"
+        android:lineSpacingExtra="3dp"
+        android:orientation="vertical"
+        android:paddingBottom="3dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="3dp"
+        android:layout_below="@+id/tv_username"
+        android:layout_alignLeft="@+id/tv_content"
+        android:layout_alignStart="@+id/tv_content">
+
+        <TextView
+            android:id="@+id/tv_to_user_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:textColor="#555"
+            android:textSize="15sp"
+            tools:text="看不见蓝色的沙丁鱼:" />
+
+        <TextView
+            android:gravity="left"
+            android:id="@+id/tv_to_user_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lineSpacingExtra="3dp"
+            android:maxLines="3"
+            android:textColor="#999"
+            android:textSize="14sp"
+            tools:text="是梦，宝石的珠子是冷空气，感冒是睡觉踢被子的后果。只是把身体的感觉体现在了视觉的珠子上" />
+
+    </LinearLayout>
+
+    <TextView
+        android:gravity="left"
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_to_user"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:lineSpacingExtra="3dp"
+        android:textColor="#000"
+        android:textSize="16sp"
+        tools:text="正在上高数课，一看变不可收拾......看完了，要下课了。" />
+
+    <ImageView
+        android:id="@+id/iv_comment"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tv_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="110dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/comment" />
+
+    <ImageView
+        android:id="@+id/iv_laud"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tv_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/comment_laud" />
+
+    <TextView
+        android:id="@+id/tv_laud_num"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tv_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="55dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:textColor="#bbb"
+        android:textSize="12sp"
+        tools:text="7" />
+
+</RelativeLayout>

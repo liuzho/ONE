@@ -1,6 +1,7 @@
 package com.liuzh.one.utils;
 
 import com.liuzh.one.bean.DataList;
+import com.liuzh.one.bean.comment.Comment;
 import com.liuzh.one.bean.list.OneDay;
 import com.liuzh.one.bean.list.OneListId;
 import com.liuzh.one.bean.movie.Movie;
@@ -170,6 +171,19 @@ public class RetrofitUtil {
 
     public static Call<DataList> getMovieListCall() {
         return getRetrofit(URL_BASE).create(MovieList.class).getCall();
+    }
+
+
+//--------------------------------------MovieList----------------------------------------
+
+    public interface ReadComment {
+        @GET("comment/praiseandtime/essay/{item_id}/0?channel=wdj&version=4.0.2" +
+                "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
+        Call<Comment> getCall(@Path("item_id") int id);
+    }
+
+    public static Call<Comment> getReadCommentCall(int id) {
+        return getRetrofit(URL_BASE).create(ReadComment.class).getCall(id);
     }
 
 }

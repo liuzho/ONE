@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.liuzh.one.R;
-import com.liuzh.one.adapter.ListRVAdapter;
+import com.liuzh.one.adapter.ListRvAdapter;
 import com.liuzh.one.application.App;
 import com.liuzh.one.bean.DataList;
 import com.liuzh.one.bean.list.Data;
@@ -78,14 +78,14 @@ public class ListFragment extends BaseFragment {
             public void onResponse(Call<DataList> call, Response<DataList> response) {
                 Data data = new Data();
                 data.content_list = response.body().data;
-                mRecyclerView.setAdapter(new ListRVAdapter(getActivity(), data));
+                mRecyclerView.setAdapter(new ListRvAdapter(getActivity(), data));
                 mIvLoading.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<DataList> call, Throwable t) {
                 App.showToast("失败，再次链接");
-                call.enqueue(this);
+                fetchData();
             }
         };
 

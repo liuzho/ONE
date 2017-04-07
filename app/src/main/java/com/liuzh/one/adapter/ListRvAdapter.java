@@ -32,7 +32,7 @@ import java.util.List;
  * Created by 刘晓彬 on 2017/3/20.
  */
 
-public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ListRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
     private int mWinWidth;
@@ -40,7 +40,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private String mDate;
     private List<ContentList> mContentList;
 
-    public ListRVAdapter(Context context, Data data) {
+    public ListRvAdapter(Context context, Data data) {
         mContext = context;
         mDate = data.date;
         mWeather = data.weather;
@@ -51,7 +51,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder holder;
-        LayoutInflater inflater = LayoutInflater.from(App.getContext());
+        LayoutInflater inflater = LayoutInflater.from(mContext);
         switch (viewType) {
             case Constant.ITEM_TYPE_DAY_ONE:
                 holder = new OneDayHolder(inflater.inflate(
@@ -138,9 +138,9 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((OneDayHolder) holder).tv_forward.setText(content.forward);
         ((OneDayHolder) holder).tv_words_info.setText(content.words_info);
         ((OneDayHolder) holder).tv_lick_count.setText(content.like_count.toString());
-        Picasso.with(App.getContext())
+        Picasso.with(mContext)
                 .load(content.img_url)
-                .placeholder(R.drawable.placeholder)
+                .placeholder(R.drawable.one_placeholder)
                 .into(((OneDayHolder) holder).iv_img);
         ((OneDayHolder) holder).iv_img.setMaxWidth(mWinWidth);
         ((OneDayHolder) holder).iv_img.setMinimumWidth(mWinWidth);
@@ -189,7 +189,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         int post_time = Integer.valueOf(DateUtil.getFmtH()) - 6;
         ((MusicHolder) holder).tv_post_time.setText(post_time + "小时前");
         ((MusicHolder) holder).tv_lick_count.setText(content.like_count.toString());
-        Picasso.with(App.getContext())
+        Picasso.with(mContext)
                 .load(content.img_url)
                 .transform(new CircleTransform())
                 .into(((MusicHolder) holder).cdv_music);
@@ -233,7 +233,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         int post_time = Integer.valueOf(DateUtil.getFmtH()) - 6;
         ((MovieHolder) holder).tv_post_time.setText(post_time + "小时前");
         ((MovieHolder) holder).tv_lick_count.setText(content.like_count.toString());
-        Picasso.with(App.getContext())
+        Picasso.with(mContext)
                 .load(content.img_url)
                 .placeholder(R.drawable.placeholder)
                 .into(((MovieHolder) holder).iv_img);
@@ -295,7 +295,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         int post_time = Integer.valueOf(DateUtil.getFmtH()) - 6;
         ((ReadHolder) holder).tv_post_time.setText(post_time + "小时前");
         ((ReadHolder) holder).tv_lick_count.setText(content.like_count.toString());
-        Picasso.with(App.getContext())
+        Picasso.with(mContext)
                 .load(content.img_url)
                 .resize(300, 180)
                 .placeholder(R.drawable.placeholder)

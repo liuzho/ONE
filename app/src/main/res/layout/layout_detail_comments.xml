@@ -2,6 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
+        android:layout_marginTop="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/detail_margin_horizon"
@@ -20,8 +21,8 @@
         android:background="#000" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_comments"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/detail_margin_horizon"
-        android:layout_marginRight="@dimen/detail_margin_horizon" />
+        android:layout_marginBottom="20dp"
+        android:layout_height="wrap_content" />
 </merge>

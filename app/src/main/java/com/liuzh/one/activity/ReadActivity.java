@@ -2,6 +2,9 @@ package com.liuzh.one.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebView;
@@ -9,8 +12,10 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.liuzh.one.R;
+import com.liuzh.one.adapter.CommentRvAdapter;
 import com.liuzh.one.application.App;
 import com.liuzh.one.bean.Tag;
+import com.liuzh.one.bean.comment.Comment;
 import com.liuzh.one.bean.read.Read;
 import com.liuzh.one.bean.read.ReadData;
 import com.liuzh.one.utils.Constant;
@@ -31,16 +36,19 @@ import retrofit2.Response;
  */
 
 public class ReadActivity extends BaseActivity {
+    private static final String TAG = "ReadActivity";
 
     private WebView mWvContent;
+    private AuthorsView mAvAuthors;
+    private RecyclerView mRvComments;
     private TextView mTvTitle;
     private TextView mTvAuthor;
-    private AuthorsView mAvAuthors;
     private TextView mTvEditorInfo;
     private TextView mTvCopyright;
     private TextView mTvLikeComment;
     private AppToolbar mToolbar;
     private Call<Read> mReadCall;
+    private Call<Comment> mCommentCall;
 
     public static void start(Context context, int id) {
         Intent intent = new Intent(context, ReadActivity.class);
@@ -63,6 +71,7 @@ public class ReadActivity extends BaseActivity {
         mTvCopyright = (TextView) findViewById(R.id.tv_copyright);
         mTvLikeComment = (TextView) findViewById(R.id.tv_like_comment);
         mToolbar = (AppToolbar) findViewById(R.id.toolbar);
+        mRvComments = (RecyclerView) findViewById(R.id.rv_comments);
     }
 
     @Override
@@ -99,9 +108,18 @@ public class ReadActivity extends BaseActivity {
                 hiddenLoadingView();
             }
         });
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        mRvComments.setLayoutManager(layoutManager);
+        mRvComments.addItemDecoration(new DividerItemDecoration(
+                mContext, DividerItemDecoration.VERTICAL));
     }
 
-    private void setData(ReadData data) {
+    private void setReadData(ReadData data) {
         List<Tag> tags = data.tag_list;
         String toolbarTitle = getString(R.string.one_read);
         if (tags.size() != 0) {
@@ -122,6 +140,12 @@ public class ReadActivity extends BaseActivity {
         mAvAuthors.setAuthors(data.author_list);
     }
 
+
+    public void setCommentData(Comment comment) {
+        mRvComments.setAdapter(new CommentRvAdapter(mContext,comment.data));
+    }
+
+
     @Override
     protected void fetchData() {
         int id = getIntent().getIntExtra(Constant.INTENT_KEY_ID, -1);
@@ -129,18 +153,38 @@ public class ReadActivity extends BaseActivity {
             App.showToast("id=-1");
             return;
         }
+        fetchRead(id);
+        fetchComment(id);
+    }
+
+    private void fetchComment(final int id) {
+        mCommentCall = RetrofitUtil.getReadCommentCall(id);
+        mCommentCall.enqueue(new Callback<Comment>() {
+            @Override
+            public void onResponse(Call<Comment> call, Response<Comment> response) {
+                setCommentData(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Comment> call, Throwable t) {
+                App.showToast("失败，再次尝试");
+                fetchComment(id);
+            }
+        });
+    }
+
+    private void fetchRead(final int id) {
         mReadCall = RetrofitUtil.getReadCall(id);
         mReadCall.enqueue(new Callback<Read>() {
             @Override
             public void onResponse(Call<Read> call, Response<Read> response) {
-                setData(response.body().data);
+                setReadData(response.body().data);
             }
 
             @Override
             public void onFailure(Call<Read> call, Throwable t) {
                 App.showToast("失败，再次尝试");
-                //call.enqueue(this);
-                fetchData();
+                fetchRead(id);
             }
         });
     }
@@ -149,5 +193,8 @@ public class ReadActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         mReadCall.cancel();
+        mCommentCall.cancel();
     }
+
+
 }

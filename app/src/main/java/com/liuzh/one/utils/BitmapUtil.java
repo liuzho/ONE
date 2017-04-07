@@ -1,9 +1,13 @@
 package com.liuzh.one.utils;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+
+import com.liuzh.one.R;
+import com.liuzh.one.application.App;
 
 /**
  * bitmap工具类
@@ -14,6 +18,7 @@ public class BitmapUtil {
 
     /**
      * 生成一个圆形的图片
+     *
      * @param src 原图片
      * @return 圆形图片
      */
@@ -30,6 +35,9 @@ public class BitmapUtil {
 
         Bitmap bitmap = Bitmap.createBitmap(size, size, src.getConfig());
 
+        if (bitmap == null){
+            return squaredBitmap;
+        }
         Canvas canvas = new Canvas(bitmap);
         Paint paint = new Paint();
         BitmapShader shader = new BitmapShader(squaredBitmap,

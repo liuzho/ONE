@@ -6,10 +6,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
+import com.liuzh.one.R;
 import com.liuzh.one.activity.VideoActivity;
-import com.liuzh.one.application.App;
 
 import java.util.List;
 
@@ -20,17 +19,17 @@ import java.util.List;
 
 public class ViewsPagerAdapter extends PagerAdapter {
     private static final String TAG = "ViewsPagerAdapter";
-    private List<ImageView> mImageViews;
+    private List<View> mImageViews;
 
-    public ViewsPagerAdapter(final Context context, List<ImageView> imageViews) {
+    public ViewsPagerAdapter(final Context context, List<View> imageViews) {
         mImageViews = imageViews;
-        ImageView iv = mImageViews.get(0);
-        final String videoUrl = (String) iv.getTag();
+        View v = mImageViews.get(0);
+        final String videoUrl = (String) v.getTag();
         if (!TextUtils.isEmpty(videoUrl)) {
-            iv.setOnClickListener(new View.OnClickListener() {
+            v.findViewById(R.id.iv_play).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    VideoActivity.start(context,videoUrl);
+                    VideoActivity.start(context, videoUrl);
                 }
             });
         }
