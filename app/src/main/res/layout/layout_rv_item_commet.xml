@@ -37,6 +37,9 @@
         android:id="@+id/ll_to_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_username"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="36dp"
         android:layout_marginTop="9dp"
         android:background="@drawable/follow_bg"
         android:lineSpacingExtra="3dp"
@@ -44,10 +47,7 @@
         android:paddingBottom="3dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:paddingTop="3dp"
-        android:layout_below="@+id/tv_username"
-        android:layout_alignLeft="@+id/tv_content"
-        android:layout_alignStart="@+id/tv_content">
+        android:paddingTop="3dp">
 
         <TextView
             android:id="@+id/tv_to_user_username"
@@ -59,9 +59,8 @@
             tools:text="看不见蓝色的沙丁鱼:" />
 
         <TextView
-            android:gravity="left"
             android:id="@+id/tv_to_user_content"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:lineSpacingExtra="3dp"
@@ -73,14 +72,13 @@
     </LinearLayout>
 
     <TextView
-        android:gravity="left"
         android:id="@+id/tv_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_to_user"
         android:layout_centerInParent="true"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
         android:lineSpacingExtra="3dp"
         android:textColor="#000"
@@ -94,7 +92,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/tv_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="200dp"
+        android:layout_marginLeft="250dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/comment" />
 
@@ -102,11 +100,11 @@
         android:id="@+id/iv_laud"
         android:layout_width="14dp"
         android:layout_height="14dp"
-        android:layout_toRightOf="@+id/iv_comment"
-        android:layout_marginLeft="10dp"
         android:layout_below="@+id/tv_content"
         android:layout_marginBottom="8dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/iv_comment"
         android:src="@drawable/comment_laud" />
 
     <TextView
@@ -114,10 +112,10 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_below="@+id/tv_content"
-        android:layout_toRightOf="@+id/iv_laud"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/iv_laud"
         android:gravity="center"
         android:textColor="#bbb"
         android:textSize="12sp"

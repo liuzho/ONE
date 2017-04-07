@@ -32,7 +32,7 @@ import java.util.List;
  * Created by 刘晓彬 on 2017/3/20.
  */
 
-public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ListRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
     private int mWinWidth;
@@ -40,7 +40,7 @@ public class ListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private String mDate;
     private List<ContentList> mContentList;
 
-    public ListRVAdapter(Context context, Data data) {
+    public ListRvAdapter(Context context, Data data) {
         mContext = context;
         mDate = data.date;
         mWeather = data.weather;

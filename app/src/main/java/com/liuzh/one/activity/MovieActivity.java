@@ -5,10 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-<<<<<<< HEAD
 import android.view.LayoutInflater;
-=======
->>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -176,13 +173,12 @@ public class MovieActivity extends BaseActivity {
         List<String> urls = new ArrayList<>();
         data.photo.add(0, data.detailcover);
         urls.addAll(data.photo);
-<<<<<<< HEAD
-        final List<View> imageViews = new ArrayList<>();
+        final List<View> views = new ArrayList<>();
         for (int i = 0; i < urls.size(); i++) {
             if (i == 0 && !TextUtils.isEmpty(data.video)) {
                 View view = LayoutInflater.from(mContext).inflate(R.layout.layout_play_movie, null);
                 view.setTag(data.video);
-                imageViews.add(view);
+                views.add(view);
                 Picasso.with(mContext)
                         .load(urls.get(i))
                         .resize(mVpMoveImgs.getWidth(), mVpMoveImgs.getHeight())
@@ -191,22 +187,14 @@ public class MovieActivity extends BaseActivity {
                 continue;
             }
             ImageView imageView = new ImageView(mContext);
-=======
-        final List<ImageView> imageViews = new ArrayList<>();
-        for (int i = 0; i < urls.size(); i++) {
-            ImageView imageView = new ImageView(mContext);
-            if (i == 0 && !TextUtils.isEmpty(data.video)) {
-                imageView.setTag(data.video);
-            }
->>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
             Picasso.with(mContext)
                     .load(urls.get(i))
                     .resize(mVpMoveImgs.getWidth(), mVpMoveImgs.getHeight())
                     .placeholder(R.drawable.placeholder)
                     .into(imageView);
-            imageViews.add(imageView);
+            views.add(imageView);
         }
-        mVpMoveImgs.setAdapter(new ViewsPagerAdapter(mContext, imageViews));
+        mVpMoveImgs.setAdapter(new ViewsPagerAdapter(mContext, views));
     }
 
 
@@ -230,7 +218,6 @@ public class MovieActivity extends BaseActivity {
             });
         }
     }
-
 
     @Override
     protected void onDestroy() {

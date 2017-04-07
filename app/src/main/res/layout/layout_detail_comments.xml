@@ -2,10 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
-<<<<<<< HEAD
         android:layout_marginTop="15dp"
-=======
->>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/detail_margin_horizon"
@@ -24,15 +21,8 @@
         android:background="#000" />
 
     <android.support.v7.widget.RecyclerView
-<<<<<<< HEAD
         android:id="@+id/rv_comments"
         android:layout_width="match_parent"
         android:layout_marginBottom="20dp"
         android:layout_height="wrap_content" />
-=======
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/detail_margin_horizon"
-        android:layout_marginRight="@dimen/detail_margin_horizon" />
->>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
 </merge>

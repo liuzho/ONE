@@ -5,10 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-<<<<<<< HEAD
     android:padding="150dp"
-=======
-    android:scaleType="center"
->>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
     android:src="@drawable/frame_loading"
     android:visibility="gone" />

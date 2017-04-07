@@ -1,10 +1,7 @@
 package com.liuzh.one.utils;
 
 import com.liuzh.one.bean.DataList;
-<<<<<<< HEAD
 import com.liuzh.one.bean.comment.Comment;
-=======
->>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
 import com.liuzh.one.bean.list.OneDay;
 import com.liuzh.one.bean.list.OneListId;
 import com.liuzh.one.bean.movie.Movie;
@@ -176,7 +173,6 @@ public class RetrofitUtil {
         return getRetrofit(URL_BASE).create(MovieList.class).getCall();
     }
 
-<<<<<<< HEAD
 
 //--------------------------------------MovieList----------------------------------------
 
@@ -190,6 +186,4 @@ public class RetrofitUtil {
         return getRetrofit(URL_BASE).create(ReadComment.class).getCall(id);
     }
 
-=======
->>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
 }

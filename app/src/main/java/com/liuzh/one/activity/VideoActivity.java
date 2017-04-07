@@ -31,11 +31,7 @@ public class VideoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-<<<<<<< HEAD
         setContentView(R.layout.activity_play_video);
-=======
-        setContentView(R.layout.activity_img_video);
->>>>>>> b8fcdddcc226415dcb35966f3f46f9b302a5ae2e
         mVideoView = (VideoView) findViewById(R.id.webView);
         String url = getIntent().getStringExtra(Constant.INTENT_KEY_URL);
         mVideoView.setVideoURI(Uri.parse(url));
