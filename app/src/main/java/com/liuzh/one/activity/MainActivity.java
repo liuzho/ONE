@@ -4,8 +4,10 @@ package com.liuzh.one.activity;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -34,6 +36,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ImageView mIvMusic;
     private ImageView mIMovie;
 
+    private NavigationView mNavigationView;
+    private DrawerLayout mDrawerLayout;
+
 
     public static void start(Context context, ArrayList<String> value) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -58,6 +63,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mIvRead = (ImageView) findViewById(R.id.iv_read);
         mIvMusic = (ImageView) findViewById(R.id.iv_music);
         mIMovie = (ImageView) findViewById(R.id.iv_movie);
+        mNavigationView = (NavigationView) findViewById(R.id.navigationView);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+
     }
 
     @Override
@@ -79,7 +87,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mToolbar.setLBtnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                App.showToast("用户");
+                mDrawerLayout.openDrawer(mNavigationView);
             }
         });
         mToolbar.setRRDrawable(R.drawable.search);

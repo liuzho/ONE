@@ -32,6 +32,7 @@ dependencies {
 
     compile 'com.android.support:recyclerview-v7:25.3.1'//recyclerView
     compile 'com.squareup.retrofit2:retrofit:2.2.0'//Retrofit
-    compile 'com.squareup.retrofit2:converter-gson:2.0.2'//Gson
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'//GSon
     compile 'com.squareup.picasso:picasso:2.5.2'//picasso
+    compile 'com.android.support:design:25.3.1'//MD
 }
