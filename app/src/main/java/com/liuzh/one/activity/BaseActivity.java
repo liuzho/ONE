@@ -52,5 +52,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         mIvLoading.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
 
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:text="以上是热门评论"
+    android:text="@string/hot_comments"
     android:gravity="center"
     android:background="#88aaaaaa"
     android:textSize="12sp"

@@ -28,6 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/click_bg"
             android:clickable="true"
             android:padding="12dp"
             android:src="@drawable/tab_home_checked" />
@@ -37,6 +38,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/click_bg"
             android:clickable="true"
             android:padding="12dp"
             android:src="@drawable/tab_read_unchecked" />
@@ -46,6 +48,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/click_bg"
             android:clickable="true"
             android:padding="12dp"
             android:src="@drawable/tab_music_unchecked" />
@@ -55,6 +58,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/click_bg"
             android:clickable="true"
             android:padding="12dp"
             android:src="@drawable/tab_movie_unchecked" />

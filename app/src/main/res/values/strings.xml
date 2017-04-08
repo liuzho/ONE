@@ -5,12 +5,14 @@
     <string name="one_movie">一个影视</string>
     <string name="one_question">阅读·问答</string>
     <string name="commentList">评论列表</string>
-    <string name="loading">loading...</string>
+    <string name="loading">loading…</string>
     <string name="movieProfile">影讯</string>
     <string name="movieContent">---- 剧情简介 ----</string>
     <string name="author">作者</string>
     <string name="oneProfile">复杂世界里，一个就够了</string>
     <string name="follow">关注</string>
+    <string name="hot_comments">以上是热门评论</string>
+    <string name="no_login">未登录</string>
     <array name="day">
         <item>ONE</item>
         <item>昨天</item>

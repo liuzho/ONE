@@ -114,12 +114,7 @@ public class MovieActivity extends BaseActivity {
             }
         });
         mToolbar.setRRDrawable(R.drawable.share);
-        mToolbar.setRRClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                App.showToast("分享");
-            }
-        });
+        mToolbar.initShareListener(findViewById(R.id.main));
         setSupportActionBar(mToolbar);
         String title = getIntent().getStringExtra(Constant.INTENT_KEY_TITLE);
         mTvTitle.setText(title);
@@ -269,5 +264,14 @@ public class MovieActivity extends BaseActivity {
         super.onDestroy();
         mMovieCall.cancel();
         mCommentCall.cancel();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mToolbar.popIsShowing()) {
+            mToolbar.dismissPop();
+        } else {
+            finish();
+        }
     }
 }

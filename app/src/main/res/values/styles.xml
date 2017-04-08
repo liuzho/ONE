@@ -10,4 +10,13 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="PopupWindowAnimationBottom">
+        <item name="android:windowEnterAnimation">@anim/pop_enter_b2t</item>
+        <item name="android:windowExitAnimation">@anim/pop_exit_t2b</item>
+    </style>
+
+    <style name="PopupWindowAnimationRight">
+        <item name="android:windowEnterAnimation">@anim/pop_enter_r2l</item>
+        <item name="android:windowExitAnimation">@anim/pop_exit_l2r</item>
+    </style>
 </resources>

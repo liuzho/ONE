@@ -106,4 +106,5 @@ public class ListFragment extends BaseFragment {
         }
         call.enqueue(callback);
     }
+
 }

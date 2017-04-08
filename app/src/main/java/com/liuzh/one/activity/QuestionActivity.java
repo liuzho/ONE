@@ -85,6 +85,7 @@ public class QuestionActivity extends BaseActivity {
             }
         });
         mToolbar.setRRDrawable(R.drawable.share);
+        mToolbar.initShareListener(findViewById(R.id.main));
         setSupportActionBar(mToolbar);
         mWvContent.setWebViewClient(new WebViewClient() {
             @Override
@@ -103,6 +104,8 @@ public class QuestionActivity extends BaseActivity {
         mRvComments.addItemDecoration(new DividerItemDecoration(
                 mContext, DividerItemDecoration.VERTICAL));
     }
+
+
 
     private void setData(QuestionData data) {
         List<Tag> tags = data.tag_list;
@@ -178,5 +181,14 @@ public class QuestionActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         mQuestionCall.cancel();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mToolbar.popIsShowing()) {
+            mToolbar.dismissPop();
+        } else {
+            finish();
+        }
     }
 }

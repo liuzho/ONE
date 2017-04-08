@@ -140,4 +140,11 @@ public class HomeFragment extends BaseFragment {
             }
         }
     }
+
+    public boolean currentPagePopIsShowing() {
+        return mFragments.get(mViewPager.getCurrentItem()).getAdapter().popIsShowing();
+    }
+    public void dismissPop(){
+        mFragments.get(mViewPager.getCurrentItem()).getAdapter().dismissPop();
+    }
 }

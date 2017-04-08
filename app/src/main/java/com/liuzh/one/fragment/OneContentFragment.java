@@ -67,11 +67,16 @@ public class OneContentFragment extends BaseFragment {
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRecyclerView.setOnTopListener(new ScrollRecyclerView.OnTopListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                controlToolbarVisibility();
+            public void onTopListener() {
+                mMainActivity.hideToolbar();
+            }
+        });
+        mRecyclerView.setOnLeaveTopListener(new ScrollRecyclerView.OnLeaveTopListener() {
+            @Override
+            public void onLeaveTopListener() {
+                mMainActivity.showToolbar();
             }
         });
 
@@ -125,4 +130,7 @@ public class OneContentFragment extends BaseFragment {
         mRecyclerView.stopScroll();
     }
 
+    public ListRvAdapter getAdapter() {
+        return (ListRvAdapter) mRecyclerView.getAdapter();
+    }
 }

@@ -191,4 +191,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         return getIntent().getStringArrayListExtra(Constant.INTENT_KEY_LIST_ID);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mHomeFragment.currentPagePopIsShowing()) {
+            mHomeFragment.dismissPop();
+        } else {
+            finish();
+        }
+    }
 }

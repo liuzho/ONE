@@ -3,6 +3,7 @@ package com.liuzh.one.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.liuzh.one.application.App;
 import com.liuzh.one.bean.ContentList;
 import com.liuzh.one.bean.list.Data;
 import com.liuzh.one.bean.list.Weather;
+import com.liuzh.one.dialog.OneImgPopupWindow;
 import com.liuzh.one.utils.CircleTransform;
 import com.liuzh.one.utils.Constant;
 import com.liuzh.one.utils.DateUtil;
@@ -33,12 +35,13 @@ import java.util.List;
  */
 
 public class ListRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
+    private static final String TAG = "ListRvAdapter";
     private Context mContext;
     private int mWinWidth;
     private Weather mWeather;
     private String mDate;
     private List<ContentList> mContentList;
+    private OneImgPopupWindow mPopupWindow;
 
     public ListRvAdapter(Context context, Data data) {
         mContext = context;
@@ -55,25 +58,25 @@ public class ListRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         switch (viewType) {
             case Constant.ITEM_TYPE_DAY_ONE:
                 holder = new OneDayHolder(inflater.inflate(
-                        R.layout.layout_rv_item_day_one, parent, false));
+                        R.layout.item_rv_day_one, parent, false));
                 break;
             case Constant.ITEM_TYPE_MUSIC:
                 holder = new MusicHolder(inflater.inflate(
-                        R.layout.layout_rv_item_music, parent, false));
+                        R.layout.item_rv_music, parent, false));
                 break;
             case Constant.ITEM_TYPE_MOVIE:
                 holder = new MovieHolder(inflater.inflate(
-                        R.layout.layout_rv_item_movie, parent, false));
+                        R.layout.item_rv_movie, parent, false));
                 break;
             case Constant.ITEM_TYPE_READ_CARTOON:
             case Constant.ITEM_TYPE_SERIAL:
             case Constant.ITEM_TYPE_QUESTION:
                 holder = new ReadHolder(inflater.inflate(
-                        R.layout.layout_rv_item_read, parent, false));
+                        R.layout.item_rv_read, parent, false));
                 break;
             default:
                 holder = new ReadHolder(inflater.inflate(
-                        R.layout.layout_rv_item_read, parent, false));
+                        R.layout.item_rv_read, parent, false));
         }
         return holder;
     }
@@ -126,8 +129,17 @@ public class ListRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
+    public boolean popIsShowing() {
+        return mPopupWindow.isShowing();
+    }
 
-    private void initOneDayHolder(RecyclerView.ViewHolder holder, ContentList content) {
+    public void dismissPop() {
+        if (mPopupWindow != null) {
+            mPopupWindow.dismiss();
+        }
+    }
+
+    private void initOneDayHolder(final RecyclerView.ViewHolder holder, final ContentList content) {
         ((OneDayHolder) holder).tv_date.setText(
                 mDate.replace("-", "／").split(" ")[0]);
         ((OneDayHolder) holder).tv_climate.setText(
@@ -145,6 +157,21 @@ public class ListRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((OneDayHolder) holder).iv_img.setMaxWidth(mWinWidth);
         ((OneDayHolder) holder).iv_img.setMinimumWidth(mWinWidth);
         ((OneDayHolder) holder).iv_img.setMaxHeight(mWinWidth * 5);
+        ((OneDayHolder) holder).iv_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mPopupWindow == null) {
+                    View contentView = LayoutInflater.from(mContext)
+                            .inflate(R.layout.layout_popup_one_img, null);
+                    mPopupWindow = new OneImgPopupWindow(contentView);
+                    mPopupWindow.setData(mContext, content.volume,
+                            content.title + "｜" + content.pic_info, content.img_url);
+
+                }
+                mPopupWindow.showAtLocation(((OneDayHolder) holder).itemView.getRootView(),
+                        Gravity.CENTER, 0, 0);
+            }
+        });
     }
 
     /**
@@ -315,9 +342,11 @@ public class ListRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         TextView tv_post_time;
         TextView tv_lick_count;
         TextView tv_subtitle;
+        View itemView;
 
         BaseHolder(View itemView) {
             super(itemView);
+            this.itemView = itemView;
         }
 
         int getId() {

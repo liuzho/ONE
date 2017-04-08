@@ -4,11 +4,14 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.liuzh.one.R;
+import com.liuzh.one.dialog.SharePopupWindow;
 
 /**
  * 自定义的Toolbar
@@ -21,6 +24,8 @@ public class AppToolbar extends Toolbar {
     private ImageView mIvRLBtn;
     private ImageView mIvRRBtn;
     private TextView mTvTitle;
+    private Context mContext;
+    private SharePopupWindow mShareWindow;
 
     public AppToolbar(Context context) {
         this(context, null, 0);
@@ -36,6 +41,7 @@ public class AppToolbar extends Toolbar {
     }
 
     private void init(Context context) {
+        mContext = context;
         View view = View.inflate(context, R.layout.layout_toolbar_content, this);
         mIvLBtn = (ImageView) view.findViewById(R.id.iv_toolbar_left);
         mTvTitle = (TextView) view.findViewById(R.id.tv_toolbar_title);
@@ -76,6 +82,32 @@ public class AppToolbar extends Toolbar {
 
     public void setRRClickListener(OnClickListener listener) {
         mIvRRBtn.setOnClickListener(listener);
+    }
+
+    public void initShareListener(final View parent) {
+        mIvRRBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mShareWindow == null) {
+                    View contentView = LayoutInflater.from(mContext)
+                            .inflate(R.layout.layout_popup_share, null);
+                    mShareWindow = new SharePopupWindow(contentView);
+                }
+                if (mShareWindow.isShowing()) {
+                    mShareWindow.dismiss();
+                } else {
+                    mShareWindow.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
+                }
+            }
+        });
+    }
+
+    public boolean popIsShowing() {
+        return mShareWindow != null && mShareWindow.isShowing();
+    }
+
+    public void dismissPop(){
+        mShareWindow.dismiss();
     }
 
     public TextView getTvTitle() {

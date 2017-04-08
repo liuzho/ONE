@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:actionLayout="@layout/layout_hot_decoration"
         android:icon="@mipmap/ic_launcher"
-        android:title="@string/app_name" />
+        android:title="夜间模式">
+
+    </item>
     <item
         android:icon="@mipmap/ic_launcher"
-        android:title="@string/app_name" />
+        android:title="其他设置" />
     <item
         android:icon="@mipmap/ic_launcher"
-        android:title="@string/app_name" />
+        android:title="用户反馈" />
 </menu>

@@ -6,12 +6,13 @@
 
     <ImageView
         android:id="@+id/iv_toolbar_left"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"
+        android:background="@drawable/click_bg"
         android:clickable="true"
+        android:padding="10dp"
         android:scaleType="fitXY"
         tools:src="@drawable/back" />
 
@@ -26,23 +27,25 @@
 
     <ImageView
         android:id="@+id/iv_toolbar_right_l"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
-        android:layout_alignParentRight="true"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_centerVertical="true"
-        android:layout_marginRight="60dp"
+        android:layout_toLeftOf="@+id/iv_toolbar_right_r"
+        android:background="@drawable/click_bg"
         android:clickable="true"
+        android:padding="12dp"
         android:scaleType="fitXY"
         tools:src="@drawable/listen" />
 
     <ImageView
         android:id="@+id/iv_toolbar_right_r"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="15dp"
+        android:background="@drawable/click_bg"
         android:clickable="true"
+        android:padding="8dp"
         android:scaleType="fitXY"
         tools:src="@drawable/share" />
 

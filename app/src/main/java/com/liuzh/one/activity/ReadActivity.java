@@ -94,12 +94,7 @@ public class ReadActivity extends BaseActivity {
             }
         });
         mToolbar.setRRDrawable(R.drawable.share);
-        mToolbar.setRRClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                App.showToast("分享");
-            }
-        });
+        mToolbar.initShareListener(findViewById(R.id.main));
         setSupportActionBar(mToolbar);
         // webView加载完毕后隐藏loading界面
         mWvContent.setWebViewClient(new WebViewClient() {
@@ -119,6 +114,7 @@ public class ReadActivity extends BaseActivity {
         mRvComments.addItemDecoration(new DividerItemDecoration(
                 mContext, DividerItemDecoration.VERTICAL));
     }
+
 
     private void setReadData(ReadData data) {
         List<Tag> tags = data.tag_list;
@@ -197,4 +193,13 @@ public class ReadActivity extends BaseActivity {
         mCommentCall.cancel();
     }
 
+
+    @Override
+    public void onBackPressed() {
+        if (mToolbar.popIsShowing()) {
+            mToolbar.dismissPop();
+        } else {
+            finish();
+        }
+    }
 }
