@@ -1,23 +1,23 @@
 
-#说高仿，其实做成了个山寨...
+# 说高仿，其实做成了个山寨...
 
 - **目前完成度看图：**
 
  1. 主页
 
-![home.gif](http://upload-images.jianshu.io/upload_images/4924025-5ad2798a42b412a9.gif?imageMogr2/auto-orient/strip)
+![home.gif](https://github.com/liuzho/ONE/raw/master/gif/home.gif)
 
  2. 阅读
 
-![read.gif](http://upload-images.jianshu.io/upload_images/4924025-98cf4f8849511d4e.gif?imageMogr2/auto-orient/strip)
+![read.gif](https://github.com/liuzho/ONE/raw/master/gif/read.gif)
 
  3. 音乐
 
-![music.gif](http://upload-images.jianshu.io/upload_images/4924025-59d7d05958204a78.gif?imageMogr2/auto-orient/strip)
+![music.gif](https://github.com/liuzho/ONE/raw/master/gif/music.gif)
 
  4. 影视
 
-![movie.gif](http://upload-images.jianshu.io/upload_images/4924025-48875b6228ca1186.gif?imageMogr2/auto-orient/strip)
+![movie.gif](https://github.com/liuzho/ONE/raw/master/gif/movie.gif)
 
 - **关于我**
  1. 最近火力全开正在实现中，感兴趣的朋友可以**Start**一下，关注我的后续动作
