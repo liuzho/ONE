@@ -50,5 +50,4 @@ public class ContentList {
     public String audio_author;
     public String audio_album;
     public Author answerer;
-
 }

@@ -1,12 +1,13 @@
 package com.liuzh.one.fragment;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -17,6 +18,8 @@ import com.liuzh.one.application.App;
 import com.liuzh.one.bean.list.OneDay;
 import com.liuzh.one.utils.RetrofitUtil;
 import com.liuzh.one.view.ScrollRecyclerView;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,6 +61,7 @@ public class OneContentFragment extends BaseFragment {
     protected void initView(View rootView) {
         mRecyclerView = (ScrollRecyclerView) rootView.findViewById(R.id.recyclerView);
         mIvLoading = (ImageView) rootView.findViewById(R.id.iv_loading);
+
     }
 
     @Override

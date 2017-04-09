@@ -3,6 +3,7 @@
     package="com.liuzh.one">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
         android:name="com.liuzh.one.application.App"
         android:allowBackup="true"
@@ -26,8 +27,6 @@
         <activity android:name=".activity.MusicActivity" />
         <!--电影详情页-->
         <activity android:name=".activity.MovieActivity" />
-        <!--电影简介页-->
-        <activity android:name=".activity.MovieProfileActivity" />
         <!--问答详情页-->
         <activity android:name=".activity.QuestionActivity" />
         <!--播放video页面-->

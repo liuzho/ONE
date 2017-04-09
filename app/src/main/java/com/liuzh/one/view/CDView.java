@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import java.util.Timer;
@@ -22,7 +21,6 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
     private static final String TAG = "CDView";
     private Paint mPaint;//画笔
     private int mCDRadius;//CD宽度
-    private int mViewWidth;//view宽度
     private int mCenterXY;//中心点的xy坐标
     private int mBtnRadius;//中心可点击的圆的半径
     private float mPosRotate;//当前CD的旋转角度
@@ -63,13 +61,13 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
         //通过宽高设置view的宽度，取最小值，设置view为正方形
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
-        mViewWidth = Math.min(width, height);
-        setMeasuredDimension(mViewWidth, mViewWidth);
+        int viewWidth = Math.min(width, height);
+        setMeasuredDimension(viewWidth, viewWidth);
         //通过padding设置CD的宽度
         float vPadding = getPaddingTop() + getPaddingBottom();
         float hPadding = getPaddingLeft() + getPaddingRight();
-        mCDRadius = (int) ((mViewWidth - Math.max(vPadding, hPadding)) / 2);
-        mCenterXY = mViewWidth / 2;
+        mCDRadius = (int) ((viewWidth - Math.max(vPadding, hPadding)) / 2);
+        mCenterXY = viewWidth / 2;
         mBtnRadius = mCDRadius / 6;
     }
 
@@ -165,12 +163,12 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
             case MotionEvent.ACTION_UP:
                 //经过上面的排除，此处若能接受到up事件，证明是点击事件
                 if (mIsPlaying) {
-                    stopMusic();
+                    stopRotation();
                     if (mStopListener != null) {
                         mStopListener.onStop();
                     }
                 } else {
-                    playMusic();
+                    startRotation();
                     if (mPlayListener != null) {
                         mPlayListener.onPlay();
                     }
@@ -184,8 +182,7 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
      * 开始播放音乐
      * 使用timer每0.03s叠加0.2°旋转角度
      */
-    private void playMusic() {
-        Log.i(TAG, "playMusic");
+    private void startRotation() {
         mIsPlaying = true;
         if (mTimer == null) {
             mTimer = new Timer();
@@ -193,7 +190,7 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
         mTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                mPosRotate = (mPosRotate + 0.2f) % 360f;
+                mPosRotate = (mPosRotate + 0.6f) % 360f;
                 post(new Runnable() {
                     @Override
                     public void run() {
@@ -210,7 +207,7 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
     /**
      * 停止播放音乐
      */
-    private void stopMusic() {
+    private void stopRotation() {
         mIsPlaying = false;
         mTimer.cancel();
         mTimer = null;
@@ -231,6 +228,7 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
     public interface OnStopListener {
         void onStop();
     }
+
 
     /**
      * 设置开始播放监听

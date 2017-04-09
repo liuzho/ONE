@@ -8,6 +8,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -25,6 +26,7 @@ import com.liuzh.one.bean.comment.Comment;
 import com.liuzh.one.bean.comment.CommentData;
 import com.liuzh.one.bean.movie.Movie;
 import com.liuzh.one.bean.movie.MovieData;
+import com.liuzh.one.dialog.MovieProfilePopupWindow;
 import com.liuzh.one.utils.Constant;
 import com.liuzh.one.utils.HtmlFmtUtil;
 import com.liuzh.one.utils.RetrofitUtil;
@@ -63,6 +65,7 @@ public class MovieActivity extends BaseActivity {
     private Call<Movie> mMovieCall;
     private Call<Comment> mCommentCall;
     private RecyclerView mRvComments;
+    private MovieProfilePopupWindow mPopupWindow;
 
     public static void start(Context context, int id, int likeCount, String title) {
         Intent intent = new Intent(context, MovieActivity.class);
@@ -193,9 +196,15 @@ public class MovieActivity extends BaseActivity {
         mIvMovieInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MovieProfileActivity.start(mContext, data.title,
-                        data.poster, data.share_list.qq.desc,
-                        data.info, data.officialstory);
+                if (mPopupWindow == null) {
+                    View contentView = LayoutInflater.from(mContext)
+                            .inflate(R.layout.layout_popup_movie_profile, null);
+                    mPopupWindow = new MovieProfilePopupWindow(contentView);
+                    mPopupWindow.initData(mContext, data.title,
+                            data.poster, data.share_list.qq.desc,
+                            data.info, data.officialstory);
+                }
+                mPopupWindow.showAtLocation(findViewById(R.id.main), Gravity.CENTER, 0, 0);
             }
         });
         mTvEditorInfo.setText(data.charge_edt + "  " + data.editor_email);
@@ -270,6 +279,8 @@ public class MovieActivity extends BaseActivity {
     public void onBackPressed() {
         if (mToolbar.popIsShowing()) {
             mToolbar.dismissPop();
+        } else if (mPopupWindow.isShowing()) {
+            mPopupWindow.dismiss();
         } else {
             finish();
         }

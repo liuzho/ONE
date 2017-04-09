@@ -10,8 +10,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.liuzh.one.R;
-import com.liuzh.one.application.App;
 import com.liuzh.one.utils.DensityUtil;
+import com.liuzh.one.utils.FileUtil;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -30,11 +30,15 @@ public class OneImgPopupWindow extends PopupWindow implements View.OnClickListen
         mTvVolume = (TextView) contentView.findViewById(R.id.tv_volume);
         mTvInfo = (TextView) contentView.findViewById(R.id.tv_info);
         mIvImg = (ImageView) contentView.findViewById(R.id.iv_img);
+        mIvImg.setOnClickListener(this);
+
         contentView.setOnClickListener(this);
+
         this.setAnimationStyle(R.style.PopupWindowAnimationRight);
+
     }
 
-    public void setData(Context context, String volume, String info, String url) {
+    public void setData(final Context context, String volume, String info, final String url) {
         mTvVolume.setText(volume);
         mTvInfo.setText(info);
         Picasso.with(context)
@@ -48,18 +52,17 @@ public class OneImgPopupWindow extends PopupWindow implements View.OnClickListen
         mIvImg.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Snackbar.make(view.getRootView(), "要保存图片吗(2s后消失)", 2000)
+                Snackbar.make(view.getRootView(), "要保存图片吗", 2000)
                         .setAction("保存", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                App.showToast("保存图片");
+                                FileUtil.savePic(context, url);
                             }
                         })
                         .show();
                 return true;
             }
         });
-        mIvImg.setOnClickListener(this);
     }
 
     @Override

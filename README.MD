@@ -15,6 +15,10 @@
 ## 开发相关
  1. 更新：
 ```
+	-2017-4-9 ：
+		1. 删除电影简介activity，替换成popupWindow展示
+		2. 每日一图的popupWindow长按图片实现通过Picasso保存图片到制定路径
+
 	-2017-4-8 ：
 		1. 自定义RecyclerView实现滚动实时监听，彻底解决RecyclerView滚动时toolbar显示bug
 		2. 添加水波纹点击效果

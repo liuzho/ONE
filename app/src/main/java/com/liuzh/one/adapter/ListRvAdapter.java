@@ -222,6 +222,19 @@ public class ListRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 .into(((MusicHolder) holder).cdv_music);
         ((MusicHolder) holder).cdv_music.setMaxWidth(mWinWidth);
         ((MusicHolder) holder).cdv_music.setMaxHeight(mWinWidth);
+        ((MusicHolder) holder).cdv_music.setOnPlayListener(new CDView.OnPlayListener() {
+            @Override
+            public void onPlay() {
+                App.showToast("播放音乐");
+            }
+        });
+        ((MusicHolder) holder).cdv_music.setOnStopListener(new CDView.OnStopListener() {
+            @Override
+            public void onStop() {
+                App.showToast("停止音乐");
+            }
+        });
+
     }
 
     private class MovieHolder extends BaseHolder {
