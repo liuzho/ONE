@@ -24,11 +24,6 @@ public class App extends Application {
         return mContext;
     }
 
-    /**
-     * 弹吐司
-     *
-     * @param msg 吐司内容
-     */
     public static void showToast(String msg) {
         if (toast == null) {
             toast = Toast.makeText(mContext, msg, Toast.LENGTH_SHORT);
