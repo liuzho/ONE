@@ -69,8 +69,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             android:layout_alignRight="@+id/feeds_music"
-            android:layout_marginRight="10dp"
-            android:adjustViewBounds="true" />
+            android:layout_marginRight="10dp" />
 
         <ImageView
             android:id="@+id/imageView"

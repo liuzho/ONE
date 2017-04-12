@@ -44,7 +44,7 @@ public class RetrofitUtil {
      * oneListId的接口
      */
     public interface OneListIdService {
-        @GET("onelist/idlist/?channel=wdj&version=4.0.2" +
+        @GET("onelist/idlist/?channel=wdj&version=4.1.0" +
                 "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
         Call<OneListId> getCall();
     }
@@ -65,7 +65,7 @@ public class RetrofitUtil {
      * oneList的接口
      */
     public interface OneListService {
-        @GET("onelist/{id}/0?cchannel=wdj&version=4.0.2" +
+        @GET("onelist/{id}/0?cchannel=wdj&version=4.1.0" +
                 "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
         Call<OneDay> getCall(@Path("id") int id);
     }
@@ -85,7 +85,7 @@ public class RetrofitUtil {
 
     public interface ReadDetailService {
         @GET("essay/{item_id}?channel=wdj&source=channel_reading" +
-                "&source_id=9264&version=4.0.2" +
+                "&source_id=9264&version=4.1.0" +
                 "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
         Call<Read> getCall(@Path("item_id") int id);
     }
@@ -99,7 +99,7 @@ public class RetrofitUtil {
 
     public interface MovieDetailService {
         @GET("movie/detail/{item_id}?channel=wdj" +
-                "&source=channel_movie&source_id=9240&version=4.0.2" +
+                "&source=channel_movie&source_id=9240&version=4.1.0" +
                 "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
         Call<Movie> getCall(@Path("item_id") int id);
     }
@@ -113,7 +113,7 @@ public class RetrofitUtil {
 
     public interface QuestionDetailService {
         @GET("question/{item_id}?channel=wdj" +
-                "&source=channel_reading&source_id=9254&version=4.0.2" +
+                "&source=channel_reading&source_id=9254&version=4.1.0" +
                 "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
         Call<Question> getCall(@Path("item_id") int id);
     }
@@ -126,7 +126,7 @@ public class RetrofitUtil {
 //------------------------------MusicDetail---------------------------------------------
 
     public interface MusicDetailService {
-        @GET("music/detail/{item_id}?channel=wdj&version=4.0.2" +
+        @GET("music/detail/{item_id}?channel=wdj&version=4.1.0" +
                 "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
         Call<Music> getCall(@Path("item_id") int id);
     }
@@ -139,7 +139,7 @@ public class RetrofitUtil {
 //------------------------------------ReadList-----------------------------------------
 
     public interface ReadList {
-        @GET("channel/reading/more/0?channel=wdj&version=4.0.2" +
+        @GET("channel/reading/more/0?channel=wdj&version=4.1.0" +
                 "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
         Call<DataList> getCall();
     }
@@ -152,7 +152,7 @@ public class RetrofitUtil {
 //----------------------------------------MusicList-------------------------------------
 
     public interface MusicList {
-        @GET("channel/music/more/0?channel=wdj&version=4.0.2" +
+        @GET("channel/music/more/0?channel=wdj&version=4.1.0" +
                 "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
         Call<DataList> getCall();
     }
@@ -164,7 +164,7 @@ public class RetrofitUtil {
 //--------------------------------------MovieList----------------------------------------
 
     public interface MovieList {
-        @GET("channel/movie/more/0?channel=wdj&version=4.0.2" +
+        @GET("channel/movie/more/0?channel=wdj&version=4.1.0" +
                 "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
         Call<DataList> getCall();
     }
@@ -177,7 +177,7 @@ public class RetrofitUtil {
 //--------------------------------------ReadComment----------------------------------------
 
     public interface ReadComment {
-        @GET("comment/praiseandtime/essay/{item_id}/0?channel=wdj&version=4.0.2" +
+        @GET("comment/praiseandtime/essay/{item_id}/0?channel=wdj&version=4.1.0" +
                 "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
         Call<Comment> getCall(@Path("item_id") int id);
     }
@@ -190,7 +190,7 @@ public class RetrofitUtil {
 //--------------------------------------MovieList----------------------------------------
 
     public interface MovieComment {
-        @GET("comment/praiseandtime/movie/{item_id}/0?channel=wdj&version=4.0.2" +
+        @GET("comment/praiseandtime/movie/{item_id}/0?channel=wdj&version=4.1.0" +
                 "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
         Call<Comment> getCall(@Path("item_id") int id);
     }
@@ -203,7 +203,7 @@ public class RetrofitUtil {
 //--------------------------------------MusicList----------------------------------------
 
     public interface MusicComment {
-        @GET("comment/praiseandtime/music/{item_id}/0?channel=wdj&version=4.0.2" +
+        @GET("comment/praiseandtime/music/{item_id}/0?channel=wdj&version=4.1.0" +
                 "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
         Call<Comment> getCall(@Path("item_id") int id);
     }
@@ -216,7 +216,7 @@ public class RetrofitUtil {
 //--------------------------------------QuestionList----------------------------------------
 
     public interface QuestionComment {
-        @GET("comment/praiseandtime/question/{item_id}/0?channel=wdj&version=4.0.2" +
+        @GET("comment/praiseandtime/question/{item_id}/0?channel=wdj&version=4.1.0" +
                 "&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")
         Call<Comment> getCall(@Path("item_id") int id);
     }

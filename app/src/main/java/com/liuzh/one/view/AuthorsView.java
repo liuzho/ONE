@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,10 +12,11 @@ import com.liuzh.one.R;
 import com.liuzh.one.activity.AuthorActivity;
 import com.liuzh.one.application.App;
 import com.liuzh.one.bean.Author;
-import com.liuzh.one.utils.CircleTransform;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * 作者列表view
@@ -60,23 +60,22 @@ public class AuthorsView extends FrameLayout {
                 continue;
             }
             View authorView = View.inflate(mContext, R.layout.layout_author, null);
-            ImageView ivHead = (ImageView) authorView.findViewById(R.id.iv_head);
+            CircleImageView civHead = (CircleImageView) authorView.findViewById(R.id.iv_head);
             TextView tvAuthorName = (TextView) authorView.findViewById(R.id.tv_author_name);
             TextView tvAuthorSummary = (TextView) authorView.findViewById(R.id.tv_summary);
             TextView tvAuthorWbName = (TextView) authorView.findViewById(R.id.tv_wb_name);
             TextView tvFollowBtn = (TextView) authorView.findViewById(R.id.tv_follow);
             Picasso.with(mContext)
                     .load(author.web_url)
-                    .transform(new CircleTransform())
                     .placeholder(R.mipmap.ic_launcher)
-                    .into(ivHead);
+                    .into(civHead);
             tvAuthorName.setText(author.user_name);
             tvAuthorSummary.setText(author.summary);
             tvAuthorWbName.setText(author.wb_name);
             authorView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    AuthorActivity.start(mContext,author);
+                    AuthorActivity.start(mContext, author);
                 }
             });
             tvFollowBtn.setOnClickListener(new OnClickListener() {

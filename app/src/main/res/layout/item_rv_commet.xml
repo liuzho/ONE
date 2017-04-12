@@ -9,11 +9,11 @@
     android:paddingRight="15dp"
     android:paddingTop="20dp">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_head"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        tools:background="#ddd" />
+        tools:background="#999" />
 
     <TextView
         android:id="@+id/tv_username"

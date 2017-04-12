@@ -6,7 +6,7 @@
     android:clickable="true"
     android:layout_height="50dp">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_head"
         android:layout_width="38dp"
         android:layout_height="38dp"

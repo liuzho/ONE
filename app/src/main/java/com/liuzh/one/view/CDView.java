@@ -12,12 +12,14 @@ import android.view.MotionEvent;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * 只能是正方形
  * Created by 刘晓彬 on 2017/3/15.
  */
 
-public class CDView extends android.support.v7.widget.AppCompatImageView {
+public class CDView extends CircleImageView {
     private static final String TAG = "CDView";
     private Paint mPaint;//画笔
     private int mCDRadius;//CD宽度
@@ -78,7 +80,7 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
         canvas.rotate(-mPosRotate, mCenterXY, mCenterXY);
         drawCD(canvas);
         drawBtn(canvas);
-        drawBorder(canvas);
+//        drawBorder(canvas);
     }
 
     private void drawBorder(Canvas canvas) {
@@ -190,7 +192,7 @@ public class CDView extends android.support.v7.widget.AppCompatImageView {
         mTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                mPosRotate = (mPosRotate + 0.6f) % 360f;
+                mPosRotate = (mPosRotate + 0.3f) % 360f;
                 post(new Runnable() {
                     @Override
                     public void run() {

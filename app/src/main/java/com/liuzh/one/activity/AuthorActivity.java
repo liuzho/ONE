@@ -4,14 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.liuzh.one.R;
 import com.liuzh.one.bean.Author;
-import com.liuzh.one.utils.CircleTransform;
 import com.liuzh.one.utils.Constant;
 import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * 作者信息activity
@@ -21,7 +21,7 @@ import com.squareup.picasso.Picasso;
 public class AuthorActivity extends BaseActivity {
 
     private ImageView mIvBack;
-    private ImageView mIvHead;
+    private CircleImageView mCivHead;
     private TextView mTvName;
     private TextView mTvSummary;
     private TextView mTvDesc;
@@ -42,7 +42,7 @@ public class AuthorActivity extends BaseActivity {
 
     @Override
     protected void findViews() {
-        mIvHead = (ImageView) findViewById(R.id.iv_head);
+        mCivHead = (CircleImageView) findViewById(R.id.iv_head);
         mTvName = (TextView) findViewById(R.id.tv_author_name);
         mTvSummary = (TextView) findViewById(R.id.tv_summary);
         mTvDesc = (TextView) findViewById(R.id.tv_desc);
@@ -56,9 +56,8 @@ public class AuthorActivity extends BaseActivity {
         Author author = (Author) getIntent().getSerializableExtra(Constant.INTENT_KEY_AUTHOR);
         Picasso.with(mContext)
                 .load(author.web_url)
-                .transform(new CircleTransform())
                 .placeholder(R.mipmap.ic_launcher)
-                .into(mIvHead);
+                .into(mCivHead);
         mTvName.setText(author.user_name);
         mTvSummary.setText(author.summary);
         mTvDesc.setText(author.desc);

@@ -1,85 +1,90 @@
 
-# ˵�߷£���ʵ�����˸�ɽկ...
+# 说高仿，其实做成了个山寨...
 
-- **Ŀǰ��ɶȿ�ͼ��**
+- **目前完成度看图：**
 
 ![home.gif](https://github.com/liuzho/ONE/raw/master/gif/home.gif)![read.gif](https://github.com/liuzho/ONE/raw/master/gif/read.gif)![music.gif](https://github.com/liuzho/ONE/raw/master/gif/music.gif)![movie.gif](https://github.com/liuzho/ONE/raw/master/gif/movie.gif)
 
-## ������
- 1. �������ȫ������ʵ���У�����Ȥ�����ѿ���**Start**һ�£���ע�ҵĺ�������
- 2. ���ǻ���ȫ������ѧ����Ŀǰ���пΣ��н��ȵ�Ч�ʿ��ܲ�̫��
- 3. ��ϵ�ң�qq354295878@gmail.com(һ�����䱩¶������ϵ��ʽ������)
- 4. ����������һö����ʵϰ��λ��
+## 关于我
+ 1. 最近火力全开正在实现中，感兴趣的朋友可以**Start**一下，关注我的后续动作
+ 2. 虽是火力全开，但学生党目前还有课，有进度但效率可能不太高
+ 3. 联系我：qq354295878@gmail.com(一个邮箱暴露两个联系方式，完美)
+ 4. 另：大三狗一枚，求实习岗位中
 
 
-## �������
- ### ���£�
+## 开发相关
+ ### 更新：
 ```
-	-2017-4-9 ��
-		1. ɾ����Ӱ���activity���滻��popupWindowչʾ
-		2. ÿ��һͼ��popupWindow����ͼƬʵ��ͨ��Picasso����ͼƬ���ƶ�·��
+-217-4-12 ：
+	1. 所有圆形图片的ImageView换成CircleImageView：新增依赖CircleImageView
+	2. API请求APP版本换成4.1.0
 
-	-2017-4-8 ��
-		1. �Զ���RecyclerViewʵ�ֹ���ʵʱ���������׽��RecyclerView����ʱtoolbar��ʾbug
-		2. ����ˮ���Ƶ��Ч��
-		3. ���ӷ�����ť����popupWindow��������������/�˳�����
-		4. OneList��ÿ��һͼ�������popupWindow������popͼƬ������Snackbar��ʾ�Ƿ񱣴�ͼƬ
+-2017-4-9 ：
+	1. 删除电影简介activity，替换成popupWindow展示
+	2. 每日一图的popupWindow长按图片实现通过Picasso保存图片到制定路径
 
-	-2017-4-7 ��
-		1. ��������ͼƬ
-		2. ���Ӹ�����ҳ�������б�
-		3. �Ż����ִ���
-		ע�����ڸ���Ƶ�ʻ����
+-2017-4-8 ：
+	1. 自定义RecyclerView实现滚动实时监听，彻底解决RecyclerView滚动时toolbar显示bug
+	2. 添加水波纹点击效果
+	3. 添加分享按钮弹出popupWindow，包含弹出动画/退出动画
+	4. OneList的每日一图点击弹出popupWindow，长按pop图片，弹出Snackbar提示是否保存图片
 
-	-2017-4-6 ��
-		1. ����BaseFragment���Ż�fragment����/�߼�
-		2. �Զ���RecyclerViewʵ�ֹ���ʵʱ����(δ���)
-		3. ����������ϢActivity(δ���/�޷���ɣ�����������API)
+-2017-4-7 ：
+	1. 更换部分图片
+	2. 添加各详情页的评论列表
+	3. 优化部分代码
+	注：后期更新频率会减少
 
-	-2017-4-5 ��
-		1. ���tab�л�ʱtoolbar��ʾ�쳣��bug
-		2. �Ż�fragment����/�߼�
+-2017-4-6 ：
+	1. 添加BaseFragment、优化fragment代码/逻辑
+	2. 自定义RecyclerView实现滚动实时监听(未完成)
+	3. 添加作者信息Activity(未完成/无法完成：无作者文章API)
 
-	-2017-4-2 ��
-		1. ����ҳ����ض�����֡������
+-2017-4-5 ：
+	1. 解决tab切换时toolbar显示异常的bug
+	2. 优化fragment代码/逻辑
 
-	-2017-3-30��
-		1. �Ż�����ṹ��baseActivity&adapter&����
+-2017-4-2 ：
+	1. 添加页面加载动画（帧动画）
 
-	-2017-3-27��
-		1. ʵ�ֵײ�tab���������������tab��������չ��
+-2017-3-30：
+	1. 优化代码结构：baseActivity&adapter&布局
 
-	-2017-3-25��
-		1. ������������ҳ����������ҳ������ʾ�����б��������ӣ�
+-2017-3-27：
+	1. 实现底部tab点击，主界面所有tab均有内容展现
 
-	-2017-3-24��
-		1. ���ӵ�Ӱ����ҳ�Լ�����ϸ�ڵ���/ʵ��
+-2017-3-25：
+	1. 增加音乐详情页（所有详情页均无显示评论列表，后续加）
 
-	-...����ûд��һ���Գ�����...
+-2017-3-24：
+	1. 增加电影详情页以及部分细节调整/实现
+
+-...再早没写。一次性出来的...
 ```
 
- ### �������ݣ�
+ ### 大致内容：
 
-	1. Retrofit������������
-	2. PicasooͼƬ���أ�Picasoo����ͼƬ��SD��
-	3. RecycleView��ʾ��ͬ����item
-	4. ViewPager�л�����+Fragment
-	5. WebView��JS������һ��������MovieActivity����WebView����HTML
-	6. �ȵ�...ϸ��˵������ô�࣬Ҳ���ñ�����������Ŀ��
+	1. Retrofit进行网络请求
+	2. Picasoo图片加载；Picasoo保存图片到SD卡
+	3. RecycleView显示不同类型item
+	4. ViewPager切换动画+Fragment
+	5. WebView的JS交互（一丢丢，在MovieActivity）；WebView加载HTML
+	6. 等等...细节说不了那么多，也不好表述，都在项目里
 
- ### ONE��API��[ONE-API](https://github.com/jokermonn/-Api/blob/master/ONEv3.5.0~.md)
+ ### ONE的API：[ONE-API](https://github.com/jokermonn/-Api/blob/master/ONEv3.5.0~.md)
 
-	API�������磬���ַ���ONEһ����Ȩ�������˽���ʱֹͣʹ�ò�ɾ���������
+	API来自网络，若侵犯《ONE一个》权利，本人将及时停止使用并删除相关内容
 
-	**PS**����л�����ĸ��Ƕ���Ҳ��ʾ��λ���Ѳ�Ҫ������ҵ��;
+	**PS**：感谢分享的哥们儿；也提示各位朋友不要用于商业用途
 
-	**�ϻ�**����ONE�����APP��API��JSON����ֱ�ӣ�ԭAPP�������ԣ������ǿ���⡣
+	**废话**：《ONE》这个APP的API和JSON不忍直视，原APP卡顿明显，体验差强人意。
 
- ### ʹ�õ��Ŀ⣺
+ ### 使用到的库：
 ```
 - compile 'com.squareup.retrofit2:retrofit:2.2.0'//Retrofit
 - compile 'com.squareup.retrofit2:converter-gson:2.0.2'//Gson
 - compile 'com.squareup.picasso:picasso:2.5.2'//picasso
 - compile 'com.android.support:design:25.3.1'//MD
-- ompile 'com.android.support:recyclerview-v7:25.3.1'//recyclerView
+- compile 'com.android.support:recyclerview-v7:25.3.1'//recyclerView
+- compile 'de.hdodenhof:circleimageview:2.1.0'//CircleIV
 ```

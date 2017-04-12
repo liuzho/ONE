@@ -13,10 +13,11 @@ import android.widget.TextView;
 import com.liuzh.one.R;
 import com.liuzh.one.bean.comment.CommentData;
 import com.liuzh.one.bean.comment.Datum;
-import com.liuzh.one.utils.CircleTransform;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by 刘晓彬 on 2017/4/7.
@@ -57,7 +58,7 @@ public class CommentRvAdapter extends RecyclerView.Adapter {
                 break;
             default:
                 holder = new CommentHolder(inflater.inflate(
-                        R.layout.layout_rv_item_commet, parent, false));
+                        R.layout.item_rv_commet, parent, false));
         }
         return holder;
     }
@@ -74,8 +75,7 @@ public class CommentRvAdapter extends RecyclerView.Adapter {
             if (!TextUtils.isEmpty(datum.user.web_url)) {
                 Picasso.with(mContext)
                         .load(datum.user.web_url)
-                        .transform(new CircleTransform())
-                        .into(((CommentHolder) holder).ivHead);
+                        .into(((CommentHolder) holder).civHead);
             }
             ((CommentHolder) holder).tvUserName.setText(datum.user.user_name);
             ((CommentHolder) holder).tvTime.setText(datum.created_at);
@@ -99,7 +99,7 @@ public class CommentRvAdapter extends RecyclerView.Adapter {
 
     class CommentHolder extends RecyclerView.ViewHolder {
 
-        ImageView ivHead;
+        CircleImageView civHead;
         ImageView ivComment;
         ImageView ivLaud;
         TextView tvUserName;
@@ -112,7 +112,7 @@ public class CommentRvAdapter extends RecyclerView.Adapter {
 
         public CommentHolder(View itemView) {
             super(itemView);
-            ivHead = (ImageView) itemView.findViewById(R.id.iv_head);
+            civHead = (CircleImageView) itemView.findViewById(R.id.iv_head);
             ivComment = (ImageView) itemView.findViewById(R.id.iv_comment);
             ivLaud = (ImageView) itemView.findViewById(R.id.iv_laud);
             tvUserName = (TextView) itemView.findViewById(R.id.tv_username);

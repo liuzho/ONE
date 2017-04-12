@@ -20,7 +20,6 @@ import com.liuzh.one.bean.ContentList;
 import com.liuzh.one.bean.list.Data;
 import com.liuzh.one.bean.list.Weather;
 import com.liuzh.one.dialog.OneImgPopupWindow;
-import com.liuzh.one.utils.CircleTransform;
 import com.liuzh.one.utils.Constant;
 import com.liuzh.one.utils.DateUtil;
 import com.liuzh.one.utils.DensityUtil;
@@ -218,10 +217,7 @@ public class ListRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((MusicHolder) holder).tv_lick_count.setText(content.like_count.toString());
         Picasso.with(App.getContext())
                 .load(content.img_url)
-                .transform(new CircleTransform())
                 .into(((MusicHolder) holder).cdv_music);
-        ((MusicHolder) holder).cdv_music.setMaxWidth(mWinWidth);
-        ((MusicHolder) holder).cdv_music.setMaxHeight(mWinWidth);
         ((MusicHolder) holder).cdv_music.setOnPlayListener(new CDView.OnPlayListener() {
             @Override
             public void onPlay() {

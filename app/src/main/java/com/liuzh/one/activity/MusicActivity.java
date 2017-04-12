@@ -17,7 +17,6 @@ import com.liuzh.one.bean.comment.Comment;
 import com.liuzh.one.bean.comment.CommentData;
 import com.liuzh.one.bean.music.Music;
 import com.liuzh.one.bean.music.MusicData;
-import com.liuzh.one.utils.CircleTransform;
 import com.liuzh.one.utils.Constant;
 import com.liuzh.one.utils.HtmlFmtUtil;
 import com.liuzh.one.utils.RetrofitUtil;
@@ -114,7 +113,6 @@ public class MusicActivity extends BaseActivity {
         mToolbar.setToolbarTitle(toolbarTitle);
         Picasso.with(mContext)
                 .load(data.cover)
-                .transform(new CircleTransform())
                 .into(mCdvMusic);
         mTvMusicAuthor.setText(" · " + data.title + " · \n" +
                 data.author.user_name + " | " + data.album);
