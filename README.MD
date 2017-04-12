@@ -17,7 +17,7 @@
 ```
 -217-4-12 ：
 	1. 所有圆形图片的ImageView换成CircleImageView：新增依赖CircleImageView
-	2. API请求APP版本换成4.1.0
+	2. API请求APP版本更换成4.1.0
 
 -2017-4-9 ：
 	1. 删除电影简介activity，替换成popupWindow展示
