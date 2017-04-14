@@ -34,6 +34,6 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.2.0'//Retrofit
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'//GSon
     compile 'com.squareup.picasso:picasso:2.5.2'//picasso
-    compile 'com.android.support:design:25.3.1'//MD
-    compile 'de.hdodenhof:circleimageview:2.1.0'//CircleIV
+    compile 'com.android.support:design:25.3.1'//MaterialDesign
+    compile 'de.hdodenhof:circleimageview:2.1.0'//CircleImageView
 }

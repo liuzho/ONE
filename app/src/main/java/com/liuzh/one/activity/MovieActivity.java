@@ -3,6 +3,8 @@ package com.liuzh.one.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -277,9 +279,10 @@ public class MovieActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
+        //z这两个pop不会同时存在
         if (mToolbar.popIsShowing()) {
             mToolbar.dismissPop();
-        } else if (mPopupWindow.isShowing()) {
+        } else if (mPopupWindow != null && mPopupWindow.isShowing()) {
             mPopupWindow.dismiss();
         } else {
             finish();

@@ -1,5 +1,6 @@
 package com.liuzh.one.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.DividerItemDecoration;
@@ -75,6 +76,7 @@ public class ReadActivity extends BaseActivity {
         mRvComments = (RecyclerView) findViewById(R.id.rv_comments);
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void initViewData() {
         showLoadingView();

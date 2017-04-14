@@ -15,7 +15,11 @@
 ## 开发相关
  ### 更新：
 ```
--217-4-12 ：
+-2017-4-14 ：
+	1. 发现Picasso的Target工作在主线程，遂用AsyncTask装一下
+	2. 解决在电影详情页按back程序挂掉的bug
+
+-2017-4-12 ：
 	1. 所有圆形图片的ImageView换成CircleImageView：新增依赖CircleImageView
 	2. API请求APP版本更换成4.1.0
 
