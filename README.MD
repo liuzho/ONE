@@ -6,7 +6,7 @@
 ![home.gif](https://github.com/liuzho/ONE/raw/master/gif/home.gif)![read.gif](https://github.com/liuzho/ONE/raw/master/gif/read.gif)![music.gif](https://github.com/liuzho/ONE/raw/master/gif/music.gif)![movie.gif](https://github.com/liuzho/ONE/raw/master/gif/movie.gif)
 
 ## 关于我
- 1. 最近火力全开正在实现中，感兴趣的朋友可以**Start**一下，关注我的后续动作
+ 1. 最近火力全开正在实现中，感兴趣的朋友可以**Star**一下，关注我的后续动作
  2. 虽是火力全开，但学生党目前还有课，有进度但效率可能不太高
  3. 联系我：qq354295878@gmail.com(一个邮箱暴露两个联系方式，完美)
  4. 另：大三狗一枚，求安卓开发实习岗位中
@@ -69,7 +69,7 @@
  ### 大致内容：
 
 	1. Retrofit进行网络请求
-	2. Picasoo图片加载；Picasoo保存图片到SD卡
+	2. Picasso图片加载；Picasso保存图片到SD卡
 	3. RecycleView显示不同类型item
 	4. ViewPager切换动画+Fragment
 	5. WebView的JS交互（一丢丢，在MovieActivity）；WebView加载HTML
