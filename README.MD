@@ -13,7 +13,8 @@
 
 
 ## 开发相关
- ### 更新：
+
+### 更新：
 ```
 -2017-4-14 ：
 	1. 发现Picasso的Target工作在主线程，遂用AsyncTask装一下
@@ -66,24 +67,24 @@
 -...再早没写。一次性出来的...
 ```
 
- ### 大致内容：
+### 大致内容：
 
-	1. Retrofit进行网络请求
-	2. Picasso图片加载；Picasso保存图片到SD卡
-	3. RecycleView显示不同类型item
-	4. ViewPager切换动画+Fragment
-	5. WebView的JS交互（一丢丢，在MovieActivity）；WebView加载HTML
-	6. 等等...细节说不了那么多，也不好表述，都在项目里
+1. Retrofit进行网络请求
+2. Picasso图片加载；Picasso保存图片到SD卡
+3. RecycleView显示不同类型item
+4. ViewPager切换动画+Fragment
+5. WebView的JS交互（一丢丢，在MovieActivity）；WebView加载HTML
+6. 等等...细节说不了那么多，也不好表述，都在项目里
 
- ### ONE的API：[ONE-API](https://github.com/jokermonn/-Api/blob/master/ONEv3.5.0~.md)
+### ONE的API：[ONE-API](https://github.com/jokermonn/-Api/blob/master/ONEv3.5.0~.md)
 
-	API来自网络，若侵犯《ONE一个》权利，本人将及时停止使用并删除相关内容
+API来自网络，若侵犯《ONE一个》权利，本人将及时停止使用并删除相关内容
 
-	**PS**：感谢分享的哥们儿；也提示各位朋友不要用于商业用途
+**PS**：感谢分享的哥们儿；也提示各位朋友不要用于商业用途
 
-	**废话**：《ONE》这个APP的API和JSON不忍直视，原APP卡顿明显，体验差强人意。
+**废话**：《ONE》这个APP的API和JSON不忍直视，原APP卡顿明显，体验差强人意。
 
- ### 使用到的库：
+### 使用到的库：
 ```
 - compile 'com.squareup.retrofit2:retrofit:2.2.0'//Retrofit
 - compile 'com.squareup.retrofit2:converter-gson:2.0.2'//Gson
