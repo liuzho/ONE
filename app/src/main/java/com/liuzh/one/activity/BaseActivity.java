@@ -2,6 +2,7 @@ package com.liuzh.one.activity;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -28,8 +29,23 @@ public abstract class BaseActivity extends AppCompatActivity {
         findViews();
         initViewData();
         fetchData();
+        setDarkStatusIcon(true);
     }
 
+    public void setDarkStatusIcon(boolean bDark) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decorView = getWindow().getDecorView();
+            if (decorView != null) {
+                int vis = decorView.getSystemUiVisibility();
+                if (bDark) {
+                    vis |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                } else {
+                    vis &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                }
+                decorView.setSystemUiVisibility(vis);
+            }
+        }
+    }
 
     protected abstract int getContentId();
 
